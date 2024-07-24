@@ -8,17 +8,17 @@
 
 /* Begin PBXBuildFile section */
 		297C19702C514E5B00AEFE14 /* KickAssApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297C196F2C514E5B00AEFE14 /* KickAssApp.swift */; };
-		297C19722C514E5B00AEFE14 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297C19712C514E5B00AEFE14 /* ContentView.swift */; };
 		297C19742C514E5D00AEFE14 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297C19732C514E5D00AEFE14 /* Assets.xcassets */; };
 		297C19772C514E5D00AEFE14 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297C19762C514E5D00AEFE14 /* Preview Assets.xcassets */; };
+		297C19812C51501300AEFE14 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297C19802C51501300AEFE14 /* MapView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		297C196C2C514E5B00AEFE14 /* KickAss.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KickAss.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		297C196F2C514E5B00AEFE14 /* KickAssApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KickAssApp.swift; sourceTree = "<group>"; };
-		297C19712C514E5B00AEFE14 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		297C19732C514E5D00AEFE14 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		297C19762C514E5D00AEFE14 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		297C19802C51501300AEFE14 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -52,7 +52,9 @@
 			isa = PBXGroup;
 			children = (
 				297C196F2C514E5B00AEFE14 /* KickAssApp.swift */,
-				297C19712C514E5B00AEFE14 /* ContentView.swift */,
+				297C197D2C514E7D00AEFE14 /* Models */,
+				297C197E2C514EA300AEFE14 /* Views */,
+				297C197F2C514F0900AEFE14 /* Services */,
 				297C19732C514E5D00AEFE14 /* Assets.xcassets */,
 				297C19752C514E5D00AEFE14 /* Preview Content */,
 			);
@@ -65,6 +67,28 @@
 				297C19762C514E5D00AEFE14 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		297C197D2C514E7D00AEFE14 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		297C197E2C514EA300AEFE14 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				297C19802C51501300AEFE14 /* MapView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		297C197F2C514F0900AEFE14 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,7 +161,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				297C19722C514E5B00AEFE14 /* ContentView.swift in Sources */,
+				297C19812C51501300AEFE14 /* MapView.swift in Sources */,
 				297C19702C514E5B00AEFE14 /* KickAssApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
