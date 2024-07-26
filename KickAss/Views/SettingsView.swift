@@ -23,7 +23,8 @@ struct SettingsView: View {
 }
 
 #Preview {
-
+    let huntInfoModel = HuntInfoModel()
     return SettingsView()
+        .environment(huntInfoModel)
 
 }

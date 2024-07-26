@@ -75,9 +75,9 @@ class SiteMarkerModel {
     }
     func load() {
         print("loading....")
-        if FileManager().fileExists(atPath: SiteMarkersFileURL.path) {
+        if FileManager().fileExists(atPath: SiteMarkersURL.path) {
             do {
-                let jsonData = try Data(contentsOf: SiteMarkersFileURL)
+                let jsonData = try Data(contentsOf: SiteMarkersURL)
                 let data = try JSONDecoder().decode([SiteMarker].self, from: jsonData)
                 markers = data
             } catch {
@@ -94,7 +94,7 @@ class SiteMarkerModel {
         print("saving...")
         do {
             let data = try JSONEncoder().encode(markers)
-            try data.write(to: SiteMarkersFileURL)
+            try data.write(to: SiteMarkersURL)
         } catch {
             print(error)
         }

@@ -11,9 +11,9 @@ import MapKit
 struct SiteDetailView: View {
     let markerIndex: Int
     
-    @Environment(SiteMarkerModel.self) var sites
-    @Environment(MapModel.self) var map
-    @Environment(NavigationModel.self) var navigation
+    @Environment(SiteMarkerModel.self) var siteMarkerModel
+    @Environment(MapModel.self) var mapModel
+    @Environment(NavigationModel.self) var navigationModel
     @State private var isShowingMessages = false
 
     var body: some View {
@@ -23,9 +23,9 @@ struct SiteDetailView: View {
                         HStack {
                             Spacer()
                             Button {
-                                sites.markers[markerIndex].latitude = map.region().center.latitude
-                                sites.markers[markerIndex].longitude = map.region().center.longitude
-                                map.selectedSparkleZoomLocation = map.region().center
+                                siteMarkerModel.markers[markerIndex].latitude = mapModel.region().center.latitude
+                                siteMarkerModel.markers[markerIndex].longitude = mapModel.region().center.longitude
+                                mapModel.selectedSparkleZoomLocation = mapModel.region().center
                                 } label: {Image(systemName: "move.3d")}
                             Spacer()
                             Button {
@@ -33,7 +33,7 @@ struct SiteDetailView: View {
                                 } label: {Image(systemName: "square.and.arrow.up")}
                             Spacer()
                             Button {
-                                navigation.targetDestination = MKPlacemark(coordinate:  CLLocationCoordinate2D(latitude: sites.markers[markerIndex].latitude, longitude: sites.markers[markerIndex].longitude))                            } label: {Image(systemName: "car.circle")}
+                                navigationModel.targetDestination = MKPlacemark(coordinate:  CLLocationCoordinate2D(latitude: siteMarkerModel.markers[markerIndex].latitude, longitude: siteMarkerModel.markers[markerIndex].longitude))                            } label: {Image(systemName: "car.circle")}
                             Spacer()
                         }//HStack
                         .buttonStyle(.borderedProminent)
@@ -41,7 +41,7 @@ struct SiteDetailView: View {
                         .font(.title)
                         .foregroundColor(.white)
                         .frame(width: 300,height: 50)
-                        switch sites.markers[markerIndex].type {
+                        switch siteMarkerModel.markers[markerIndex].type {
                         case .CheckInSite:
                             Text("Check In")
                         case .StartClueSite:
@@ -49,7 +49,7 @@ struct SiteDetailView: View {
                         case .ClueSite:
                             StatusPickerView(markerIndex: markerIndex)
                             Button {
-                                sites.markers[markerIndex].deleted = true
+                                siteMarkerModel.markers[markerIndex].deleted = true
                             } label: {Text("Delete Marker")}
                                 .buttonStyle(.borderedProminent)
                                 .foregroundColor(.white)
@@ -61,18 +61,18 @@ struct SiteDetailView: View {
                 .padding(.leading)
                 Spacer()
             }//HStack
-            .onDisappear() {sites.save()}
+            .onDisappear() {siteMarkerModel.save()}
     }//body
 }//View
 
 #Preview {
-    let map = MapModel()
-    let sites = SiteMarkerModel()
-    let navigation = NavigationModel()
-    sites.newMarker(location: GridCenter)
-    sites.selection = 0
+    let mapModel = MapModel()
+    let siteMarkerModel = SiteMarkerModel()
+    let navigationModel = NavigationModel()
+    siteMarkerModel.newMarker(location: GridCenter)
+    siteMarkerModel.selection = 0
     return SiteDetailView(markerIndex: 0)
-        .environment(sites)
-        .environment(map)
-        .environment(navigation)
+        .environment(siteMarkerModel)
+        .environment(mapModel)
+        .environment(navigationModel)
 }

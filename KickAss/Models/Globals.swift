@@ -8,7 +8,8 @@
 import MapKit
 
 // File Names
-let SiteMarkersFileURL = URL.documentsDirectory.appending(path: "SiteMarkers.json")
+let SiteMarkersURL = URL.documentsDirectory.appending(path: "SiteMarkers.json")
+let huntInfoURL = URL.documentsDirectory.appending(path: "HuntInfo.json")
 
 let WestWorld = CLLocationCoordinate2D(latitude: 33.63203, longitude: -111.88011)
 

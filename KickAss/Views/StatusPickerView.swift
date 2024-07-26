@@ -10,20 +10,20 @@ import SwiftUI
 struct StatusPickerView: View {
     let markerIndex: Int
     
-    @Environment(SiteMarkerModel.self) var sites
+    @Environment(SiteMarkerModel.self) var siteMarkerModel
     
     @State var pickerSelection: SiteMarkerModel.ClueSiteMonogram = .Jackass
     
     var body: some View {
-        @Bindable var sites = sites
+        @Bindable var siteMarkerModel = siteMarkerModel
             VStack{
                 List {
-                    Picker("Site Status", selection: $sites.markers[markerIndex].status) {
+                    Picker("Site Status", selection: $siteMarkerModel.markers[markerIndex].status) {
                         ForEach(SiteMarkerModel.SiteStatus.allCases) { item in
                             Text(item.rawValue)
                         }
                     }
-                    Picker("Clue Letter", selection: $sites.markers[markerIndex].monogram) {
+                    Picker("Clue Letter", selection: $siteMarkerModel.markers[markerIndex].monogram) {
                         ForEach(SiteMarkerModel.ClueSiteMonogram.allCases) { item in
                             Text(item.rawValue)
                         }
@@ -37,8 +37,8 @@ struct StatusPickerView: View {
 }//View
 
 #Preview {
-    let sites = SiteMarkerModel()
-    sites.newMarker(location: GridCenter)
+    let siteMarkerModel = SiteMarkerModel()
+    siteMarkerModel.newMarker(location: GridCenter)
     return StatusPickerView(markerIndex: 0)
-        .environment(sites)
+        .environment(siteMarkerModel)
 }

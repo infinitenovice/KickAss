@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct HuntStatusView: View {
-    @Environment(HuntModel.self) var huntModel
     
     @State var huntClockColor: Color = Color(.green)
     @State var clueClockColor: Color = Color(.gray)
@@ -20,7 +19,7 @@ struct HuntStatusView: View {
             HStack {
                 HStack {
                     Text("Hunt")
-                    Text(huntModel.huntTimeDisplay)
+//                    Text(huntModel.huntTimeDisplay)
                 }
                 .foregroundStyle(Color(huntClockColor))
                 .frame(width: 170, alignment: .leading)
@@ -28,7 +27,7 @@ struct HuntStatusView: View {
                 Spacer()
                 HStack {
                     Text("Clue")
-                    Text(huntModel.clueTimeDisplay)
+//                    Text(huntModel.clueTimeDisplay)
                 }
                 .foregroundStyle(Color(clueClockColor))
                 .frame(width: 120, alignment: .leading)
@@ -36,7 +35,7 @@ struct HuntStatusView: View {
                 Spacer()
                 HStack {
                     Text("Stats")
-                    Text(huntModel.huntStatsDisplay)
+//                    Text(huntModel.huntStatsDisplay)
                 }
                 .foregroundStyle(Color(huntStatsColor))
                 .frame(width: 170, alignment: .trailing)
@@ -51,33 +50,31 @@ struct HuntStatusView: View {
             .cornerRadius(15)
             
         }
-        .onReceive(huntModel.timer) { _ in
-            huntModel.updateTimers()
-        }
-        .onChange(of: huntModel.huntState) { oldValue, newValue in
-            switch newValue {
-            case .NotStarted:
-                break
-            case .InProgress:
-                huntClockColor = Color.white
-                clueClockColor = Color.white
-                huntStatsColor = Color.white
-            case .Penalty:
-                clueClockColor = Color.gray
-                huntClockColor = Color.red
-            case .Ended:
-                huntStatsColor = Color.blue
-                clueClockColor = Color.gray
-                huntClockColor = Color.gray
-
-            }
-        }
+//        .onReceive(huntModel.timer) { _ in
+////            huntModel.updateTimers()
+//        }
+//        .onChange(of: huntModel.huntState) { oldValue, newValue in
+//            switch newValue {
+//            case .NotStarted:
+//                break
+//            case .InProgress:
+//                huntClockColor = Color.white
+//                clueClockColor = Color.white
+//                huntStatsColor = Color.white
+//            case .Penalty:
+//                clueClockColor = Color.gray
+//                huntClockColor = Color.red
+//            case .Ended:
+//                huntStatsColor = Color.blue
+//                clueClockColor = Color.gray
+//                huntClockColor = Color.gray
+//
+//            }
+//        }
         
     }
 }
 
 #Preview {
-    let huntModel = HuntModel()
     return HuntStatusView()
-        .environment(huntModel)
 }

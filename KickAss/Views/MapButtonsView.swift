@@ -8,21 +8,21 @@
 import SwiftUI
 
 struct MapButtonsView: View {
-    @Environment(MapModel.self) var map
-    @Environment(SiteMarkerModel.self) var sites
+    @Environment(MapModel.self) var mapModel
+    @Environment(SiteMarkerModel.self) var siteMarkerModel
 
     var body: some View {
         HStack {
             Spacer()
             VStack {
                 Button {
-                    map.gridZoom()
+                    mapModel.gridZoom()
                     } label: {Image(systemName: "map")}
                 Button {
-                    map.sparkleZoom()
+                    mapModel.sparkleZoom()
                     } label: {Image(systemName: "sparkle.magnifyingglass")}
                 Button {
-                    sites.newMarker(location: map.region().center)
+                    siteMarkerModel.newMarker(location: mapModel.region().center)
                     } label: {Image(systemName: "mappin.circle")}
                 Spacer()
             }//VStack
@@ -43,9 +43,9 @@ extension Color {
 
 
 #Preview {
-    let sites = SiteMarkerModel()
-    let map = MapModel()
+    let siteMarkerModel = SiteMarkerModel()
+    let mapModel = MapModel()
     return MapButtonsView()
-        .environment(sites)
-        .environment(map)
+        .environment(siteMarkerModel)
+        .environment(mapModel)
 }

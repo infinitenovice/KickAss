@@ -10,37 +10,37 @@ import MapKit
 
 struct MapView: View {
     
-    @Environment(GridModel.self) var grid
-    @Environment(MapModel.self) var map
-    @Environment(SiteMarkerModel.self) var sites
+    @Environment(GridModel.self) var gridModel
+    @Environment(MapModel.self) var mapModel
+    @Environment(SiteMarkerModel.self) var siteMarkerModel
     @Environment(CalliperModel.self) var callipers
     @Environment(NavigationModel.self) var navigation
     @Environment(LocationManager.self) var locationManager
 
     var body: some View {
-        @Bindable var map = map
-        @Bindable var sites = sites
+        @Bindable var mapModel = mapModel
+        @Bindable var siteMarkerModel = siteMarkerModel
 
         ZStack {
             MapReader { proxy in
-                Map(position: $map.camera, selection: $sites.selection) {
+                Map(position: $mapModel.camera, selection: $siteMarkerModel.selection) {
                     UserAnnotation()
-                    ForEach(grid.lines) {gridline in
+                    ForEach(gridModel.lines) {gridline in
                         MapPolyline(coordinates: gridline.points).stroke(.white, lineWidth: 1)
                     }
-                    ForEach(grid.labels) {gridlabel in
+                    ForEach(gridModel.labels) {gridlabel in
                         Annotation("",coordinate: gridlabel.point) {Text(gridlabel.label).foregroundStyle(.white).font(.title2)}
                     }
-                    ForEach(sites.markers) { marker in
+                    ForEach(siteMarkerModel.markers) { marker in
                         if !marker.deleted {
                             if marker.type == .ClueSite {
                                 Marker("", monogram: Text(marker.monogram.rawValue), coordinate: CLLocationCoordinate2D(latitude: marker.latitude, longitude: marker.longitude))
                                     .tag(marker.id)
-                                    .tint(sites.markerColor(marker: marker))
+                                    .tint(siteMarkerModel.markerColor(marker: marker))
                             } else {
                                 Marker("", monogram: Text(marker.altMonogram), coordinate: CLLocationCoordinate2D(latitude: marker.latitude, longitude: marker.longitude))
                                     .tag(marker.id)
-                                    .tint(sites.markerColor(marker: marker))
+                                    .tint(siteMarkerModel.markerColor(marker: marker))
                             }
                         }
                     }
@@ -78,23 +78,23 @@ struct MapView: View {
                     }
 
                 }//Map
-                .onAppear(){sites.load()}
+                .onAppear(){siteMarkerModel.load()}
                 .mapStyle(.hybrid)
                 .mapControlVisibility(.hidden)
-                .onMapCameraChange { cameraContext in map.camera = .region(cameraContext.region)}
+                .onMapCameraChange { cameraContext in mapModel.camera = .region(cameraContext.region)}
                 .task(id: navigation.targetDestination) {
                     if navigation.targetDestination != nil {
                         navigation.route = nil
                         await navigation.fetchRoute(locationManager: locationManager)
                     }
                 }
-                .onChange(of: sites.selection) {
+                .onChange(of: siteMarkerModel.selection) {
                     //setting sparkle zoom to marker location when selected
-                    if let markerIndex = sites.selection {
-                        let markerLocation = CLLocationCoordinate2D(latitude: sites.markers[markerIndex].latitude, longitude: sites.markers[markerIndex].longitude)
-                        map.selectedSparkleZoomLocation = markerLocation
+                    if let markerIndex = siteMarkerModel.selection {
+                        let markerLocation = CLLocationCoordinate2D(latitude: siteMarkerModel.markers[markerIndex].latitude, longitude: siteMarkerModel.markers[markerIndex].longitude)
+                        mapModel.selectedSparkleZoomLocation = markerLocation
                     } else {
-                        map.selectedSparkleZoomLocation = nil
+                        mapModel.selectedSparkleZoomLocation = nil
                     }
                 }
             }//MapReader
@@ -105,7 +105,7 @@ struct MapView: View {
             if navigation.route != nil {
                 NavigationView()
             }
-            if let markerIndex = sites.selection {
+            if let markerIndex = siteMarkerModel.selection {
                 SiteDetailView(markerIndex: markerIndex)
             }
         }//ZStack
@@ -113,19 +113,19 @@ struct MapView: View {
 }//MapView
 
 #Preview {
-    let hunt = HuntModel()
-    let grid = GridModel()
-    let map = MapModel()
-    let sites = SiteMarkerModel()
-    let callipers = CalliperModel()
-    let navigation = NavigationModel()
+    let huntInfoModel = HuntInfoModel()
+    let gridModel = GridModel()
+    let mapModel = MapModel()
+    let siteMarkerModel = SiteMarkerModel()
+    let calliperModel = CalliperModel()
+    let navigationModel = NavigationModel()
     let locationManager = LocationManager()
     return MapView()
-        .environment(hunt)
-        .environment(grid)
-        .environment(map)
-        .environment(sites)
-        .environment(callipers)
-        .environment(navigation)
+        .environment(huntInfoModel)
+        .environment(gridModel)
+        .environment(mapModel)
+        .environment(siteMarkerModel)
+        .environment(calliperModel)
+        .environment(navigationModel)
         .environment(locationManager)
 }

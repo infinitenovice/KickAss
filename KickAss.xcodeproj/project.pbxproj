@@ -28,8 +28,8 @@
 		29D229272C530D7800C3CDAF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229262C530D7800C3CDAF /* SettingsView.swift */; };
 		29D2292B2C531D8000C3CDAF /* AppManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D2292A2C531D7F00C3CDAF /* AppManagementView.swift */; };
 		29D2292D2C531E1A00C3CDAF /* HuntEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D2292C2C531E1A00C3CDAF /* HuntEditView.swift */; };
-		29D2292F2C531F2F00C3CDAF /* HuntModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D2292E2C531F2E00C3CDAF /* HuntModel.swift */; };
 		29D229312C53217A00C3CDAF /* HuntStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229302C53217A00C3CDAF /* HuntStatusView.swift */; };
+		29D229332C534B0F00C3CDAF /* HuntInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229322C534B0F00C3CDAF /* HuntInfoModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,8 +55,8 @@
 		29D229262C530D7800C3CDAF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		29D2292A2C531D7F00C3CDAF /* AppManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManagementView.swift; sourceTree = "<group>"; };
 		29D2292C2C531E1A00C3CDAF /* HuntEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuntEditView.swift; sourceTree = "<group>"; };
-		29D2292E2C531F2E00C3CDAF /* HuntModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuntModel.swift; sourceTree = "<group>"; };
 		29D229302C53217A00C3CDAF /* HuntStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuntStatusView.swift; sourceTree = "<group>"; };
+		29D229322C534B0F00C3CDAF /* HuntInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuntInfoModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -116,7 +116,7 @@
 				29D2290C2C51B06E00C3CDAF /* SiteMarkerModel.swift */,
 				29D229182C52ECC400C3CDAF /* CaliperModel.swift */,
 				29D229202C52FB3F00C3CDAF /* NavigationModel.swift */,
-				29D2292E2C531F2E00C3CDAF /* HuntModel.swift */,
+				29D229322C534B0F00C3CDAF /* HuntInfoModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -224,8 +224,8 @@
 				29D229192C52ECC400C3CDAF /* CaliperModel.swift in Sources */,
 				29D229152C526D6B00C3CDAF /* CrossHairView.swift in Sources */,
 				29D2292B2C531D8000C3CDAF /* AppManagementView.swift in Sources */,
-				29D2292F2C531F2F00C3CDAF /* HuntModel.swift in Sources */,
 				29D229272C530D7800C3CDAF /* SettingsView.swift in Sources */,
+				29D229332C534B0F00C3CDAF /* HuntInfoModel.swift in Sources */,
 				29D2291F2C52FA8200C3CDAF /* LocationDeniedView.swift in Sources */,
 				29D2291B2C52EE4300C3CDAF /* ControlsView.swift in Sources */,
 				29D229312C53217A00C3CDAF /* HuntStatusView.swift in Sources */,

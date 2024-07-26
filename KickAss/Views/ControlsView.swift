@@ -10,9 +10,9 @@ import SwiftUI
 import MapKit
 
 struct ControlsView: View {
-    @Environment(MapModel.self) var map
-    @Environment(CalliperModel.self) var callipers
-    @Environment(HuntModel.self) var hunt
+    @Environment(MapModel.self) var mapModel
+    @Environment(CalliperModel.self) var calliperModel
+    @Environment(HuntInfoModel.self) var huntInfoModel
     @State private var input = ""
     @State private var iconColor = Color.black
     @State private var clearCount: Int = 0
@@ -44,11 +44,11 @@ struct ControlsView: View {
                                         if radius < 0.002 {
                                             clearCount += 1
                                             if clearCount == 3 {
-                                                callipers.clearMarkers()
+                                                calliperModel.clearMarkers()
                                             }
                                         } else {
                                             clearCount = 0
-                                            callipers.newMarker(center: map.region().center, radius: radius)
+                                            calliperModel.newMarker(center: mapModel.region().center, radius: radius)
                                         }
                                     }
                                     input = ""
@@ -66,7 +66,7 @@ struct ControlsView: View {
                         .font(.title)
                         .foregroundColor(.black)
                 }
-                .sheet(isPresented: $settingsSheetShowing, onDismiss: {hunt.save()}) {
+                .sheet(isPresented: $settingsSheetShowing, onDismiss: {huntInfoModel.save()}) {
                     SettingsView()
                 }
                 
@@ -76,11 +76,11 @@ struct ControlsView: View {
 }
 
 #Preview {
-    let hunt = HuntModel()
-    let callipers = CalliperModel()
-    let map = MapModel()
+    let huntInfoModel = HuntInfoModel()
+    let calliperModel = CalliperModel()
+    let mapModel = MapModel()
     return ControlsView()
-            .environment(hunt)
-        .environment(callipers)
-        .environment(map)
+        .environment(huntInfoModel)
+        .environment(calliperModel)
+        .environment(mapModel)
 }

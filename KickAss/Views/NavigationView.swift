@@ -10,7 +10,7 @@ import MapKit
 
 struct NavigationView: View {
 //    @Environment(MapModel.self) var mapModel
-    @Environment(NavigationModel.self) var navigation
+    @Environment(NavigationModel.self) var navigationModel
     @Environment(LocationManager.self) var locationManager
 
     var body: some View {
@@ -20,16 +20,16 @@ struct NavigationView: View {
                 VStack {
                     HStack {
                         Button {
-                            navigation.nextStep()
+                            navigationModel.nextStep()
                         } label: {
                             Text("Step")
                                 .padding(.leading)
                         }
                         Spacer()
-                        Text(String(Int((navigation.stepRemainingDistance ?? 0)*FeetPerMeter))+" ft")
+                        Text(String(Int((navigationModel.stepRemainingDistance ?? 0)*FeetPerMeter))+" ft")
                         Spacer()
                         Button {
-                            navigation.clearRoute()
+                            navigationModel.clearRoute()
                         }label: {
                             Image(systemName: "xmark.circle")
                         }
@@ -39,7 +39,7 @@ struct NavigationView: View {
                     }
   
                     VStack {
-                        Text(navigation.stepInstructions ?? "End of Route")
+                        Text(navigationModel.stepInstructions ?? "End of Route")
                             .lineLimit(2)
                     }
                     Spacer()
@@ -57,17 +57,17 @@ struct NavigationView: View {
         }
         .padding(.leading)
         .onChange(of: locationManager.userLocation) { oldValue, newValue in
-            navigation.updateStepRemainingDistance(locationManager: locationManager)
+            navigationModel.updateStepRemainingDistance(locationManager: locationManager)
         }
     }
 }
 
 #Preview {
 //    let map = MapModel()
-    let navigation = NavigationModel()
+    let navigationModel = NavigationModel()
     let locationManager = LocationManager()
     return NavigationView()
 //        .environment(map)
-        .environment(navigation)
+        .environment(navigationModel)
         .environment(locationManager)
 }

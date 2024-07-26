@@ -9,13 +9,13 @@ import SwiftUI
 
 @main
 struct KickAssApp: App {
-    @State private var grid = GridModel()
-    @State private var sites = SiteMarkerModel()
-    @State private var map = MapModel()
-    @State private var callipers = CalliperModel()
+    @State private var gridModel = GridModel()
+    @State private var siteMarkerModel = SiteMarkerModel()
+    @State private var mapModel = MapModel()
+    @State private var calliperModel = CalliperModel()
     @State private var locationManager = LocationManager()
-    @State private var navigation = NavigationModel()
-    @State private var hunt = HuntModel()
+    @State private var navigationModel = NavigationModel()
+    @State private var huntInfoModel = HuntInfoModel()
 
     var body: some Scene {
         WindowGroup {
@@ -25,12 +25,12 @@ struct KickAssApp: App {
                 LocationDeniedView()
             }
         }
-        .environment(grid)
-        .environment(sites)
-        .environment(map)
-        .environment(callipers)
+        .environment(gridModel)
+        .environment(siteMarkerModel)
+        .environment(mapModel)
+        .environment(calliperModel)
         .environment(locationManager)
-        .environment(navigation)
-        .environment(hunt)
+        .environment(navigationModel)
+        .environment(huntInfoModel)
     }
 }

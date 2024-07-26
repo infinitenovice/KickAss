@@ -8,11 +8,43 @@
 import SwiftUI
 
 struct HuntEditView: View {
+    @Environment(HuntInfoModel.self) var huntInfoModel
+    @State var dateSelection = Date.now
+
     var body: some View {
-        Text("Edit hunt data here!")
+        @Bindable var huntInfoModel = huntInfoModel
+        
+        Form {
+            Section(header: Text("Hunt Information")) {
+                DatePicker(selection: $huntInfoModel.huntInfo.huntStartDate, label: { Text("Hunt Date") })
+                TextField("Hunt Name", text: $huntInfoModel.huntInfo.huntTitle)
+                TextField("Hunt Theme", text: $huntInfoModel.huntInfo.huntTheme)
+                TextField("Car Number", text: $huntInfoModel.huntInfo.carNumber)
+                TextField("Team Name", text: $huntInfoModel.huntInfo.teamName)
+            }
+            Section(header: Text("Team Members")) {
+                ForEach($huntInfoModel.huntInfo.teamMembers) { $member in
+                    HStack {
+                        TextField("Name", text: $member.name)
+                            .frame(width: 200)
+                        TextField("Phone Number", text: $member.phoneNumber)
+                        Toggle(isOn: $member.iPhone) {
+                            Text("iPhone")
+                                .font(.title3)
+                        }
+                        .frame(width: 120)
+                    }
+                }
+            }
+        }
+        .font(.title)
+        .padding()
     }
+    
 }
 
 #Preview {
-    HuntEditView()
+    let huntInfoModel = HuntInfoModel()
+    return HuntEditView()
+        .environment(huntInfoModel)
 }
