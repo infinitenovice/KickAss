@@ -15,66 +15,70 @@ class SiteMarkerModel {
     
     struct SiteMarker: Identifiable, Codable {
         var id: Int                         = 0
-        var type: SiteType                  = .ClueSite
+        var type: SiteType                  = .PossibleClueSite
         var latitude: CLLocationDegrees     = 0.0
         var longitude: CLLocationDegrees    = 0.0
-        var status: SiteStatus              = .Undefined
-        var monogram: ClueSiteMonogram      = .Undefined
-        var altMonogram: String             = ""
+        var method: MethodFound             = .NotFound
+        var monogram: String                = ""
         var deleted: Bool                   = false
     }
     enum SiteType: Codable {
         case CheckInSite
         case StartClueSite
-        case ClueSite
+        case PossibleClueSite
+        case FoundClueSite
+        case JackassSite
     }
-    enum SiteStatus: String, Codable, CaseIterable, Identifiable {
-        case Undefined          = "Possible Clue Site"
-        case Found              = "Found Clue"
-        case Emergency          = "Used Emergency"
-        case JackAss            = "JackAss Site"
-        var id: Self {self}
+    enum MethodFound: String, Codable, CaseIterable {
+        case NotFound           = "Possible Clue Site"
+        case Solved             = "Solved Clue"
+        case Emergency          = "Pulled Emergency"
+        case OutOfOrder         = "Out Of Order"
     }
-    enum ClueSiteMonogram: String, Codable, CaseIterable, Identifiable {
-        case Undefined = "?"
-        case A,B,C,D,E,F,G,H,I,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z
-        case Jackass = "JA"
-        var id: Self {self}
-    }
-    func newMarker(type: SiteType = .ClueSite, location: CLLocationCoordinate2D, altMonogram: String = "") {
+    let ClueLetterMonograms: [String] = [
+        "?","A","B","C","D","E","F","G","H","I","J","K","L","M",
+        "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+    ]
+    func newMarker(type: SiteType = .PossibleClueSite, location: CLLocationCoordinate2D, monogram: String = "?") {
         let marker: SiteMarker = SiteMarker(
             id:             markers.count,
             type:           type,
             latitude:       location.latitude,
             longitude:      location.longitude,
-            status:         .Undefined,
-            monogram:       .Undefined,
-            altMonogram:    altMonogram
+            method:         .NotFound,
+            monogram:       monogram
             )
         markers.append(marker)
         save()
     }
-    func markerColor(marker: SiteMarker) -> Color {
-        switch marker.type {
-        case .CheckInSite:
-            return Color.white
-        case .StartClueSite:
-            return Color.white
-        case .ClueSite:
-            switch marker.status {
-            case .Undefined:
-                return Color.white
-            case .Found:
-                return Color.white
-            case .Emergency:
-                return Color.white
-            case .JackAss:
-                return Color.white
-            }
+    func selectedMarkerCoordinates() -> CLLocationCoordinate2D? {
+        if let selectedMarker = selection {
+            return CLLocationCoordinate2D(latitude: markers[selectedMarker].latitude, longitude: markers[selectedMarker].longitude)
+        } else {
+            return nil
         }
     }
+    func markerColor(marker: SiteMarker) -> Color {
+//        switch marker.type {
+//        case .CheckInSite:
+//            return Color.white
+//        case .StartClueSite:
+//            return Color.white
+//        case .PossibleClueSite:
+//            switch marker.status {
+//            case .Undefined:
+//                return Color.white
+//            case .Found:
+//                return Color.white
+//            case .Emergency:
+//                return Color.white
+//            case .JackAss:
+//                return Color.white
+//            }
+//        }
+        return Color.white
+    }
     func load() {
-        print("loading....")
         if FileManager().fileExists(atPath: SiteMarkersURL.path) {
             do {
                 let jsonData = try Data(contentsOf: SiteMarkersURL)
@@ -86,12 +90,11 @@ class SiteMarkerModel {
         }
         if markers.isEmpty {
             print("creating required markers")
-            newMarker(type: .CheckInSite, location: WestWorld, altMonogram: "WW")
-            newMarker(type: .StartClueSite, location: GridCenter, altMonogram: "SC")
+            newMarker(type: .CheckInSite, location: WestWorld, monogram: "WW")
+            newMarker(type: .StartClueSite, location: GridCenter, monogram: "SC")
         }
     }
     func save() {
-        print("saving...")
         do {
             let data = try JSONEncoder().encode(markers)
             try data.write(to: SiteMarkersURL)

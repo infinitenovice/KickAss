@@ -29,7 +29,6 @@ class NavigationModel {
         stepTotalDistance = nil
         stepRemainingDistance = nil
     }
-    
     func clearRoute() {
         targetDestination = nil
         route = nil
@@ -40,8 +39,6 @@ class NavigationModel {
         stepTotalDistance = nil
         stepRemainingDistance = nil
     }
-    
-    
     func fetchRoute(locationManager: LocationManager) async {
         if let userLocation = locationManager.userLocation, let targetDestination = self.targetDestination {
             let request = MKDirections.Request()
@@ -59,8 +56,9 @@ class NavigationModel {
             nextStep()
         }
     }
-    
-    
+    func navigationInProgress() -> Bool {
+        return (route != nil)
+    }
     func nextStep() {
         if !steps.isEmpty {
             steps.remove(at: 0)
@@ -78,7 +76,6 @@ class NavigationModel {
         stepTotalDistance = stepStartLocation?.distance(from: stepEndLocation!)
         stepRemainingDistance = stepTotalDistance
     }
-    
     func updateStepRemainingDistance(locationManager: LocationManager) {
         if stepEndLocation != nil {
             let distanceTraveled = locationManager.userLocation?.coordinate.distance(from: stepStartLocation!)
@@ -90,7 +87,6 @@ class NavigationModel {
     }
     
 }
-
 public extension MKMultiPoint {
     var coordinates: [CLLocationCoordinate2D] {
         var coords = [CLLocationCoordinate2D](repeating: kCLLocationCoordinate2DInvalid,
@@ -99,7 +95,6 @@ public extension MKMultiPoint {
         return coords
     }
 }
-
 public extension CLLocationCoordinate2D {
     func distance(from: CLLocationCoordinate2D) -> CLLocationDistance {
         let destination=CLLocation(latitude:from.latitude,longitude:from.longitude)

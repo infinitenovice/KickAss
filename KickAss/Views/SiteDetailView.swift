@@ -14,6 +14,8 @@ struct SiteDetailView: View {
     @Environment(SiteMarkerModel.self) var siteMarkerModel
     @Environment(MapModel.self) var mapModel
     @Environment(NavigationModel.self) var navigationModel
+    @Environment(HuntInfoModel.self) var huntInfoModel
+    @Environment(TimerModel.self) var timerModel
     @State private var isShowingMessages = false
 
     var body: some View {
@@ -31,6 +33,11 @@ struct SiteDetailView: View {
                             Button {
                                 isShowingMessages = true
                                 } label: {Image(systemName: "square.and.arrow.up")}
+                                .sheet(isPresented: self.$isShowingMessages) {
+                                    MessageSender(recipients: huntInfoModel.phoneList,
+                                                  message: "http://maps.apple.com/?ll="+String(siteMarkerModel.markers[markerIndex].latitude)+","+String(siteMarkerModel.markers[markerIndex].longitude))
+                                    .ignoresSafeArea()
+                                }
                             Spacer()
                             Button {
                                 navigationModel.targetDestination = MKPlacemark(coordinate:  CLLocationCoordinate2D(latitude: siteMarkerModel.markers[markerIndex].latitude, longitude: siteMarkerModel.markers[markerIndex].longitude))                            } label: {Image(systemName: "car.circle")}
@@ -46,14 +53,12 @@ struct SiteDetailView: View {
                             Text("Check In")
                         case .StartClueSite:
                             Text("Start Clue")
-                        case .ClueSite:
-                            StatusPickerView(markerIndex: markerIndex)
-                            Button {
-                                siteMarkerModel.markers[markerIndex].deleted = true
-                            } label: {Text("Delete Marker")}
-                                .buttonStyle(.borderedProminent)
-                                .foregroundColor(.white)
-                                .tint(.clear)
+                        case .PossibleClueSite:
+                            PossibleClueView(markerIndex: markerIndex)
+                        case .FoundClueSite:
+                            FoundClueView(markerIndex: markerIndex)
+                        case .JackassSite:
+                            Text("Jackass")
                         }
                     }//Group
                     Spacer()
@@ -61,11 +66,16 @@ struct SiteDetailView: View {
                 .padding(.leading)
                 Spacer()
             }//HStack
-            .onDisappear() {siteMarkerModel.save()}
+            .onDisappear() {
+                siteMarkerModel.save()
+//                timerModel.resetClueTimer()
+            }
     }//body
 }//View
 
 #Preview {
+    let timerModel = TimerModel()
+    let huntInfoModel = HuntInfoModel()
     let mapModel = MapModel()
     let siteMarkerModel = SiteMarkerModel()
     let navigationModel = NavigationModel()
@@ -75,4 +85,6 @@ struct SiteDetailView: View {
         .environment(siteMarkerModel)
         .environment(mapModel)
         .environment(navigationModel)
+        .environment(huntInfoModel)
+        .environment(timerModel)
 }

@@ -24,7 +24,9 @@ class MapModel {
     func region() -> MKCoordinateRegion {
         return camera.region ?? GridRegion
     }
-    
+    func setSparkleZoom(location: CLLocationCoordinate2D?) {
+        selectedSparkleZoomLocation = location
+    }
     func sparkleZoom() {
         withAnimation {
             var region = self.region()

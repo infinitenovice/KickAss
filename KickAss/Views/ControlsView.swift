@@ -13,6 +13,7 @@ struct ControlsView: View {
     @Environment(MapModel.self) var mapModel
     @Environment(CalliperModel.self) var calliperModel
     @Environment(HuntInfoModel.self) var huntInfoModel
+    @Environment(TimerModel.self) var timerModel
     @State private var input = ""
     @State private var iconColor = Color.black
     @State private var clearCount: Int = 0
@@ -66,16 +67,21 @@ struct ControlsView: View {
                         .font(.title)
                         .foregroundColor(.black)
                 }
-                .sheet(isPresented: $settingsSheetShowing, onDismiss: {huntInfoModel.save()}) {
+                .sheet(isPresented: $settingsSheetShowing, onDismiss: {self.dismissActions()}) {
                     SettingsView()
                 }
                 
             }
         }
     }
+    func dismissActions() {
+        huntInfoModel.save()
+        timerModel.setHuntStartTime(start: huntInfoModel.huntInfo.huntStartDate)
+    }
 }
 
 #Preview {
+    let timerModel = TimerModel()
     let huntInfoModel = HuntInfoModel()
     let calliperModel = CalliperModel()
     let mapModel = MapModel()
@@ -83,4 +89,5 @@ struct ControlsView: View {
         .environment(huntInfoModel)
         .environment(calliperModel)
         .environment(mapModel)
+        .environment(timerModel)
 }

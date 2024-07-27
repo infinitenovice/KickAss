@@ -9,18 +9,19 @@ import SwiftUI
 
 @main
 struct KickAssApp: App {
-    @State private var gridModel = GridModel()
-    @State private var siteMarkerModel = SiteMarkerModel()
-    @State private var mapModel = MapModel()
-    @State private var calliperModel = CalliperModel()
-    @State private var locationManager = LocationManager()
-    @State private var navigationModel = NavigationModel()
-    @State private var huntInfoModel = HuntInfoModel()
+    @State private var gridModel        = GridModel()
+    @State private var siteMarkerModel  = SiteMarkerModel()
+    @State private var mapModel         = MapModel()
+    @State private var calliperModel    = CalliperModel()
+    @State private var locationManager  = LocationManager()
+    @State private var navigationModel  = NavigationModel()
+    @State private var huntInfoModel    = HuntInfoModel()
+    @State private var timerModel       = TimerModel()
 
     var body: some Scene {
         WindowGroup {
             if locationManager.isAuthorized {
-                MapView()
+                ContentView()
             } else {
                 LocationDeniedView()
             }
@@ -32,5 +33,6 @@ struct KickAssApp: App {
         .environment(locationManager)
         .environment(navigationModel)
         .environment(huntInfoModel)
+        .environment(timerModel)
     }
 }
