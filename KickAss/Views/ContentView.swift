@@ -8,6 +8,14 @@
 import SwiftUI
 import MapKit
 
+//- App icon
+//- App start page
+//- add path recording
+//- add heading indicator
+//- add next clue radius benchmar
+//- hunt data archiving
+//- auto route step clearing
+
 struct ContentView: View {
     @Environment(MapModel.self) var mapModel
     @Environment(SiteMarkerModel.self) var siteMarkerModel
@@ -33,9 +41,6 @@ struct ContentView: View {
         .onAppear() {
             siteMarkerModel.load()
             timerModel.setHuntStartTime(start: huntInfoModel.huntInfo.huntStartDate)
-        }
-        .onChange(of: siteMarkerModel.selection) {
-            mapModel.setSparkleZoom(location: siteMarkerModel.selectedMarkerCoordinates())
         }
         .task(id: navigationModel.targetDestination) {
             await navigationModel.fetchRoute(locationManager: locationManager)

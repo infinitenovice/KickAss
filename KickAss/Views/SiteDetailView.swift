@@ -27,7 +27,6 @@ struct SiteDetailView: View {
                             Button {
                                 siteMarkerModel.markers[markerIndex].latitude = mapModel.region().center.latitude
                                 siteMarkerModel.markers[markerIndex].longitude = mapModel.region().center.longitude
-                                mapModel.selectedSparkleZoomLocation = mapModel.region().center
                                 } label: {Image(systemName: "move.3d")}
                             Spacer()
                             Button {

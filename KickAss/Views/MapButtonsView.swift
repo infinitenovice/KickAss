@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import MapKit
 
 struct MapButtonsView: View {
     @Environment(MapModel.self) var mapModel
     @Environment(SiteMarkerModel.self) var siteMarkerModel
+    @Environment(NavigationModel.self) var navigationModel
 
     var body: some View {
         HStack {
@@ -19,7 +21,7 @@ struct MapButtonsView: View {
                     mapModel.gridZoom()
                     } label: {Image(systemName: "map")}
                 Button {
-                    mapModel.sparkleZoom()
+                    sparkleZoom()
                     } label: {Image(systemName: "sparkle.magnifyingglass")}
                 Button {
                     siteMarkerModel.newMarker(location: mapModel.region().center)
@@ -33,6 +35,23 @@ struct MapButtonsView: View {
             .padding(.horizontal)
         }
     }
+    func sparkleZoom() {
+        withAnimation {
+            var region = mapModel.region()
+
+            if let routeRegion = navigationModel.routeRegion() {
+                region = routeRegion
+            } else {
+                if let selection = siteMarkerModel.selection {
+                    region.center = CLLocationCoordinate2D(latitude: siteMarkerModel.markers[selection].latitude, longitude: siteMarkerModel.markers[selection].longitude)
+                    region.span = mapModel.maxZoom
+                } else {
+                    region.span = mapModel.gridCellZoom
+                }
+            }
+            mapModel.camera = .region(region)
+        }
+    }
 }
 
 extension Color {
@@ -43,9 +62,11 @@ extension Color {
 
 
 #Preview {
+    let navigationModel = NavigationModel()
     let siteMarkerModel = SiteMarkerModel()
     let mapModel = MapModel()
     return MapButtonsView()
         .environment(siteMarkerModel)
         .environment(mapModel)
+        .environment(navigationModel)
 }

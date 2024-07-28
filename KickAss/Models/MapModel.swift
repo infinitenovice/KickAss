@@ -12,7 +12,6 @@ import SwiftUI
 class MapModel {
     var camera: MapCameraPosition
     var markerSelection: Int?
-    var selectedSparkleZoomLocation: CLLocationCoordinate2D?
     let maxZoom: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.0, longitudeDelta: 0.0)
     let gridCellZoom: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 1.25*GridCellHeightDegrees, longitudeDelta: 1.25*GridCellWidthDegrees)
 
@@ -23,21 +22,6 @@ class MapModel {
     
     func region() -> MKCoordinateRegion {
         return camera.region ?? GridRegion
-    }
-    func setSparkleZoom(location: CLLocationCoordinate2D?) {
-        selectedSparkleZoomLocation = location
-    }
-    func sparkleZoom() {
-        withAnimation {
-            var region = self.region()
-            if let zoomLocation = selectedSparkleZoomLocation {
-                region.center = zoomLocation
-                region.span = maxZoom
-            } else {
-                region.span = gridCellZoom
-            }
-            self.camera = .region(region)
-        }
     }
     
     func gridZoom() {

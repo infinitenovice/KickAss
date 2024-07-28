@@ -19,12 +19,6 @@ struct NavigationView: View {
                 Spacer(minLength: 500)
                 VStack {
                     HStack {
-                        Button {
-                            navigationModel.nextStep()
-                        } label: {
-                            Text("Step")
-                                .padding(.leading)
-                        }
                         Spacer()
                         Text(String(Int((navigationModel.stepRemainingDistance ?? 0)*FeetPerMeter))+" ft")
                         Spacer()

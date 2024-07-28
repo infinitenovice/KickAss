@@ -59,6 +59,34 @@ class NavigationModel {
     func navigationInProgress() -> Bool {
         return (route != nil)
     }
+    func routeRegion() -> MKCoordinateRegion? {
+        
+        if navigationInProgress() {
+            var maxLat = -90.0
+            var minLat = 90.0
+            var maxLon = -180.0
+            var minLon = 180.0
+            
+            for stepIndex in 0..<steps.count {
+                let coordinates = steps[stepIndex].polyline.coordinates
+                for pointIndex in 0..<coordinates.count {
+                    let point = coordinates[pointIndex]
+                    if point.latitude > maxLat {maxLat = point.latitude}
+                    if point.latitude < minLat {minLat = point.latitude}
+                    if point.longitude > maxLon {maxLon = point.longitude}
+                    if point.longitude < minLon {minLon = point.longitude}
+                }
+            }
+            var region: MKCoordinateRegion = GridRegion
+
+            region.span = MKCoordinateSpan(latitudeDelta: (maxLat-minLat)*1.2, longitudeDelta: (maxLon-minLon)*1.2)
+            region.center = CLLocationCoordinate2D(latitude: (maxLat-minLat)/2+minLat, longitude: (maxLon-minLon)/2+minLon)
+            print(region.center)
+            return region
+        } else {
+            return nil
+        }
+    }
     func nextStep() {
         if !steps.isEmpty {
             steps.remove(at: 0)

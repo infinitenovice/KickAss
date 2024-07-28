@@ -7,8 +7,8 @@
 
 import MapKit
 
-//let GridCenter: CLLocationCoordinate2D = CLLocationCoordinate2D (latitude: 34.24336, longitude: -110.08219)  // Show Low
-let GridCenter: CLLocationCoordinate2D = CLLocationCoordinate2D (latitude: 33.75500, longitude: -111.96700)
+let GridCenter: CLLocationCoordinate2D = CLLocationCoordinate2D (latitude: 34.24336, longitude: -110.08219)  // Show Low
+//let GridCenter: CLLocationCoordinate2D = CLLocationCoordinate2D (latitude: 33.75500, longitude: -111.96700)
 let GridRegion = MKCoordinateRegion(center: GridCenter, latitudinalMeters: GridHeightMeters+3*MetersPerMile, longitudinalMeters: GridWidthMeters+3*MetersPerMile)
 let GridRows = 16
 let GridColumns = 20
