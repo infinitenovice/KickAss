@@ -14,25 +14,33 @@ let HuntDuration = 5*Hour+15*Minute
 
 @Observable
 class TimerModel {
+    
     var elapsedHuntTime: Int = 0
     var elapsedClueTime: Int = 0
+    private var firstClueCredit: Int = 0
     private var huntStart: Date = .now
     private var clueStart: Date = .now
     private var clueTimerActive: Bool = false
+    private var checkedIn: Bool = false
 
     
     let calendar = Calendar.current
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func updateTimers() {
-        elapsedHuntTime = calendar.dateComponents([.second], from: huntStart, to: .now).second ?? 0
-        if elapsedHuntTime == 0 {
-            resetClueTimer()
+        if !checkedIn {
+            elapsedHuntTime = calendar.dateComponents([.second], from: huntStart, to: .now).second ?? 0
+            if elapsedHuntTime == 0 {
+                resetClueTimer()
+            }
+            if clueTimerActive {
+                elapsedClueTime = calendar.dateComponents([.second], from: clueStart, to: .now).second ?? 0
+            }
         }
-        if clueTimerActive {
-            elapsedClueTime = calendar.dateComponents([.second], from: clueStart, to: .now).second ?? 0
-        }
-        print(elapsedHuntTime)
+    }
+    func checkIn() {
+        checkedIn = true
+        stopClueTimer()
     }
     func setHuntStartTime(start: Date) {
         huntStart = start
@@ -44,6 +52,16 @@ class TimerModel {
     func stopClueTimer() {
         clueTimerActive = false
         elapsedClueTime = 0
+    }
+    func penaltyTime() -> Int {
+        if elapsedHuntTime > HuntDuration {
+            return elapsedHuntTime - HuntDuration
+        } else {
+            return 0
+        }
+    }
+    func setFirstClueCredit() {
+        firstClueCredit = elapsedHuntTime
     }
     func huntIntervalDisplayString(interval: Int) -> String {
         var intervalString = ""
@@ -74,5 +92,12 @@ class TimerModel {
         let minutes = abs(interval/Minute)
         let seconds = abs(interval%Minute)
         return String(format: "%0.1d:%0.2d", minutes, seconds)
+    }
+    func elapsedHuntTimeAdjusted() -> Int {
+        var penaltytime: Int = 0
+        if elapsedHuntTime > HuntDuration {
+            penaltytime = elapsedHuntTime - HuntDuration
+        }
+        return elapsedHuntTime - firstClueCredit + penaltytime
     }
 }

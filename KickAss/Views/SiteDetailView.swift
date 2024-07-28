@@ -50,15 +50,15 @@ struct SiteDetailView: View {
                         .frame(width: 300,height: 50)
                         switch siteMarkerModel.markers[markerIndex].type {
                         case .CheckInSite:
-                            Text("Check In")
+                            CheckInView()
                         case .StartClueSite:
-                            Text("Start Clue")
+                            StartingClueView(markerIndex: markerIndex)
                         case .PossibleClueSite:
                             PossibleClueView(markerIndex: markerIndex)
                         case .FoundClueSite:
                             FoundClueView(markerIndex: markerIndex)
                         case .JackassSite:
-                            Text("Jackass")
+                            JackAssSiteView(markerIndex: markerIndex)
                         }
                     }//Group
                     Spacer()

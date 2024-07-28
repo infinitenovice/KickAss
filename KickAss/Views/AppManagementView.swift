@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct AppManagementView: View {
+    @Environment (SiteMarkerModel.self) var siteMarkerModel
     @State var enableManagement: Bool = false
 
     var body: some View {
@@ -19,7 +20,7 @@ struct AppManagementView: View {
 
                 if enableManagement {
                     Button {
-
+                        siteMarkerModel.deleteAllMarkers()
                     } label: {
                         Text("Clear all site markers")
                     }
@@ -32,7 +33,7 @@ struct AppManagementView: View {
 }
 
 #Preview {
-
+let siteMarkerModel = SiteMarkerModel()
     return AppManagementView()
-
+        .environment(siteMarkerModel)
 }

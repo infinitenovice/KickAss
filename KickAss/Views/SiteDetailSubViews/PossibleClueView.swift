@@ -11,7 +11,8 @@ struct PossibleClueView: View {
     let markerIndex: Int
 
     @Environment(SiteMarkerModel.self) var siteMarkerModel
-    
+    @Environment(TimerModel.self) var timerModel
+
     var body: some View {
         @Bindable var siteMarkerModel = siteMarkerModel
 
@@ -33,8 +34,8 @@ struct PossibleClueView: View {
             ScrollView(.horizontal) {
                 LazyHStack {
                     Button {
-                        siteMarkerModel.markers[markerIndex].type = .FoundClueSite
-                        siteMarkerModel.markers[markerIndex].method = .Solved
+                        siteMarkerModel.markSiteFound(markerIndex: markerIndex, method: .Solved)
+                        timerModel.resetClueTimer()
                         } label: {Text("Found (Solved)")}
                             .frame(width: 220, height: 50)
                             .buttonStyle(.borderedProminent)
@@ -42,8 +43,8 @@ struct PossibleClueView: View {
                             .font(.title3)
                             .foregroundColor(.white)
                     Button {
-                        siteMarkerModel.markers[markerIndex].type = .FoundClueSite
-                        siteMarkerModel.markers[markerIndex].method = .Emergency
+                        siteMarkerModel.markSiteFound(markerIndex: markerIndex, method: .Emergency)
+                        timerModel.resetClueTimer()
                         } label: {Text("Found (Emergency)")}
                             .frame(width: 220, height: 50)
                             .buttonStyle(.borderedProminent)
@@ -51,8 +52,8 @@ struct PossibleClueView: View {
                             .font(.title3)
                             .foregroundColor(.white)
                     Button {
-                        siteMarkerModel.markers[markerIndex].type = .FoundClueSite
-                        siteMarkerModel.markers[markerIndex].method = .OutOfOrder
+                        siteMarkerModel.markSiteFound(markerIndex: markerIndex, method: .OutOfOrder)
+                        timerModel.resetClueTimer()
                         } label: {Text("Found (Out of Order)")}
                             .frame(width: 220, height: 50)
                             .buttonStyle(.borderedProminent)
@@ -62,6 +63,7 @@ struct PossibleClueView: View {
                      Button {
                         siteMarkerModel.markers[markerIndex].type = .JackassSite
                         siteMarkerModel.markers[markerIndex].method = .NotFound
+                        siteMarkerModel.markers[markerIndex].monogram = "JA"
                         } label: {Text("Jackass!")}
                             .frame(width: 220, height: 50)
                             .buttonStyle(.borderedProminent)
@@ -88,9 +90,11 @@ struct PossibleClueView: View {
 }
 
 #Preview {
+    let timerModel = TimerModel()
     let siteMarkerModel = SiteMarkerModel()
     siteMarkerModel.newMarker(location: GridCenter)
     siteMarkerModel.selection = 0
     return PossibleClueView(markerIndex: 0)
         .environment(siteMarkerModel)
+        .environment(timerModel)
 }

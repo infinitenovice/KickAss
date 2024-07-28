@@ -1,31 +1,32 @@
 //
-//  FoundClueView.swift
+//  JackAssSiteView.swift
 //  KickAss
 //
-//  Created by Infinite Novice on 7/26/24.
+//  Created by Infinite Novice on 7/27/24.
 //
 
 import SwiftUI
 
-struct FoundClueView: View {
-    let markerIndex: Int
-
+struct JackAssSiteView: View {
+    var markerIndex: Int
+    
     @Environment(SiteMarkerModel.self) var siteMarkerModel
+
     
     var body: some View {
         VStack{
             List {
-                Text("Found:  Clue \(siteMarkerModel.markers[markerIndex].monogram)")
-                Text("Method: \(siteMarkerModel.markers[markerIndex].method.rawValue)")
+                Text("Jackass Site")
             }//List
             .font(.title2)
-            .frame(width: 300,height: 90)
+            .frame(width: 300,height: 45)
             .listStyle(.plain)
             .cornerRadius(15)
             Button {
-                siteMarkerModel.markers[markerIndex].type = .PossibleClueSite
+                siteMarkerModel.markers[markerIndex].deleted = true
                 siteMarkerModel.markers[markerIndex].method = .NotFound
-            } label: {Text("Edit")}
+                siteMarkerModel.markers[markerIndex].monogram = ""
+            } label: {Text("Delete")}
                 .frame(width: 220, height: 50)
                 .buttonStyle(.borderedProminent)
                 .tint(.mapButton)
@@ -39,7 +40,6 @@ struct FoundClueView: View {
     let siteMarkerModel = SiteMarkerModel()
     siteMarkerModel.newMarker(location: GridCenter)
     siteMarkerModel.selection = 0
-    return FoundClueView(markerIndex: 0)
+    return JackAssSiteView(markerIndex: 0)
         .environment(siteMarkerModel)
-
 }

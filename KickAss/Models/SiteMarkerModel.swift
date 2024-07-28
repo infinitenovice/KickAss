@@ -10,8 +10,14 @@ import SwiftUI
 
 @Observable
 class SiteMarkerModel {
+    
     var markers: [SiteMarker] = []
     var selection: Int?
+    var emergencies: Int = 0
+    var sequenceGaps: Int = 0
+    var stickerCount: Int = 0
+    var monogramLetterIndex: Int = 0
+    var startingClueSet: Bool = false
     
     struct SiteMarker: Identifiable, Codable {
         var id: Int                         = 0
@@ -39,8 +45,22 @@ class SiteMarkerModel {
         "?","A","B","C","D","E","F","G","H","I","J","K","L","M",
         "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
     ]
+    func setNextMonogramLetter (monogram: String) {
+        for index in 0..<ClueLetterMonograms.count {
+            if ClueLetterMonograms[index] == monogram {
+                monogramLetterIndex = index + 1
+                if monogramLetterIndex == ClueLetterMonograms.count {
+                    monogramLetterIndex = 1  // wrap from Z to A, skip "?"
+                }
+            }
+        }
+    }
+    func markStartingClue(monogram: String) {
+        startingClueSet = true
+        setNextMonogramLetter(monogram: monogram)
+    }
     func newMarker(type: SiteType = .PossibleClueSite, location: CLLocationCoordinate2D, monogram: String = "?") {
-        let marker: SiteMarker = SiteMarker(
+        var marker: SiteMarker = SiteMarker(
             id:             markers.count,
             type:           type,
             latitude:       location.latitude,
@@ -48,6 +68,9 @@ class SiteMarkerModel {
             method:         .NotFound,
             monogram:       monogram
             )
+            if startingClueSet {
+                marker.monogram = ClueLetterMonograms[monogramLetterIndex]
+            }
         markers.append(marker)
         save()
     }
@@ -58,25 +81,58 @@ class SiteMarkerModel {
             return nil
         }
     }
+    func monogramValid(monogram: String) -> Bool {
+        var markerPreviouslyUsed = false
+        for index in 0..<markers.count {
+            if markers[index].type == .FoundClueSite {
+                if monogram == markers[index].monogram {
+                    markerPreviouslyUsed = true
+                }
+            }
+        }
+        if monogram == "?" || markerPreviouslyUsed {
+            return false
+        } else {
+            return true
+        }
+    }
+    func markSiteFound(markerIndex: Int, method: MethodFound) {
+        if monogramValid(monogram: markers[markerIndex].monogram) {
+            markers[markerIndex].type = .FoundClueSite
+            markers[markerIndex].method = method
+            setNextMonogramLetter(monogram: markers[markerIndex].monogram)
+            updateStats()
+        }
+    }
     func markerColor(marker: SiteMarker) -> Color {
-//        switch marker.type {
-//        case .CheckInSite:
-//            return Color.white
-//        case .StartClueSite:
-//            return Color.white
-//        case .PossibleClueSite:
-//            switch marker.status {
-//            case .Undefined:
-//                return Color.white
-//            case .Found:
-//                return Color.white
-//            case .Emergency:
-//                return Color.white
-//            case .JackAss:
-//                return Color.white
-//            }
-//        }
-        return Color.white
+        switch marker.type {
+        case .CheckInSite:
+            return Color.white
+        case .StartClueSite:
+            return Color.white
+        case .PossibleClueSite:
+            return Color.green
+        case .JackassSite:
+            return Color.red
+        case .FoundClueSite:
+            switch marker.method {
+            case .Solved:
+                return Color.blue
+            case .Emergency:
+                return Color.yellow
+            case .OutOfOrder:
+                return Color.green
+            case .NotFound:
+                return Color.white
+            }
+        }
+    }
+    func deleteAllMarkers() {
+        markers.removeAll()
+        monogramLetterIndex = 0
+        startingClueSet = false
+        save()
+        load()
     }
     func load() {
         if FileManager().fileExists(atPath: SiteMarkersURL.path) {
@@ -91,8 +147,9 @@ class SiteMarkerModel {
         if markers.isEmpty {
             print("creating required markers")
             newMarker(type: .CheckInSite, location: WestWorld, monogram: "WW")
-            newMarker(type: .StartClueSite, location: GridCenter, monogram: "SC")
+            newMarker(type: .StartClueSite, location: GridCenter, monogram: "?")
         }
+        updateStats()
     }
     func save() {
         do {
@@ -101,5 +158,44 @@ class SiteMarkerModel {
         } catch {
             print(error)
         }
+    }
+    func updateStats() {
+        var clueStickers: [String] = []
+        var startClueMonogram: String = ""
+        
+        emergencies = 0
+        sequenceGaps = 0
+        
+        for index in 0..<markers.count {
+            if markers[index].type == .FoundClueSite {
+                clueStickers.append(markers[index].monogram)
+                if markers[index].method == .Emergency {
+                    emergencies += 1
+                }
+            }
+            if markers[index].type == .StartClueSite {
+                startClueMonogram = markers[index].monogram
+                clueStickers.append(markers[index].monogram)
+            }
+        }
+        if !clueStickers.isEmpty {
+            clueStickers.sort()
+            if startClueMonogram != "" {
+                while clueStickers[0] != startClueMonogram {
+                    let sticker = clueStickers[0]
+                    clueStickers.removeFirst()
+                    clueStickers.append(sticker)
+                }
+            }
+            for index in 0..<clueStickers.count-1 {
+                let currentCharValue = clueStickers[index].first?.asciiValue ?? 0
+                let nextCharValue = clueStickers[index+1].first?.asciiValue ?? 0
+                if currentCharValue != nextCharValue-1 {
+                    sequenceGaps += 1
+                }
+            }
+        }
+        stickerCount = clueStickers.count
+        print(stickerCount, emergencies, sequenceGaps, clueStickers)
     }
 }
