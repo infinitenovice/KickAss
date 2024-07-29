@@ -34,8 +34,8 @@ struct ContentView: View {
             if navigationModel.navigationInProgress() {
                 NavigationView()
             }
-            if let selectedMarker = siteMarkerModel.selection {
-                SiteDetailView(markerIndex: selectedMarker)
+            if let marker = siteMarkerModel.selection {
+                SiteDetailView(markerIndex: marker)
             }
         }
         .onAppear() {
@@ -47,6 +47,9 @@ struct ContentView: View {
         }
         .onReceive(timerModel.timer) { _ in
             timerModel.updateTimers()
+        }
+        .onChange(of: locationManager.userLocation) { oldValue, newValue in
+            navigationModel.updateTrackHistory(oldLocation: oldValue, newLocation: newValue)
         }
     }
 }

@@ -12,6 +12,7 @@ import CoreLocation
 class LocationManager: NSObject, CLLocationManagerDelegate {
     @ObservationIgnored  let manager = CLLocationManager()
     var userLocation: CLLocation?
+    var heading: Double = 0
     var isAuthorized: Bool = false
     
     override init() {
@@ -23,6 +24,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     func startLocationServices() {
         if manager.authorizationStatus == .authorizedAlways || manager.authorizationStatus == .authorizedWhenInUse {
             manager.startUpdatingLocation()
+//            manager.startUpdatingHeading()
             isAuthorized = true
         } else {
             isAuthorized = false
@@ -32,6 +34,12 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         userLocation = locations.last
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateHeading newHeading: CLHeading) {
+        withAnimation{
+            heading = newHeading.trueHeading
+        }
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {

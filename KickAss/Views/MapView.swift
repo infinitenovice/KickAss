@@ -15,7 +15,8 @@ struct MapView: View {
     @Environment(SiteMarkerModel.self) var siteMarkerModel
     @Environment(NavigationModel.self) var navigationModel
     @Environment(CalliperModel.self) var calliperModel
-    
+    @Environment(LocationManager.self) var locationManager
+
     var body: some View {
         @Bindable var mapModel = mapModel
         @Bindable var siteMarkerModel = siteMarkerModel
@@ -23,6 +24,7 @@ struct MapView: View {
         MapReader { proxy in
             Map(position: $mapModel.camera, selection: $siteMarkerModel.selection) {
                 UserAnnotation()
+//                UserAnnotation(content:{Image(systemName: "location.fill").rotationEffect(Angle(degrees: locationManager.heading+45))})
                 ForEach(gridModel.lines) {gridline in
                     MapPolyline(coordinates: gridline.points).stroke(.white, lineWidth: 1)
                 }
@@ -68,6 +70,8 @@ struct MapView: View {
                         }
                     }
                 }
+                MapPolyline(coordinates: navigationModel.trackHistory)
+                    .stroke(.green, lineWidth: 6)
             }//Map
             .mapStyle(.hybrid)
             .mapControlVisibility(.hidden)

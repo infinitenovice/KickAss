@@ -18,6 +18,7 @@ class NavigationModel {
     var stepEndLocation: CLLocationCoordinate2D?
     var stepTotalDistance: CLLocationDistance?
     var stepRemainingDistance: CLLocationDistance?
+    var trackHistory: [CLLocationCoordinate2D]
 
     init() {
         targetDestination = nil
@@ -28,6 +29,7 @@ class NavigationModel {
         stepEndLocation = nil
         stepTotalDistance = nil
         stepRemainingDistance = nil
+        trackHistory = []
     }
     func clearRoute() {
         targetDestination = nil
@@ -110,6 +112,13 @@ class NavigationModel {
             stepRemainingDistance = stepTotalDistance! - distanceTraveled!
             if stepTotalDistance! <= 0 {
                 nextStep()
+            }
+        }
+    }
+    func updateTrackHistory(oldLocation: CLLocation?, newLocation: CLLocation?) {
+        if let oldLocation = oldLocation, let newLocation = newLocation {
+            if newLocation.distance(from: oldLocation) > 4 {
+                trackHistory.append(newLocation.coordinate)
             }
         }
     }
