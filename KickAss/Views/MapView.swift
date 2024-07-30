@@ -16,7 +16,8 @@ struct MapView: View {
     @Environment(NavigationModel.self) var navigationModel
     @Environment(CalliperModel.self) var calliperModel
     @Environment(LocationManager.self) var locationManager
-
+    let NOT_SELECTABLE = -1
+    
     var body: some View {
         @Bindable var mapModel = mapModel
         @Bindable var siteMarkerModel = siteMarkerModel
@@ -29,7 +30,10 @@ struct MapView: View {
                     MapPolyline(coordinates: gridline.points).stroke(.white, lineWidth: 1)
                 }
                 ForEach(gridModel.labels) {gridlabel in
-                    Annotation("",coordinate: gridlabel.point) {Text(gridlabel.label).foregroundStyle(.white).font(.title2)}
+                    Annotation("",coordinate: gridlabel.point) {
+                        Text(gridlabel.label).foregroundStyle(.white).font(.title2)
+                    }
+                    .tag(NOT_SELECTABLE)
                 }
                 ForEach(siteMarkerModel.markers) { marker in
                     if !marker.deleted {
@@ -42,8 +46,11 @@ struct MapView: View {
                     MapCircle(center: calliperMarker.center, radius: calliperMarker.radius)
                         .foregroundStyle(.clear)
                         .stroke(.blue, lineWidth: 2)
-                    Annotation("",coordinate: calliperMarker.center) {Text("+")
-                        .foregroundColor(Color.blue)}
+                    Annotation("",coordinate: calliperMarker.center) {
+                        Text("+")
+                            .foregroundColor(Color.blue)
+                    }
+                    .tag(NOT_SELECTABLE)
                     let pointOnCircle: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: calliperMarker.center.latitude, longitude: calliperMarker.center.longitude+calliperMarker.radius*DegreesPerMeterLon)
                     MapPolyline(coordinates: [calliperMarker.center,pointOnCircle]).stroke(.blue, lineWidth: 2)
                     Annotation("",coordinate: pointOnCircle) {
@@ -51,6 +58,7 @@ struct MapView: View {
                             .foregroundColor(Color.white)
                             .font(.footnote)
                     }
+                    .tag(NOT_SELECTABLE)
                 }
                 if navigationModel.route != nil {
                     ForEach(navigationModel.steps, id: \.self) { step in
@@ -62,16 +70,20 @@ struct MapView: View {
                             Text("X")
                                 .foregroundColor(.green)
                         }
+                        .tag(NOT_SELECTABLE)
                     }
                     if let coord = navigationModel.stepEndLocation {
                         Annotation("",coordinate: coord) {
                             Text("X")
                                 .foregroundColor(.red)
                         }
+                        .tag(NOT_SELECTABLE)
                     }
                 }
-                MapPolyline(coordinates: navigationModel.trackHistory)
-                    .stroke(.green, lineWidth: 6)
+                if navigationModel.showTrackHistory {
+                    MapPolyline(coordinates: navigationModel.trackHistoryPolyline)
+                        .stroke(.green, lineWidth: 6)
+                }
             }//Map
             .mapStyle(.hybrid)
             .mapControlVisibility(.hidden)

@@ -17,7 +17,9 @@ class TimerModel {
     
     var elapsedHuntTime: Int = 0
     var elapsedClueTime: Int = 0
-    private var firstClueCredit: Int = 0
+    var firstClueCredit: Int = 0
+    var checkInTime: Date = .distantFuture
+    var arrivedAtFirstClue: Date = .distantFuture
     private var huntStart: Date = .now
     private var clueStart: Date = .now
     private var clueTimerActive: Bool = false
@@ -28,7 +30,9 @@ class TimerModel {
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
     func updateTimers() {
-        if !checkedIn {
+        if checkedIn {
+            elapsedHuntTime = calendar.dateComponents([.second], from: huntStart, to: checkInTime).second ?? 0
+        } else {
             elapsedHuntTime = calendar.dateComponents([.second], from: huntStart, to: .now).second ?? 0
             if elapsedHuntTime == 0 {
                 resetClueTimer()
@@ -61,7 +65,11 @@ class TimerModel {
         }
     }
     func setFirstClueCredit() {
-        firstClueCredit = elapsedHuntTime
+        arrivedAtFirstClue = .now
+        firstClueCredit = calendar.dateComponents([.second], from: huntStart, to: arrivedAtFirstClue).second ?? 0
+    }
+    func adjustFirstClueCredit() {
+        firstClueCredit = calendar.dateComponents([.second], from: huntStart, to: arrivedAtFirstClue).second ?? 0
     }
     func huntIntervalDisplayString(interval: Int) -> String {
         var intervalString = ""

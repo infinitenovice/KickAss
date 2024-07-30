@@ -18,8 +18,15 @@ class NavigationModel {
     var stepEndLocation: CLLocationCoordinate2D?
     var stepTotalDistance: CLLocationDistance?
     var stepRemainingDistance: CLLocationDistance?
-    var trackHistory: [CLLocationCoordinate2D]
+    var trackingEnabled: Bool
+    var trackHistoryPolyline: [CLLocationCoordinate2D]
+    var trackHistoryData: [TrackPoint]
+    var showTrackHistory: Bool
 
+    let TRACKING_THREASHOLD = 4.0  //minimum number of meters between two location updates to register that the location changed
+    let TRACK_BUFFER_SIZE = 15 //Number of location updates between json writes
+    let MAX_TRACK_HISTORY = 20000
+    
     init() {
         targetDestination = nil
         route = nil
@@ -29,7 +36,18 @@ class NavigationModel {
         stepEndLocation = nil
         stepTotalDistance = nil
         stepRemainingDistance = nil
-        trackHistory = []
+        trackingEnabled = true
+        trackHistoryPolyline = []
+        trackHistoryData = []
+        showTrackHistory = true
+        
+        loadTrackHistory()
+    }
+    
+    struct TrackPoint: Codable {
+        var latitude: Double
+        var longitude: Double
+        var timestamp: Date
     }
     func clearRoute() {
         targetDestination = nil
@@ -61,6 +79,9 @@ class NavigationModel {
     func navigationInProgress() -> Bool {
         return (route != nil)
     }
+    func trackingInProgress() -> Bool {
+        return (trackingEnabled)
+    }
     func routeRegion() -> MKCoordinateRegion? {
         
         if navigationInProgress() {
@@ -81,7 +102,7 @@ class NavigationModel {
             }
             var region: MKCoordinateRegion = GridRegion
 
-            region.span = MKCoordinateSpan(latitudeDelta: (maxLat-minLat)*1.2, longitudeDelta: (maxLon-minLon)*1.2)
+            region.span = MKCoordinateSpan(latitudeDelta: (maxLat-minLat)*1.1, longitudeDelta: (maxLon-minLon)*1.1)
             region.center = CLLocationCoordinate2D(latitude: (maxLat-minLat)/2+minLat, longitude: (maxLon-minLon)/2+minLon)
             print(region.center)
             return region
@@ -104,22 +125,75 @@ class NavigationModel {
             stepInstructions = "Proceed on foot"
         }
         stepTotalDistance = stepStartLocation?.distance(from: stepEndLocation!)
-        stepRemainingDistance = stepTotalDistance
     }
-    func updateStepRemainingDistance(locationManager: LocationManager) {
-        if stepEndLocation != nil {
-            let distanceTraveled = locationManager.userLocation?.coordinate.distance(from: stepStartLocation!)
-            stepRemainingDistance = stepTotalDistance! - distanceTraveled!
-            if stepTotalDistance! <= 0 {
+    func updateNavigation(oldCoord: CLLocationCoordinate2D, newCoord: CLLocationCoordinate2D) {
+        if let startLocation = stepStartLocation, let stepTotalDistance = stepTotalDistance {
+            let distanceTraveled = startLocation.distance(from: newCoord)
+            let remainingDistance = stepTotalDistance - distanceTraveled
+            stepRemainingDistance = remainingDistance
+            if remainingDistance <= 0 {
                 nextStep()
             }
         }
     }
-    func updateTrackHistory(oldLocation: CLLocation?, newLocation: CLLocation?) {
-        if let oldLocation = oldLocation, let newLocation = newLocation {
-            if newLocation.distance(from: oldLocation) > 4 {
-                trackHistory.append(newLocation.coordinate)
+    func updateTrackHistory(oldLocation: CLLocation, newLocation: CLLocation) {
+        if true {
+            //        if newLocation.distance(from: oldLocation) > TRACKING_THREASHOLD {
+            if trackHistoryData.count >= MAX_TRACK_HISTORY {
+                trackHistoryPolyline.removeSubrange(0...100)
+                trackHistoryData.removeSubrange(0...100)
             }
+            trackHistoryPolyline.append(newLocation.coordinate)
+            trackHistoryData.append(TrackPoint(latitude: newLocation.coordinate.latitude, longitude: newLocation.coordinate.longitude, timestamp: newLocation.timestamp))
+            if trackHistoryData.count%TRACK_BUFFER_SIZE == 0 {
+                saveTrackHistory()
+                print("trackHistoryData.count:",trackHistoryData.count)
+            }
+        }
+    }
+    func updateLocation(oldLocation: CLLocation?, newLocation: CLLocation?) {
+            if navigationInProgress() {
+                if let oldCoord = oldLocation?.coordinate, let newCoord = newLocation?.coordinate {
+                    updateNavigation(oldCoord: oldCoord, newCoord: newCoord)
+                }
+            }
+            if trackingEnabled {
+                if let oldLocation = oldLocation, let newLocation = newLocation {
+                    updateTrackHistory(oldLocation: oldLocation, newLocation: newLocation)
+                }
+            }
+    }
+    func loadTrackHistory() {
+        if FileManager().fileExists(atPath: trackHistoryURL.path) {
+            do {
+                let jsonData = try Data(contentsOf: trackHistoryURL)
+                let data = try JSONDecoder().decode([TrackPoint].self, from: jsonData)
+                trackHistoryData = data
+                print("Loaded Track History:",trackHistoryData.count)
+                for trackIndex in 0..<trackHistoryData.count {
+                    let point = CLLocationCoordinate2D(latitude: trackHistoryData[trackIndex].latitude, longitude: trackHistoryData[trackIndex].longitude)
+                    trackHistoryPolyline.append(point)
+                }
+            } catch {
+                print(error)
+            }
+        }
+    }
+    func saveTrackHistory() {
+        do {
+            let data = try JSONEncoder().encode(trackHistoryData)
+            try data.write(to: trackHistoryURL)
+        } catch {
+            print(error)
+        }
+    }
+    func deleteTrackHistory() {
+        trackHistoryData.removeAll()
+        trackHistoryPolyline.removeAll()
+        do {
+            try FileManager.default.removeItem(at: trackHistoryURL)
+        } catch {
+            print(error)
         }
     }
     

@@ -11,7 +11,7 @@ import MapKit
 struct NavigationView: View {
 //    @Environment(MapModel.self) var mapModel
     @Environment(NavigationModel.self) var navigationModel
-    @Environment(LocationManager.self) var locationManager
+//    @Environment(LocationManager.self) var locationManager
 
     var body: some View {
         HStack {
@@ -19,27 +19,31 @@ struct NavigationView: View {
                 Spacer(minLength: 500)
                 VStack {
                     HStack {
-                        Spacer()
                         Text(String(Int((navigationModel.stepRemainingDistance ?? 0)*FeetPerMeter))+" ft")
+                            .frame(width: 190, alignment: .leading)
+                            .padding()
                         Spacer()
                         Button {
                             navigationModel.clearRoute()
                         }label: {
                             Image(systemName: "xmark.circle")
                         }
-                        .font(.title)
                         .foregroundColor(.white)
-                        .padding()
+                        .padding(.trailing)
                     }
+                    .font(.title)
   
                     VStack {
-                        Text(navigationModel.stepInstructions ?? "End of Route")
+                        Text(navigationModel.stepInstructions ?? "End of route")
+                            .font(.title)
                             .lineLimit(2)
+                            .frame(width: 280,height: 70, alignment: .leading)
+                            .padding(.leading)
                     }
                     Spacer()
                 }
                 .foregroundStyle(.white)
-                .frame(width: 300, height:140, alignment: .leading)
+                .frame(width: 300, height:150, alignment: .leading)
                 .background(.black)
                 .cornerRadius(15)
 //                Spacer()
@@ -50,9 +54,9 @@ struct NavigationView: View {
             Spacer()
         }
         .padding(.leading)
-        .onChange(of: locationManager.userLocation) { oldValue, newValue in
-            navigationModel.updateStepRemainingDistance(locationManager: locationManager)
-        }
+//        .onChange(of: locationManager.userLocation) { oldValue, newValue in
+//            navigationModel.updateStepRemainingDistance(locationManager: locationManager)
+//        }
     }
 }
 

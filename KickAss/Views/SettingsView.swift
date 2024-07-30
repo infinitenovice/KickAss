@@ -23,8 +23,10 @@ struct SettingsView: View {
 }
 
 #Preview {
+    let siteMarkerModel = SiteMarkerModel()
     let huntInfoModel = HuntInfoModel()
     return SettingsView()
         .environment(huntInfoModel)
+        .environment(siteMarkerModel)
 
 }

@@ -45,6 +45,14 @@ class SiteMarkerModel {
         "?","A","B","C","D","E","F","G","H","I","J","K","L","M",
         "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
     ]
+    func validMarker(markerIndex: Int) -> Bool {
+        if markerIndex >= 0 && markerIndex < markers.count {
+            return true
+        } else {
+            print("Invalid marker index:",markerIndex)
+            return false
+        }
+    }
     func setNextMonogramLetter (monogram: String) {
         for index in 0..<ClueLetterMonograms.count {
             if ClueLetterMonograms[index] == monogram {
@@ -196,6 +204,5 @@ class SiteMarkerModel {
             }
         }
         stickerCount = clueStickers.count
-        print(stickerCount, emergencies, sequenceGaps, clueStickers)
     }
 }

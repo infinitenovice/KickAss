@@ -10,11 +10,9 @@ import MapKit
 
 //- App icon
 //- App start page
-//- add path recording
 //- add heading indicator
-//- add next clue radius benchmar
+//- add next clue radius benchmark
 //- hunt data archiving
-//- auto route step clearing
 
 struct ContentView: View {
     @Environment(MapModel.self) var mapModel
@@ -35,7 +33,9 @@ struct ContentView: View {
                 NavigationView()
             }
             if let marker = siteMarkerModel.selection {
-                SiteDetailView(markerIndex: marker)
+                if siteMarkerModel.validMarker(markerIndex: marker){
+                    SiteDetailView(markerIndex: marker)
+                }
             }
         }
         .onAppear() {
@@ -49,7 +49,7 @@ struct ContentView: View {
             timerModel.updateTimers()
         }
         .onChange(of: locationManager.userLocation) { oldValue, newValue in
-            navigationModel.updateTrackHistory(oldLocation: oldValue, newLocation: newValue)
+            navigationModel.updateLocation(oldLocation: oldValue, newLocation: newValue)
         }
     }
 }

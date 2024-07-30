@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CheckInView: View {
+    @Environment (TimerModel.self) var timerModel
     var body: some View {
         VStack{
             List {
@@ -19,7 +20,7 @@ struct CheckInView: View {
             .listStyle(.plain)
             .cornerRadius(15)
             Button {
-                
+                timerModel.checkIn()
             } label: {Text("Check In")}
                 .frame(width: 220, height: 50)
                 .buttonStyle(.borderedProminent)
@@ -31,5 +32,7 @@ struct CheckInView: View {
 }
 
 #Preview {
-    CheckInView()
+    let timerModel = TimerModel()
+    return CheckInView()
+        .environment(timerModel)
 }
