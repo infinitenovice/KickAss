@@ -79,9 +79,6 @@ class NavigationModel {
     func navigationInProgress() -> Bool {
         return (route != nil)
     }
-    func trackingInProgress() -> Bool {
-        return (trackingEnabled)
-    }
     func routeRegion() -> MKCoordinateRegion? {
         
         if navigationInProgress() {
@@ -137,8 +134,7 @@ class NavigationModel {
         }
     }
     func updateTrackHistory(oldLocation: CLLocation, newLocation: CLLocation) {
-        if true {
-            //        if newLocation.distance(from: oldLocation) > TRACKING_THREASHOLD {
+            if newLocation.distance(from: oldLocation) > TRACKING_THREASHOLD && trackingEnabled {
             if trackHistoryData.count >= MAX_TRACK_HISTORY {
                 trackHistoryPolyline.removeSubrange(0...100)
                 trackHistoryData.removeSubrange(0...100)
@@ -147,7 +143,6 @@ class NavigationModel {
             trackHistoryData.append(TrackPoint(latitude: newLocation.coordinate.latitude, longitude: newLocation.coordinate.longitude, timestamp: newLocation.timestamp))
             if trackHistoryData.count%TRACK_BUFFER_SIZE == 0 {
                 saveTrackHistory()
-                print("trackHistoryData.count:",trackHistoryData.count)
             }
         }
     }

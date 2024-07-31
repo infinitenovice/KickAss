@@ -19,14 +19,16 @@ struct CheckInView: View {
             .frame(width: 300,height: 90)
             .listStyle(.plain)
             .cornerRadius(15)
-            Button {
-                timerModel.checkIn()
-            } label: {Text("Check In")}
-                .frame(width: 220, height: 50)
-                .buttonStyle(.borderedProminent)
-                .tint(.mapButton)
-                .font(.title3)
-                .foregroundColor(.white)
+            if timerModel.checkInTime > .now {
+                Button {
+                    timerModel.checkIn()
+                } label: {Text("Check In")}
+                    .frame(width: 220, height: 50)
+                    .buttonStyle(.borderedProminent)
+                    .tint(.mapButton)
+                    .font(.title3)
+                    .foregroundColor(.white)
+            }
         }//VStack
     }
 }

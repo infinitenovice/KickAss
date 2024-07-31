@@ -31,7 +31,7 @@ struct StartingClueView: View {
             .cornerRadius(15)
             if siteMarkerModel.markers[markerIndex].monogram != "?" && !siteMarkerModel.startingClueSet {
                 Button {
-                    timerModel.setFirstClueCredit()
+                    timerModel.setFirstClueArrivalTime()
                     siteMarkerModel.markStartingClue(monogram: siteMarkerModel.markers[markerIndex].monogram)
                 } label: {Text("Arrived")}
                     .frame(width: 220, height: 50)

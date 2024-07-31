@@ -28,7 +28,7 @@ struct ContentView: View {
             MapButtonsView()
             CrossHairView()
             ControlsView()
-            HuntStatusView()
+            StatusBarView()
             if navigationModel.navigationInProgress() {
                 NavigationView()
             }
@@ -50,6 +50,16 @@ struct ContentView: View {
         }
         .onChange(of: locationManager.userLocation) { oldValue, newValue in
             navigationModel.updateLocation(oldLocation: oldValue, newLocation: newValue)
+        }
+        .onChange(of: timerModel.huntState) { oldValue, newValue in
+            if newValue == TimerModel.HuntState.InProgress {
+                navigationModel.trackingEnabled = true
+                print("Tracking on")
+            } else {
+                navigationModel.trackingEnabled = false
+                print("Tracking off")
+
+            }
         }
     }
 }

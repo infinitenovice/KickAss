@@ -17,14 +17,14 @@ struct AppManagementView: View {
     var body: some View {
         @Bindable var navigationModel = navigationModel
         @Bindable var timerModel = timerModel
+        @Bindable var siteMarkerModel = siteMarkerModel
         Form {
             Section(header: Text("Options/App Management")) {
-
-                Toggle(isOn: $navigationModel.trackingEnabled) {
-                    Text("Enable Tracking")
-                }
                 Toggle(isOn: $navigationModel.showTrackHistory) {
                     Text("Show Track History")
+                }                
+                Toggle(isOn: $siteMarkerModel.showRangeRadius) {
+                    Text("Show Range Radius")
                 }
                 Toggle(isOn: $enableManagement) {
                     Text("Enable Management Functions")
@@ -32,7 +32,7 @@ struct AppManagementView: View {
 
                 if enableManagement {
                     DatePicker(selection: $timerModel.checkInTime, label: { Text("Check-In Time") })
-                    DatePicker(selection: $timerModel.arrivedAtFirstClue, label: { Text("First Clue Arrival Time") })
+                    DatePicker(selection: $timerModel.firstClueArrivalTime, label: { Text("First Clue Arrival Time") })
                     Button {
                         siteMarkerModel.deleteAllMarkers()
                     } label: {
@@ -50,9 +50,6 @@ struct AppManagementView: View {
         .font(.title)
         .padding()
         .buttonStyle(.borderedProminent)
-        .onChange(of: timerModel.arrivedAtFirstClue) { oldValue, newValue in
-            timerModel.adjustFirstClueCredit()
-        }
     }
 }
 

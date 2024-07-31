@@ -84,6 +84,17 @@ struct MapView: View {
                     MapPolyline(coordinates: navigationModel.trackHistoryPolyline)
                         .stroke(.green, lineWidth: 6)
                 }
+                if siteMarkerModel.showRangeRadius {
+                    if let marker = siteMarkerModel.selection {
+                        if siteMarkerModel.validMarker(markerIndex: marker){
+                            if siteMarkerModel.markers[marker].type == .FoundClueSite {
+                                let center = CLLocationCoordinate2D(latitude: siteMarkerModel.markers[marker].latitude, longitude: siteMarkerModel.markers[marker].longitude)
+                                MapCircle(center: center, radius: 5*MetersPerMile)
+                                    .foregroundStyle(.blue.opacity(0.2))
+                            }
+                        }
+                    }
+                }
             }//Map
             .mapStyle(.hybrid)
             .mapControlVisibility(.hidden)

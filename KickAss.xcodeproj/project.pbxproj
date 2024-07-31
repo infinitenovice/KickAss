@@ -27,7 +27,6 @@
 		29D229272C530D7800C3CDAF /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229262C530D7800C3CDAF /* SettingsView.swift */; };
 		29D2292B2C531D8000C3CDAF /* AppManagementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D2292A2C531D7F00C3CDAF /* AppManagementView.swift */; };
 		29D2292D2C531E1A00C3CDAF /* HuntEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D2292C2C531E1A00C3CDAF /* HuntEditView.swift */; };
-		29D229312C53217A00C3CDAF /* HuntStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229302C53217A00C3CDAF /* HuntStatusView.swift */; };
 		29D229332C534B0F00C3CDAF /* HuntInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229322C534B0F00C3CDAF /* HuntInfoModel.swift */; };
 		29D229352C53E0A500C3CDAF /* MessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229342C53E0A500C3CDAF /* MessageSender.swift */; };
 		29D229372C53E62C00C3CDAF /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229362C53E62C00C3CDAF /* TimerModel.swift */; };
@@ -38,6 +37,9 @@
 		29D229422C55094E00C3CDAF /* CheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229412C55094E00C3CDAF /* CheckInView.swift */; };
 		29D229442C550BC600C3CDAF /* StartingClueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229432C550BC600C3CDAF /* StartingClueView.swift */; };
 		29D229462C550D8600C3CDAF /* JackAssSiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229452C550D8600C3CDAF /* JackAssSiteView.swift */; };
+		29EC9DFF2C593D2D005CC3C9 /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EC9DFE2C593D2D005CC3C9 /* StatusBarView.swift */; };
+		29EC9E012C593F5C005CC3C9 /* PreHuntStatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EC9E002C593F5C005CC3C9 /* PreHuntStatusBarView.swift */; };
+		29EC9E032C593FDF005CC3C9 /* HuntStatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EC9E022C593FDF005CC3C9 /* HuntStatusBarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -62,7 +64,6 @@
 		29D229262C530D7800C3CDAF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		29D2292A2C531D7F00C3CDAF /* AppManagementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppManagementView.swift; sourceTree = "<group>"; };
 		29D2292C2C531E1A00C3CDAF /* HuntEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuntEditView.swift; sourceTree = "<group>"; };
-		29D229302C53217A00C3CDAF /* HuntStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuntStatusView.swift; sourceTree = "<group>"; };
 		29D229322C534B0F00C3CDAF /* HuntInfoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuntInfoModel.swift; sourceTree = "<group>"; };
 		29D229342C53E0A500C3CDAF /* MessageSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSender.swift; sourceTree = "<group>"; };
 		29D229362C53E62C00C3CDAF /* TimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerModel.swift; sourceTree = "<group>"; };
@@ -73,6 +74,9 @@
 		29D229412C55094E00C3CDAF /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
 		29D229432C550BC600C3CDAF /* StartingClueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingClueView.swift; sourceTree = "<group>"; };
 		29D229452C550D8600C3CDAF /* JackAssSiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackAssSiteView.swift; sourceTree = "<group>"; };
+		29EC9DFE2C593D2D005CC3C9 /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
+		29EC9E002C593F5C005CC3C9 /* PreHuntStatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreHuntStatusBarView.swift; sourceTree = "<group>"; };
+		29EC9E022C593FDF005CC3C9 /* HuntStatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuntStatusBarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -145,16 +149,10 @@
 				297C19802C51501300AEFE14 /* MapView.swift */,
 				29D229122C52679200C3CDAF /* MapButtonsView.swift */,
 				29D229142C526D6B00C3CDAF /* CrossHairView.swift */,
-				29D2291A2C52EE4300C3CDAF /* ControlsView.swift */,
-				29D229262C530D7800C3CDAF /* SettingsView.swift */,
-				29D2292C2C531E1A00C3CDAF /* HuntEditView.swift */,
 				29D229222C52FF4500C3CDAF /* NavigationView.swift */,
-				29D2291E2C52FA8200C3CDAF /* LocationDeniedView.swift */,
-				29D229302C53217A00C3CDAF /* HuntStatusView.swift */,
-				29D2292A2C531D7F00C3CDAF /* AppManagementView.swift */,
-				29D2293A2C54536100C3CDAF /* ScrollButtonView.swift */,
-				29D229162C527D6C00C3CDAF /* SiteDetailView.swift */,
-				29D2293C2C54A3DE00C3CDAF /* SiteDetailSubViews */,
+				29EC9DFB2C593BA6005CC3C9 /* StatusBarViews */,
+				29EC9DFA2C593AFE005CC3C9 /* ControlsViews */,
+				29D2293C2C54A3DE00C3CDAF /* SiteDetailViews */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -168,16 +166,40 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
-		29D2293C2C54A3DE00C3CDAF /* SiteDetailSubViews */ = {
+		29D2293C2C54A3DE00C3CDAF /* SiteDetailViews */ = {
 			isa = PBXGroup;
 			children = (
+				29D229162C527D6C00C3CDAF /* SiteDetailView.swift */,
 				29D2293D2C54A42500C3CDAF /* PossibleClueView.swift */,
 				29D2293F2C54A8FA00C3CDAF /* FoundClueView.swift */,
 				29D229412C55094E00C3CDAF /* CheckInView.swift */,
 				29D229432C550BC600C3CDAF /* StartingClueView.swift */,
 				29D229452C550D8600C3CDAF /* JackAssSiteView.swift */,
+				29D2293A2C54536100C3CDAF /* ScrollButtonView.swift */,
 			);
-			path = SiteDetailSubViews;
+			path = SiteDetailViews;
+			sourceTree = "<group>";
+		};
+		29EC9DFA2C593AFE005CC3C9 /* ControlsViews */ = {
+			isa = PBXGroup;
+			children = (
+				29D229262C530D7800C3CDAF /* SettingsView.swift */,
+				29D2291A2C52EE4300C3CDAF /* ControlsView.swift */,
+				29D2292A2C531D7F00C3CDAF /* AppManagementView.swift */,
+				29D2292C2C531E1A00C3CDAF /* HuntEditView.swift */,
+				29D2291E2C52FA8200C3CDAF /* LocationDeniedView.swift */,
+			);
+			path = ControlsViews;
+			sourceTree = "<group>";
+		};
+		29EC9DFB2C593BA6005CC3C9 /* StatusBarViews */ = {
+			isa = PBXGroup;
+			children = (
+				29EC9DFE2C593D2D005CC3C9 /* StatusBarView.swift */,
+				29EC9E002C593F5C005CC3C9 /* PreHuntStatusBarView.swift */,
+				29EC9E022C593FDF005CC3C9 /* HuntStatusBarView.swift */,
+			);
+			path = StatusBarViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,18 +276,20 @@
 				297C19812C51501300AEFE14 /* MapView.swift in Sources */,
 				29D229392C53F57600C3CDAF /* ContentView.swift in Sources */,
 				29D229212C52FB4000C3CDAF /* NavigationModel.swift in Sources */,
+				29EC9E032C593FDF005CC3C9 /* HuntStatusBarView.swift in Sources */,
 				29D229192C52ECC400C3CDAF /* CaliperModel.swift in Sources */,
 				29D229152C526D6B00C3CDAF /* CrossHairView.swift in Sources */,
+				29EC9DFF2C593D2D005CC3C9 /* StatusBarView.swift in Sources */,
 				29D2292B2C531D8000C3CDAF /* AppManagementView.swift in Sources */,
 				29D229272C530D7800C3CDAF /* SettingsView.swift in Sources */,
 				29D229332C534B0F00C3CDAF /* HuntInfoModel.swift in Sources */,
 				29D229442C550BC600C3CDAF /* StartingClueView.swift in Sources */,
+				29EC9E012C593F5C005CC3C9 /* PreHuntStatusBarView.swift in Sources */,
 				29D2291F2C52FA8200C3CDAF /* LocationDeniedView.swift in Sources */,
 				29D2293E2C54A42500C3CDAF /* PossibleClueView.swift in Sources */,
 				29D2291B2C52EE4300C3CDAF /* ControlsView.swift in Sources */,
 				29D229462C550D8600C3CDAF /* JackAssSiteView.swift in Sources */,
 				29D229372C53E62C00C3CDAF /* TimerModel.swift in Sources */,
-				29D229312C53217A00C3CDAF /* HuntStatusView.swift in Sources */,
 				29D2290B2C516BBF00C3CDAF /* MapModel.swift in Sources */,
 				29D2290D2C51B06E00C3CDAF /* SiteMarkerModel.swift in Sources */,
 				29D229092C515DE600C3CDAF /* GridModel.swift in Sources */,

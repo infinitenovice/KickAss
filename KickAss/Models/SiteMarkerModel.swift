@@ -18,6 +18,7 @@ class SiteMarkerModel {
     var stickerCount: Int = 0
     var monogramLetterIndex: Int = 0
     var startingClueSet: Bool = false
+    var showRangeRadius: Bool = true
     
     struct SiteMarker: Identifiable, Codable {
         var id: Int                         = 0
