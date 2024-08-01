@@ -35,13 +35,6 @@ class TimerModel {
     }
     func updateTimers() {
         let timeNow: Date = .now
-        if timeNow < huntStartTime {
-            huntState = .NotStarted
-        } else if timeNow < checkInTime {
-            huntState = .InProgress
-        } else {
-            huntState = .Ended
-        }
         if huntState != .Ended {
             huntTimeElapsed = calendar.dateComponents([.second], from: huntStartTime, to: timeNow).second ?? 0
             if huntTimeElapsed == 0 {
@@ -50,6 +43,13 @@ class TimerModel {
             if clueTimerActive {
                 clueTimeElapsed = calendar.dateComponents([.second], from: clueStartTime, to: timeNow).second ?? 0
             }
+        }
+        if timeNow < huntStartTime {
+            huntState = .NotStarted
+        } else if timeNow < checkInTime {
+            huntState = .InProgress
+        } else {
+            huntState = .Ended
         }
     }
     func checkIn() {
@@ -69,7 +69,7 @@ class TimerModel {
     }
     func setFirstClueArrivalTime() {
         firstClueArrivalTime = .now
-        clueTimeElapsed = 0
+        resetClueTimer()
     }
     func penaltyTime() -> Int {
         if huntTimeElapsed > HuntDuration {

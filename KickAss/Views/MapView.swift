@@ -51,10 +51,10 @@ struct MapView: View {
                             .foregroundColor(Color.blue)
                     }
                     .tag(NOT_SELECTABLE)
-                    let pointOnCircle: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: calliperMarker.center.latitude, longitude: calliperMarker.center.longitude+calliperMarker.radius*DegreesPerMeterLon)
+                    let pointOnCircle: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: calliperMarker.center.latitude, longitude: calliperMarker.center.longitude+calliperMarker.radius*DEGREES_PER_METER_LON)
                     MapPolyline(coordinates: [calliperMarker.center,pointOnCircle]).stroke(.blue, lineWidth: 2)
                     Annotation("",coordinate: pointOnCircle) {
-                        Text(String(Int(calliperMarker.radius*FeetPerMeter))+" ft")
+                        Text(String(Int(calliperMarker.radius*FEET_PER_METER))+" ft")
                             .foregroundColor(Color.white)
                             .font(.footnote)
                     }
@@ -89,7 +89,7 @@ struct MapView: View {
                         if siteMarkerModel.validMarker(markerIndex: marker){
                             if siteMarkerModel.markers[marker].type == .FoundClueSite {
                                 let center = CLLocationCoordinate2D(latitude: siteMarkerModel.markers[marker].latitude, longitude: siteMarkerModel.markers[marker].longitude)
-                                MapCircle(center: center, radius: 5*MetersPerMile)
+                                MapCircle(center: center, radius: siteMarkerModel.rangeRadius*METERS_PER_MILE)
                                     .foregroundStyle(.blue.opacity(0.2))
                             }
                         }

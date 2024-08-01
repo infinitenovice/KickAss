@@ -39,7 +39,7 @@ class NavigationModel {
         trackingEnabled = true
         trackHistoryPolyline = []
         trackHistoryData = []
-        showTrackHistory = true
+        showTrackHistory = false
         
         loadTrackHistory()
     }
@@ -97,7 +97,7 @@ class NavigationModel {
                     if point.longitude < minLon {minLon = point.longitude}
                 }
             }
-            var region: MKCoordinateRegion = GridRegion
+            var region: MKCoordinateRegion = GRID_REGION
 
             region.span = MKCoordinateSpan(latitudeDelta: (maxLat-minLat)*1.1, longitudeDelta: (maxLon-minLon)*1.1)
             region.center = CLLocationCoordinate2D(latitude: (maxLat-minLat)/2+minLat, longitude: (maxLon-minLon)/2+minLon)
@@ -159,9 +159,9 @@ class NavigationModel {
             }
     }
     func loadTrackHistory() {
-        if FileManager().fileExists(atPath: trackHistoryURL.path) {
+        if FileManager().fileExists(atPath: TRACK_HISTORY_URL.path) {
             do {
-                let jsonData = try Data(contentsOf: trackHistoryURL)
+                let jsonData = try Data(contentsOf: TRACK_HISTORY_URL)
                 let data = try JSONDecoder().decode([TrackPoint].self, from: jsonData)
                 trackHistoryData = data
                 print("Loaded Track History:",trackHistoryData.count)
@@ -177,7 +177,7 @@ class NavigationModel {
     func saveTrackHistory() {
         do {
             let data = try JSONEncoder().encode(trackHistoryData)
-            try data.write(to: trackHistoryURL)
+            try data.write(to: TRACK_HISTORY_URL)
         } catch {
             print(error)
         }
@@ -186,7 +186,7 @@ class NavigationModel {
         trackHistoryData.removeAll()
         trackHistoryPolyline.removeAll()
         do {
-            try FileManager.default.removeItem(at: trackHistoryURL)
+            try FileManager.default.removeItem(at: TRACK_HISTORY_URL)
         } catch {
             print(error)
         }

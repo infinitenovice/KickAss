@@ -9,7 +9,7 @@
 import SwiftUI
 import MapKit
 
-struct ControlsView: View {
+struct ControlButtonsView: View {
     @Environment(MapModel.self) var mapModel
     @Environment(CalliperModel.self) var calliperModel
     @Environment(HuntInfoModel.self) var huntInfoModel
@@ -44,7 +44,7 @@ struct ControlsView: View {
                                     if let radius = Double(input) {
                                         if radius < 0.002 {
                                             clearCount += 1
-                                            if clearCount == 3 {
+                                            if clearCount == CALLIPER_CLEAR_CLICKS {
                                                 calliperModel.clearMarkers()
                                             }
                                         } else {
@@ -85,7 +85,7 @@ struct ControlsView: View {
     let huntInfoModel = HuntInfoModel()
     let calliperModel = CalliperModel()
     let mapModel = MapModel()
-    return ControlsView()
+    return ControlButtonsView()
         .environment(huntInfoModel)
         .environment(calliperModel)
         .environment(mapModel)

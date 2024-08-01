@@ -18,7 +18,7 @@ struct ScrollButtonView: View {
                 LazyHStack {
                     Button {
                         
-                        } label: {Text("Found (Solved)")}
+                        } label: {Text("Found")}
                             .frame(width: 220, height: 50)
                             .buttonStyle(.borderedProminent)
                             .tint(.mapButton)
@@ -26,7 +26,7 @@ struct ScrollButtonView: View {
                             .foregroundColor(.white)
                     Button {
                         
-                        } label: {Text("Found (Emergency)")}
+                        } label: {Text("Emergency")}
                             .frame(width: 220, height: 50)
                             .buttonStyle(.borderedProminent)
                             .tint(.mapButton)

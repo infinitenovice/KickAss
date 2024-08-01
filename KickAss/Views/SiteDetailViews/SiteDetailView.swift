@@ -33,10 +33,10 @@ struct SiteDetailView: View {
                                 isShowingMessages = true
                                 } label: {Image(systemName: "square.and.arrow.up")}
                                 .sheet(isPresented: self.$isShowingMessages) {
-                                    MessageSender(recipients: huntInfoModel.phoneList,
+                                    MessageSender(recipients: huntInfoModel.phoneList(),
                                                   message: "http://maps.apple.com/?ll="+String(siteMarkerModel.markers[markerIndex].latitude)+","+String(siteMarkerModel.markers[markerIndex].longitude))
-                                    .ignoresSafeArea()
                                 }
+
                             Spacer()
                             Button {
                                 navigationModel.targetDestination = MKPlacemark(coordinate:  CLLocationCoordinate2D(latitude: siteMarkerModel.markers[markerIndex].latitude, longitude: siteMarkerModel.markers[markerIndex].longitude))                            } label: {Image(systemName: "car.circle")}
@@ -78,7 +78,7 @@ struct SiteDetailView: View {
     let mapModel = MapModel()
     let siteMarkerModel = SiteMarkerModel()
     let navigationModel = NavigationModel()
-    siteMarkerModel.newMarker(location: GridCenter)
+    siteMarkerModel.newMarker(location: GRID_CENTER)
     siteMarkerModel.selection = 0
     return SiteDetailView(markerIndex: 0)
         .environment(siteMarkerModel)

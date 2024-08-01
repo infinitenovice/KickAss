@@ -12,25 +12,23 @@ import SwiftUI
 class MapModel {
     var camera: MapCameraPosition
     var markerSelection: Int?
-    let maxZoom: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 0.0, longitudeDelta: 0.0)
-    let gridCellZoom: MKCoordinateSpan = MKCoordinateSpan(latitudeDelta: 1.25*GridCellHeightDegrees, longitudeDelta: 1.25*GridCellWidthDegrees)
 
     init() {
-        camera = .region(GridRegion)
+        camera = .region(GRID_REGION)
         self.markerSelection = nil
     }
     
     func region() -> MKCoordinateRegion {
-        return camera.region ?? GridRegion
+        return camera.region ?? GRID_REGION
     }
     
     func gridZoom() {
         withAnimation {
             var region = self.region()
-            if region.span.longitudeDelta == GridRegion.span.longitudeDelta {
-                self.camera = .region(GridRegion)
+            if region.span.longitudeDelta == GRID_REGION.span.longitudeDelta {
+                self.camera = .region(GRID_REGION)
             } else {
-                region.span = GridRegion.span
+                region.span = GRID_REGION.span
                 self.camera = .region(region)
             }
         }

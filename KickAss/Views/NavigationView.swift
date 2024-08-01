@@ -19,7 +19,7 @@ struct NavigationView: View {
                 Spacer(minLength: 500)
                 VStack {
                     HStack {
-                        Text(String(Int((navigationModel.stepRemainingDistance ?? 0)*FeetPerMeter))+" ft")
+                        Text(String(Int((navigationModel.stepRemainingDistance ?? 0)*FEET_PER_METER))+" ft")
                             .frame(width: 190, alignment: .leading)
                             .padding()
                         Spacer()

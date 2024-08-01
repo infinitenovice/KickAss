@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct StartingClueView: View {
     let markerIndex: Int
@@ -18,10 +19,15 @@ struct StartingClueView: View {
 
         VStack{
             List {
-                Text("Starting Clue Site")
-                Picker("Clue Letter", selection: $siteMarkerModel.markers[markerIndex].monogram) {
-                    ForEach(siteMarkerModel.ClueLetterMonograms, id: \.self) { item in
-                        Text(item)
+                if timerModel.firstClueArrivalTime < .now {
+                    Text("Clue \(siteMarkerModel.markers[markerIndex].monogram)")
+                    Text("Starting Clue Site Found")
+                } else {
+                    Text("Starting Clue Site")
+                    Picker("Clue Letter", selection: $siteMarkerModel.markers[markerIndex].monogram) {
+                        ForEach(siteMarkerModel.ClueLetterMonograms, id: \.self) { item in
+                            Text(item)
+                        }
                     }
                 }
             }//List
@@ -29,11 +35,15 @@ struct StartingClueView: View {
             .frame(width: 300,height: 90)
             .listStyle(.plain)
             .cornerRadius(15)
-            if siteMarkerModel.markers[markerIndex].monogram != "?" && !siteMarkerModel.startingClueSet {
+            if .now < timerModel.firstClueArrivalTime {
                 Button {
-                    timerModel.setFirstClueArrivalTime()
-                    siteMarkerModel.markStartingClue(monogram: siteMarkerModel.markers[markerIndex].monogram)
-                } label: {Text("Arrived")}
+                    if siteMarkerModel.markers[markerIndex].monogram != "?" && !siteMarkerModel.startingClueSet {
+                        timerModel.setFirstClueArrivalTime()
+                        siteMarkerModel.markStartingClue(monogram: siteMarkerModel.markers[markerIndex].monogram)
+                    } else {
+                        AudioServicesPlaySystemSound(SystemSoundID(BUTTON_ERROR_SOUND))
+                    }
+                } label: {Text("Found")}
                     .frame(width: 220, height: 50)
                     .buttonStyle(.borderedProminent)
                     .tint(.mapButton)
@@ -47,7 +57,7 @@ struct StartingClueView: View {
 #Preview {
     let siteMarkerModel = SiteMarkerModel()
     let timerModel = TimerModel()
-    siteMarkerModel.newMarker(location: GridCenter)
+    siteMarkerModel.newMarker(location: GRID_CENTER)
     siteMarkerModel.selection = 0
     return StartingClueView(markerIndex: 0)
         .environment(siteMarkerModel)

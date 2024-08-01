@@ -38,15 +38,18 @@ struct MapButtonsView: View {
     func sparkleZoom() {
         withAnimation {
             var region = mapModel.region()
-
+            region.span = GRID_CELL_ZOOM
+            
             if let routeRegion = navigationModel.routeRegion() {
                 region = routeRegion
             } else {
                 if let selection = siteMarkerModel.selection {
-                    region.center = CLLocationCoordinate2D(latitude: siteMarkerModel.markers[selection].latitude, longitude: siteMarkerModel.markers[selection].longitude)
-                    region.span = mapModel.maxZoom
-                } else {
-                    region.span = mapModel.gridCellZoom
+                    if siteMarkerModel.validMarker(markerIndex: selection) {
+                        region.center = CLLocationCoordinate2D(latitude: siteMarkerModel.markers[selection].latitude, longitude: siteMarkerModel.markers[selection].longitude)
+                        if siteMarkerModel.markers[selection].type == .FoundClueSite {
+                            region.span = SEARCH_ZOOM_REGION
+                        }
+                    }
                 }
             }
             mapModel.camera = .region(region)

@@ -37,7 +37,7 @@ struct HuntEditView: View {
                 }
             }
         }
-        .font(.title)
+        .font(.title2)
         .padding()
     }
     

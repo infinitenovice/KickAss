@@ -38,7 +38,7 @@ struct JackAssSiteView: View {
 
 #Preview {
     let siteMarkerModel = SiteMarkerModel()
-    siteMarkerModel.newMarker(location: GridCenter)
+    siteMarkerModel.newMarker(location: GRID_CENTER)
     siteMarkerModel.selection = 0
     return JackAssSiteView(markerIndex: 0)
         .environment(siteMarkerModel)

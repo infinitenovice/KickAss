@@ -10,7 +10,6 @@ import Foundation
 @Observable
 class HuntInfoModel {
     var huntInfo = HuntInfo()
-    var phoneList: [String]         = []
     
     init() {
         self.load()
@@ -22,6 +21,7 @@ class HuntInfoModel {
         var teamName: String = ""
         var carNumber: String = ""
         var teamMembers: [TeamMember] = [TeamMember(),TeamMember(),TeamMember(),TeamMember(),TeamMember(),TeamMember()]
+        var smsFowardingEnabled: Bool = false
     }
     struct TeamMember: Identifiable, Codable, Hashable {
         var id = UUID().uuidString
@@ -29,20 +29,25 @@ class HuntInfoModel {
         var phoneNumber: String = ""
         var iPhone: Bool = false
     }
-    func updatePhoneList() {
+    func phoneList() -> [String] {
+        var phoneList: [String] = []
         for member in 0..<huntInfo.teamMembers.count {
-            if (huntInfo.teamMembers[member].phoneNumber != "") && (huntInfo.teamMembers[member].iPhone)  {
-                phoneList.append(huntInfo.teamMembers[member].phoneNumber)
+            if (huntInfo.teamMembers[member].phoneNumber != "")  {
+                if huntInfo.smsFowardingEnabled { //send to all team members
+                    phoneList.append(huntInfo.teamMembers[member].phoneNumber)
+                } else if huntInfo.teamMembers[member].iPhone { //send only to team member with iPhones
+                    phoneList.append(huntInfo.teamMembers[member].phoneNumber)
+                }
             }
         }
+        return phoneList
     }
     func load() {
-        if FileManager().fileExists(atPath: huntInfoURL.path) {
+        if FileManager().fileExists(atPath: HUNT_INFO_URL.path) {
             do {
-                let jsonData = try Data(contentsOf: huntInfoURL)
+                let jsonData = try Data(contentsOf: HUNT_INFO_URL)
                 let data = try JSONDecoder().decode(HuntInfo.self, from: jsonData)
                 huntInfo = data
-                updatePhoneList()
             } catch {
                 print(error)
             }
@@ -51,8 +56,7 @@ class HuntInfoModel {
     func save() {
         do {
             let data = try JSONEncoder().encode(huntInfo)
-            try data.write(to: huntInfoURL)
-            updatePhoneList()
+            try data.write(to: HUNT_INFO_URL)
         } catch {
             print(error)
         }

@@ -70,7 +70,7 @@ struct HuntStatusBarView: View {
         } else {
             stickerCount = 0
         }
-        return String(format: "F%1d-E%1d-%2.1f",stickerCount,emergencies,aveClueTime)
+        return String(format: "F%1d E%1d %2.1f",stickerCount,emergencies,aveClueTime)
 
     }
 }

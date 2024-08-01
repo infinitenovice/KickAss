@@ -15,11 +15,11 @@ struct FoundClueView: View {
     var body: some View {
         VStack{
             List {
-                Text("Found:  Clue \(siteMarkerModel.markers[markerIndex].monogram)")
-                Text("Method: \(siteMarkerModel.markers[markerIndex].method.rawValue)")
+                Text("Clue \(siteMarkerModel.markers[markerIndex].monogram)")
+                Text(siteMarkerModel.markers[markerIndex].method.rawValue)
             }//List
             .font(.title2)
-            .frame(width: 300,height: 90)
+            .frame(width: 300,height: 90,alignment: .center)
             .listStyle(.plain)
             .cornerRadius(15)
             Button {
@@ -37,7 +37,7 @@ struct FoundClueView: View {
 
 #Preview {
     let siteMarkerModel = SiteMarkerModel()
-    siteMarkerModel.newMarker(location: GridCenter)
+    siteMarkerModel.newMarker(location: GRID_CENTER)
     siteMarkerModel.selection = 0
     return FoundClueView(markerIndex: 0)
         .environment(siteMarkerModel)

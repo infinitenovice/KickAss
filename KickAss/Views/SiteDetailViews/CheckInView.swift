@@ -19,7 +19,7 @@ struct CheckInView: View {
             .frame(width: 300,height: 90)
             .listStyle(.plain)
             .cornerRadius(15)
-            if timerModel.checkInTime > .now {
+            if .now < timerModel.checkInTime {
                 Button {
                     timerModel.checkIn()
                 } label: {Text("Check In")}

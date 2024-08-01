@@ -8,10 +8,7 @@
 import SwiftUI
 import MapKit
 
-//- App icon
 //- App start page
-//- add heading indicator
-//- add next clue radius benchmark
 //- hunt data archiving
 
 struct ContentView: View {
@@ -27,7 +24,7 @@ struct ContentView: View {
             MapView()
             MapButtonsView()
             CrossHairView()
-            ControlsView()
+            ControlButtonsView()
             StatusBarView()
             if navigationModel.navigationInProgress() {
                 NavigationView()
@@ -54,9 +51,11 @@ struct ContentView: View {
         .onChange(of: timerModel.huntState) { oldValue, newValue in
             if newValue == TimerModel.HuntState.InProgress {
                 navigationModel.trackingEnabled = true
+                timerModel.resetClueTimer()
                 print("Tracking on")
             } else {
                 navigationModel.trackingEnabled = false
+                timerModel.stopClueTimer()
                 print("Tracking off")
 
             }

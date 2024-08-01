@@ -7,6 +7,7 @@
 
 import CoreLocation
 import SwiftUI
+import AVFoundation
 
 @Observable
 class SiteMarkerModel {
@@ -19,6 +20,7 @@ class SiteMarkerModel {
     var monogramLetterIndex: Int = 0
     var startingClueSet: Bool = false
     var showRangeRadius: Bool = true
+    var rangeRadius: Double = SEARCH_RADIUS
     
     struct SiteMarker: Identifiable, Codable {
         var id: Int                         = 0
@@ -38,9 +40,8 @@ class SiteMarkerModel {
     }
     enum MethodFound: String, Codable, CaseIterable {
         case NotFound           = "Possible Clue Site"
-        case Solved             = "Solved Clue"
+        case Found             = "Clue Site Found"
         case Emergency          = "Pulled Emergency"
-        case OutOfOrder         = "Out Of Order"
     }
     let ClueLetterMonograms: [String] = [
         "?","A","B","C","D","E","F","G","H","I","J","K","L","M",
@@ -111,6 +112,8 @@ class SiteMarkerModel {
             markers[markerIndex].method = method
             setNextMonogramLetter(monogram: markers[markerIndex].monogram)
             updateStats()
+        } else {
+            AudioServicesPlaySystemSound(SystemSoundID(BUTTON_ERROR_SOUND))
         }
     }
     func markerColor(marker: SiteMarker) -> Color {
@@ -125,12 +128,10 @@ class SiteMarkerModel {
             return Color.red
         case .FoundClueSite:
             switch marker.method {
-            case .Solved:
+            case .Found:
                 return Color.blue
             case .Emergency:
                 return Color.yellow
-            case .OutOfOrder:
-                return Color.green
             case .NotFound:
                 return Color.white
             }
@@ -144,9 +145,9 @@ class SiteMarkerModel {
         load()
     }
     func load() {
-        if FileManager().fileExists(atPath: SiteMarkersURL.path) {
+        if FileManager().fileExists(atPath: SITE_MARKERS_URL.path) {
             do {
-                let jsonData = try Data(contentsOf: SiteMarkersURL)
+                let jsonData = try Data(contentsOf: SITE_MARKERS_URL)
                 let data = try JSONDecoder().decode([SiteMarker].self, from: jsonData)
                 markers = data
             } catch {
@@ -155,15 +156,15 @@ class SiteMarkerModel {
         }
         if markers.isEmpty {
             print("creating required markers")
-            newMarker(type: .CheckInSite, location: WestWorld, monogram: "WW")
-            newMarker(type: .StartClueSite, location: GridCenter, monogram: "?")
+            newMarker(type: .CheckInSite, location: CHECK_IN_SITE, monogram: CHECK_IN_MONOGRAM)
+            newMarker(type: .StartClueSite, location: GRID_CENTER, monogram: "?")
         }
         updateStats()
     }
     func save() {
         do {
             let data = try JSONEncoder().encode(markers)
-            try data.write(to: SiteMarkersURL)
+            try data.write(to: SITE_MARKERS_URL)
         } catch {
             print(error)
         }

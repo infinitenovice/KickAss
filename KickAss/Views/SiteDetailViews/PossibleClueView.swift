@@ -34,9 +34,9 @@ struct PossibleClueView: View {
             ScrollView(.horizontal) {
                 LazyHStack {
                     Button {
-                        siteMarkerModel.markSiteFound(markerIndex: markerIndex, method: .Solved)
+                        siteMarkerModel.markSiteFound(markerIndex: markerIndex, method: .Found)
                         timerModel.resetClueTimer()
-                        } label: {Text("Found (Solved)")}
+                        } label: {Text("Found")}
                             .frame(width: 220, height: 50)
                             .buttonStyle(.borderedProminent)
                             .tint(.mapButton)
@@ -45,16 +45,7 @@ struct PossibleClueView: View {
                     Button {
                         siteMarkerModel.markSiteFound(markerIndex: markerIndex, method: .Emergency)
                         timerModel.resetClueTimer()
-                        } label: {Text("Found (Emergency)")}
-                            .frame(width: 220, height: 50)
-                            .buttonStyle(.borderedProminent)
-                            .tint(.mapButton)
-                            .font(.title3)
-                            .foregroundColor(.white)
-                    Button {
-                        siteMarkerModel.markSiteFound(markerIndex: markerIndex, method: .OutOfOrder)
-                        timerModel.resetClueTimer()
-                        } label: {Text("Found (Out of Order)")}
+                        } label: {Text("Emergency")}
                             .frame(width: 220, height: 50)
                             .buttonStyle(.borderedProminent)
                             .tint(.mapButton)
@@ -92,7 +83,7 @@ struct PossibleClueView: View {
 #Preview {
     let timerModel = TimerModel()
     let siteMarkerModel = SiteMarkerModel()
-    siteMarkerModel.newMarker(location: GridCenter)
+    siteMarkerModel.newMarker(location: GRID_CENTER)
     siteMarkerModel.selection = 0
     return PossibleClueView(markerIndex: 0)
         .environment(siteMarkerModel)
