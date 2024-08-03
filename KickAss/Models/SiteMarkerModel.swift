@@ -82,6 +82,7 @@ class SiteMarkerModel {
                 marker.monogram = ClueLetterMonograms[monogramLetterIndex]
             }
         markers.append(marker)
+        selection = marker.id
         save()
     }
     func selectedMarkerCoordinates() -> CLLocationCoordinate2D? {

@@ -55,6 +55,7 @@ struct PossibleClueView: View {
                         siteMarkerModel.markers[markerIndex].type = .JackassSite
                         siteMarkerModel.markers[markerIndex].method = .NotFound
                         siteMarkerModel.markers[markerIndex].monogram = "JA"
+                         siteMarkerModel.selection = nil
                         } label: {Text("Jackass!")}
                             .frame(width: 220, height: 50)
                             .buttonStyle(.borderedProminent)
@@ -64,7 +65,8 @@ struct PossibleClueView: View {
                     Button {
                         siteMarkerModel.markers[markerIndex].deleted = true
                         siteMarkerModel.markers[markerIndex].method = .NotFound
-                        siteMarkerModel.markers[markerIndex].monogram = ""
+                        siteMarkerModel.markers[markerIndex].monogram = "?"
+                        siteMarkerModel.selection = nil
                         } label: {Text("Delete")}
                             .frame(width: 220, height: 50)
                             .buttonStyle(.borderedProminent)
@@ -74,7 +76,6 @@ struct PossibleClueView: View {
                 }
                 .scrollTargetLayout()
             }
-//            .contentMargins(16, for: .scrollContent)
             .scrollTargetBehavior(.viewAligned)
         }.frame(width: 230, height: 70)
     }

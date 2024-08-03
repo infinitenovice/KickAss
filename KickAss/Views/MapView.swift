@@ -25,7 +25,6 @@ struct MapView: View {
         MapReader { proxy in
             Map(position: $mapModel.camera, selection: $siteMarkerModel.selection) {
                 UserAnnotation()
-//                UserAnnotation(content:{Image(systemName: "location.fill").rotationEffect(Angle(degrees: locationManager.heading+45))})
                 ForEach(gridModel.lines) {gridline in
                     MapPolyline(coordinates: gridline.points).stroke(.white, lineWidth: 1)
                 }
@@ -87,7 +86,7 @@ struct MapView: View {
                 if siteMarkerModel.showRangeRadius {
                     if let marker = siteMarkerModel.selection {
                         if siteMarkerModel.validMarker(markerIndex: marker){
-                            if siteMarkerModel.markers[marker].type == .FoundClueSite {
+                            if siteMarkerModel.markers[marker].type == .FoundClueSite || (siteMarkerModel.markers[marker].type == .StartClueSite && siteMarkerModel.startingClueSet) {
                                 let center = CLLocationCoordinate2D(latitude: siteMarkerModel.markers[marker].latitude, longitude: siteMarkerModel.markers[marker].longitude)
                                 MapCircle(center: center, radius: siteMarkerModel.rangeRadius*METERS_PER_MILE)
                                     .foregroundStyle(.blue.opacity(0.2))

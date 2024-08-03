@@ -12,8 +12,8 @@ let CHECK_IN_MONOGRAM = "WW" //West World
 let SEARCH_RADIUS = 4.0
 
 // Grid Configuration
-let GRID_CENTER: CLLocationCoordinate2D = CLLocationCoordinate2D (latitude: 34.24336, longitude: -110.08219)  // Show Low
-//let GRID_CENTER: CLLocationCoordinate2D = CLLocationCoordinate2D (latitude: 33.75500, longitude: -111.96700)
+//let GRID_CENTER: CLLocationCoordinate2D = CLLocationCoordinate2D (latitude: 34.24336, longitude: -110.08219)  // Show Low
+let GRID_CENTER: CLLocationCoordinate2D = CLLocationCoordinate2D (latitude: 33.75500, longitude: -111.96700)
 let GRID_REGION = MKCoordinateRegion(center: GRID_CENTER, latitudinalMeters: GRID_HEIGHT_METERS+3*METERS_PER_MILE, longitudinalMeters: GRID_WIDTH_METERS+3*METERS_PER_MILE)
 let GRID_ROWS = 16
 let GRID_COLUMNS = 20

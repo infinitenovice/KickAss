@@ -25,7 +25,8 @@ struct JackAssSiteView: View {
             Button {
                 siteMarkerModel.markers[markerIndex].deleted = true
                 siteMarkerModel.markers[markerIndex].method = .NotFound
-                siteMarkerModel.markers[markerIndex].monogram = ""
+                siteMarkerModel.markers[markerIndex].monogram = "?"
+                siteMarkerModel.selection = nil
             } label: {Text("Delete")}
                 .frame(width: 220, height: 50)
                 .buttonStyle(.borderedProminent)
