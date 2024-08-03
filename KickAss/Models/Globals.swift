@@ -9,6 +9,7 @@ import MapKit
 // Hunt configuration
 let CHECK_IN_SITE = CLLocationCoordinate2D(latitude: 33.63203, longitude: -111.88011)  //West World
 let CHECK_IN_MONOGRAM = "WW" //West World
+let CHECK_IN_TITLE = "West World"
 let SEARCH_RADIUS = 4.0
 
 // Grid Configuration

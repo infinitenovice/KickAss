@@ -36,7 +36,7 @@ struct MapView: View {
                 }
                 ForEach(siteMarkerModel.markers) { marker in
                     if !marker.deleted {
-                        Marker("", monogram: Text(marker.monogram), coordinate: CLLocationCoordinate2D(latitude: marker.latitude, longitude: marker.longitude))
+                        Marker(marker.title, monogram: Text(marker.monogram), coordinate: CLLocationCoordinate2D(latitude: marker.latitude, longitude: marker.longitude))
                             .tag(marker.id)
                             .tint(siteMarkerModel.markerColor(marker: marker))
                     }

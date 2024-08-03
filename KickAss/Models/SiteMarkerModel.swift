@@ -29,6 +29,7 @@ class SiteMarkerModel {
         var longitude: CLLocationDegrees    = 0.0
         var method: MethodFound             = .NotFound
         var monogram: String                = ""
+        var title: String                   = ""
         var deleted: Bool                   = false
     }
     enum SiteType: Codable {
@@ -69,14 +70,15 @@ class SiteMarkerModel {
         startingClueSet = true
         setNextMonogramLetter(monogram: monogram)
     }
-    func newMarker(type: SiteType = .PossibleClueSite, location: CLLocationCoordinate2D, monogram: String = "?") {
+    func newMarker(type: SiteType = .PossibleClueSite, location: CLLocationCoordinate2D, monogram: String = "?", title: String = "") {
         var marker: SiteMarker = SiteMarker(
             id:             markers.count,
             type:           type,
             latitude:       location.latitude,
             longitude:      location.longitude,
             method:         .NotFound,
-            monogram:       monogram
+            monogram:       monogram,
+            title:          title
             )
             if startingClueSet {
                 marker.monogram = ClueLetterMonograms[monogramLetterIndex]

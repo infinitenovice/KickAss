@@ -52,12 +52,10 @@ struct ContentView: View {
             if newValue == TimerModel.HuntState.InProgress {
                 navigationModel.trackingEnabled = true
                 timerModel.resetClueTimer()
-                print("Tracking on")
+                siteMarkerModel.selection = 1 //Starting Clue Site
             } else {
                 navigationModel.trackingEnabled = false
                 timerModel.stopClueTimer()
-                print("Tracking off")
-
             }
         }
     }
