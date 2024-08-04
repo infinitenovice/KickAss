@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CheckInView: View {
     @Environment (TimerModel.self) var timerModel
-    @Environment (SiteMarkerModel.self) var siteMarkerModel
+    @Environment (MarkerModel.self) var markerModel
     var body: some View {
         VStack{
             List {
@@ -23,7 +23,7 @@ struct CheckInView: View {
             if .now < timerModel.checkInTime {
                 Button {
                     timerModel.checkIn()
-                    siteMarkerModel.selection = nil
+                    markerModel.selection = nil
                 } label: {Text("Check In")}
                     .frame(width: 220, height: 50)
                     .buttonStyle(.borderedProminent)
@@ -37,8 +37,8 @@ struct CheckInView: View {
 
 #Preview {
     let timerModel = TimerModel()
-    let siteMarkerModel = SiteMarkerModel()
+    let markerModel = MarkerModel()
     return CheckInView()
         .environment(timerModel)
-        .environment(siteMarkerModel)
+        .environment(markerModel)
 }

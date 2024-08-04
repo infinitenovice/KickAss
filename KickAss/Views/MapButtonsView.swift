@@ -10,7 +10,7 @@ import MapKit
 
 struct MapButtonsView: View {
     @Environment(MapModel.self) var mapModel
-    @Environment(SiteMarkerModel.self) var siteMarkerModel
+    @Environment(MarkerModel.self) var markerModel
     @Environment(NavigationModel.self) var navigationModel
 
     var body: some View {
@@ -24,7 +24,7 @@ struct MapButtonsView: View {
                     sparkleZoom()
                     } label: {Image(systemName: "sparkle.magnifyingglass")}
                 Button {
-                    siteMarkerModel.newMarker(location: mapModel.region().center)
+                    markerModel.newMarker(location: mapModel.region().center)
                     } label: {Image(systemName: "mappin.circle")}
                 Spacer()
             }//VStack
@@ -43,10 +43,10 @@ struct MapButtonsView: View {
             if let routeRegion = navigationModel.routeRegion() {
                 region = routeRegion
             } else {
-                if let selection = siteMarkerModel.selection {
-                    if siteMarkerModel.validMarker(markerIndex: selection) {
-                        region.center = CLLocationCoordinate2D(latitude: siteMarkerModel.markers[selection].latitude, longitude: siteMarkerModel.markers[selection].longitude)
-                        if siteMarkerModel.markers[selection].type == .FoundClueSite {
+                if let selection = markerModel.selection {
+                    if markerModel.validMarker(markerIndex: selection) {
+                        region.center = CLLocationCoordinate2D(latitude: markerModel.data.markers[selection].latitude, longitude: markerModel.data.markers[selection].longitude)
+                        if markerModel.data.markers[selection].type == .FoundClueSite || (markerModel.data.markers[selection].type == .StartClueSite && markerModel.data.startingClueSet) {
                             region.span = SEARCH_ZOOM_REGION
                         }
                     }
@@ -66,10 +66,10 @@ extension Color {
 
 #Preview {
     let navigationModel = NavigationModel()
-    let siteMarkerModel = SiteMarkerModel()
+    let markerModel = MarkerModel()
     let mapModel = MapModel()
     return MapButtonsView()
-        .environment(siteMarkerModel)
+        .environment(markerModel)
         .environment(mapModel)
         .environment(navigationModel)
 }

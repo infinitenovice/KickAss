@@ -34,13 +34,13 @@ struct StatusBarView: View {
 }
 
 #Preview {
-    let siteMarkerModel = SiteMarkerModel()
+    let markerModel = MarkerModel()
     let huntInfoModel = HuntInfoModel()
     let timerModel = TimerModel()
     timerModel.huntState = .InProgress
     return StatusBarView()
         .environment(timerModel)
         .environment(huntInfoModel)
-        .environment(siteMarkerModel)
+        .environment(markerModel)
 
 }

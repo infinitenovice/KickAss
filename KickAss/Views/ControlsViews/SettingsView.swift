@@ -23,13 +23,13 @@ struct SettingsView: View {
 }
 
 #Preview {
-    let siteMarkerModel = SiteMarkerModel()
+    let markerModel = MarkerModel()
     let huntInfoModel = HuntInfoModel()
     let navigationModel = NavigationModel()
     let timerModel = TimerModel()
     return SettingsView()
         .environment(huntInfoModel)
-        .environment(siteMarkerModel)
+        .environment(markerModel)
         .environment(navigationModel)
         .environment(timerModel)
 }

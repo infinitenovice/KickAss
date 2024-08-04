@@ -10,17 +10,22 @@ import SwiftUI
 import AVFoundation
 
 @Observable
-class SiteMarkerModel {
+class MarkerModel {
     
-    var markers: [SiteMarker] = []
+    var data: SavedData = SavedData(markers: [], startingClueSet: false, monogramLetterIndex: 0)
+    
     var selection: Int?
     var emergencies: Int = 0
     var sequenceGaps: Int = 0
     var stickerCount: Int = 0
-    var monogramLetterIndex: Int = 0
-    var startingClueSet: Bool = false
     var showRangeRadius: Bool = true
     var rangeRadius: Double = SEARCH_RADIUS
+    
+    struct SavedData : Codable {
+        var markers: [SiteMarker] = []
+        var startingClueSet: Bool = false
+        var monogramLetterIndex: Int = 0
+    }
     
     struct SiteMarker: Identifiable, Codable {
         var id: Int                         = 0
@@ -41,7 +46,7 @@ class SiteMarkerModel {
     }
     enum MethodFound: String, Codable, CaseIterable {
         case NotFound           = "Possible Clue Site"
-        case Found             = "Clue Site Found"
+        case Found              = "Clue Site Found"
         case Emergency          = "Pulled Emergency"
     }
     let ClueLetterMonograms: [String] = [
@@ -49,7 +54,7 @@ class SiteMarkerModel {
         "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
     ]
     func validMarker(markerIndex: Int) -> Bool {
-        if markerIndex >= 0 && markerIndex < markers.count {
+        if markerIndex >= 0 && markerIndex < data.markers.count {
             return true
         } else {
             print("Invalid marker index:",markerIndex)
@@ -59,20 +64,20 @@ class SiteMarkerModel {
     func setNextMonogramLetter (monogram: String) {
         for index in 0..<ClueLetterMonograms.count {
             if ClueLetterMonograms[index] == monogram {
-                monogramLetterIndex = index + 1
-                if monogramLetterIndex == ClueLetterMonograms.count {
-                    monogramLetterIndex = 1  // wrap from Z to A, skip "?"
+                data.monogramLetterIndex = index + 1
+                if data.monogramLetterIndex == ClueLetterMonograms.count {
+                    data.monogramLetterIndex = 1  // wrap from Z to A, skip "?"
                 }
             }
         }
     }
     func markStartingClue(monogram: String) {
-        startingClueSet = true
+        data.startingClueSet = true
         setNextMonogramLetter(monogram: monogram)
     }
     func newMarker(type: SiteType = .PossibleClueSite, location: CLLocationCoordinate2D, monogram: String = "?", title: String = "") {
         var marker: SiteMarker = SiteMarker(
-            id:             markers.count,
+            id:             data.markers.count,
             type:           type,
             latitude:       location.latitude,
             longitude:      location.longitude,
@@ -80,25 +85,25 @@ class SiteMarkerModel {
             monogram:       monogram,
             title:          title
             )
-            if startingClueSet {
-                marker.monogram = ClueLetterMonograms[monogramLetterIndex]
+            if data.startingClueSet {
+                marker.monogram = ClueLetterMonograms[data.monogramLetterIndex]
             }
-        markers.append(marker)
+        data.markers.append(marker)
         selection = marker.id
         save()
     }
     func selectedMarkerCoordinates() -> CLLocationCoordinate2D? {
         if let selectedMarker = selection {
-            return CLLocationCoordinate2D(latitude: markers[selectedMarker].latitude, longitude: markers[selectedMarker].longitude)
+            return CLLocationCoordinate2D(latitude: data.markers[selectedMarker].latitude, longitude: data.markers[selectedMarker].longitude)
         } else {
             return nil
         }
     }
     func monogramValid(monogram: String) -> Bool {
         var markerPreviouslyUsed = false
-        for index in 0..<markers.count {
-            if markers[index].type == .FoundClueSite {
-                if monogram == markers[index].monogram {
+        for index in 0..<data.markers.count {
+            if data.markers[index].type == .FoundClueSite {
+                if monogram == data.markers[index].monogram {
                     markerPreviouslyUsed = true
                 }
             }
@@ -110,10 +115,10 @@ class SiteMarkerModel {
         }
     }
     func markSiteFound(markerIndex: Int, method: MethodFound) {
-        if monogramValid(monogram: markers[markerIndex].monogram) {
-            markers[markerIndex].type = .FoundClueSite
-            markers[markerIndex].method = method
-            setNextMonogramLetter(monogram: markers[markerIndex].monogram)
+        if monogramValid(monogram: data.markers[markerIndex].monogram) {
+            data.markers[markerIndex].type = .FoundClueSite
+            data.markers[markerIndex].method = method
+            setNextMonogramLetter(monogram: data.markers[markerIndex].monogram)
             updateStats()
         } else {
             AudioServicesPlaySystemSound(SystemSoundID(BUTTON_ERROR_SOUND))
@@ -141,9 +146,9 @@ class SiteMarkerModel {
         }
     }
     func deleteAllMarkers() {
-        markers.removeAll()
-        monogramLetterIndex = 0
-        startingClueSet = false
+        data.markers.removeAll()
+        data.monogramLetterIndex = 0
+        data.startingClueSet = false
         save()
         load()
     }
@@ -151,13 +156,13 @@ class SiteMarkerModel {
         if FileManager().fileExists(atPath: SITE_MARKERS_URL.path) {
             do {
                 let jsonData = try Data(contentsOf: SITE_MARKERS_URL)
-                let data = try JSONDecoder().decode([SiteMarker].self, from: jsonData)
-                markers = data
+                let fileData = try JSONDecoder().decode(SavedData.self, from: jsonData)
+                data = fileData
             } catch {
                 print(error)
             }
         }
-        if markers.isEmpty {
+        if data.markers.isEmpty {
             print("creating required markers")
             newMarker(type: .CheckInSite, location: CHECK_IN_SITE, monogram: CHECK_IN_MONOGRAM)
             newMarker(type: .StartClueSite, location: GRID_CENTER, monogram: "?")
@@ -166,8 +171,8 @@ class SiteMarkerModel {
     }
     func save() {
         do {
-            let data = try JSONEncoder().encode(markers)
-            try data.write(to: SITE_MARKERS_URL)
+            let fileData = try JSONEncoder().encode(data)
+            try fileData.write(to: SITE_MARKERS_URL)
         } catch {
             print(error)
         }
@@ -179,16 +184,16 @@ class SiteMarkerModel {
         emergencies = 0
         sequenceGaps = 0
         
-        for index in 0..<markers.count {
-            if markers[index].type == .FoundClueSite {
-                clueStickers.append(markers[index].monogram)
-                if markers[index].method == .Emergency {
+        for index in 0..<data.markers.count {
+            if data.markers[index].type == .FoundClueSite {
+                clueStickers.append(data.markers[index].monogram)
+                if data.markers[index].method == .Emergency {
                     emergencies += 1
                 }
             }
-            if markers[index].type == .StartClueSite {
-                startClueMonogram = markers[index].monogram
-                clueStickers.append(markers[index].monogram)
+            if data.markers[index].type == .StartClueSite {
+                startClueMonogram = data.markers[index].monogram
+                clueStickers.append(data.markers[index].monogram)
             }
         }
         if !clueStickers.isEmpty {

@@ -11,21 +11,21 @@ import AVFoundation
 struct StartingClueView: View {
     let markerIndex: Int
 
-    @Environment(SiteMarkerModel.self) var siteMarkerModel
+    @Environment(MarkerModel.self) var markerModel
     @Environment(TimerModel.self) var timerModel
 
     var body: some View {
-        @Bindable var siteMarkerModel = siteMarkerModel
+        @Bindable var markerModel = markerModel
 
         VStack{
             List {
                 if timerModel.firstClueArrivalTime < .now {
-                    Text("Clue \(siteMarkerModel.markers[markerIndex].monogram)")
+                    Text("Clue \(markerModel.data.markers[markerIndex].monogram)")
                     Text("Starting Clue Site Found")
                 } else {
                     Text("Starting Clue Site")
-                    Picker("Clue Letter", selection: $siteMarkerModel.markers[markerIndex].monogram) {
-                        ForEach(siteMarkerModel.ClueLetterMonograms, id: \.self) { item in
+                    Picker("Clue Letter", selection: $markerModel.data.markers[markerIndex].monogram) {
+                        ForEach(markerModel.ClueLetterMonograms, id: \.self) { item in
                             Text(item)
                         }
                     }
@@ -37,9 +37,9 @@ struct StartingClueView: View {
             .cornerRadius(15)
             if .now < timerModel.firstClueArrivalTime {
                 Button {
-                    if siteMarkerModel.markers[markerIndex].monogram != "?" && !siteMarkerModel.startingClueSet {
+                    if markerModel.data.markers[markerIndex].monogram != "?" && !markerModel.data.startingClueSet {
                         timerModel.setFirstClueArrivalTime()
-                        siteMarkerModel.markStartingClue(monogram: siteMarkerModel.markers[markerIndex].monogram)
+                        markerModel.markStartingClue(monogram: markerModel.data.markers[markerIndex].monogram)
                     } else {
                         AudioServicesPlaySystemSound(SystemSoundID(BUTTON_ERROR_SOUND))
                     }
@@ -55,12 +55,12 @@ struct StartingClueView: View {
 }
 
 #Preview {
-    let siteMarkerModel = SiteMarkerModel()
+    let markerModel = MarkerModel()
     let timerModel = TimerModel()
-    siteMarkerModel.newMarker(location: GRID_CENTER)
-    siteMarkerModel.selection = 0
+    markerModel.newMarker(location: GRID_CENTER)
+    markerModel.selection = 0
     return StartingClueView(markerIndex: 0)
-        .environment(siteMarkerModel)
+        .environment(markerModel)
         .environment(timerModel)
 
 }

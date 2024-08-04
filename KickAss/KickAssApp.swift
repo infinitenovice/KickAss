@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct KickAssApp: App {
     @State private var gridModel        = GridModel()
-    @State private var siteMarkerModel  = SiteMarkerModel()
+    @State private var markerModel  = MarkerModel()
     @State private var mapModel         = MapModel()
     @State private var calliperModel    = CalliperModel()
     @State private var locationManager  = LocationManager()
@@ -27,7 +27,7 @@ struct KickAssApp: App {
             }
         }
         .environment(gridModel)
-        .environment(siteMarkerModel)
+        .environment(markerModel)
         .environment(mapModel)
         .environment(calliperModel)
         .environment(locationManager)

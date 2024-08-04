@@ -10,7 +10,7 @@ import SwiftUI
 struct JackAssSiteView: View {
     var markerIndex: Int
     
-    @Environment(SiteMarkerModel.self) var siteMarkerModel
+    @Environment(MarkerModel.self) var markerModel
 
     
     var body: some View {
@@ -23,10 +23,10 @@ struct JackAssSiteView: View {
             .listStyle(.plain)
             .cornerRadius(15)
             Button {
-                siteMarkerModel.markers[markerIndex].deleted = true
-                siteMarkerModel.markers[markerIndex].method = .NotFound
-                siteMarkerModel.markers[markerIndex].monogram = "?"
-                siteMarkerModel.selection = nil
+                markerModel.data.markers[markerIndex].deleted = true
+                markerModel.data.markers[markerIndex].method = .NotFound
+                markerModel.data.markers[markerIndex].monogram = "?"
+                markerModel.selection = nil
             } label: {Text("Delete")}
                 .frame(width: 220, height: 50)
                 .buttonStyle(.borderedProminent)
@@ -38,9 +38,9 @@ struct JackAssSiteView: View {
 }
 
 #Preview {
-    let siteMarkerModel = SiteMarkerModel()
-    siteMarkerModel.newMarker(location: GRID_CENTER)
-    siteMarkerModel.selection = 0
+    let markerModel = MarkerModel()
+    markerModel.newMarker(location: GRID_CENTER)
+    markerModel.selection = 0
     return JackAssSiteView(markerIndex: 0)
-        .environment(siteMarkerModel)
+        .environment(markerModel)
 }

@@ -12,7 +12,7 @@ struct MapView: View {
     
     @Environment(GridModel.self) var gridModel
     @Environment(MapModel.self) var mapModel
-    @Environment(SiteMarkerModel.self) var siteMarkerModel
+    @Environment(MarkerModel.self) var markerModel
     @Environment(NavigationModel.self) var navigationModel
     @Environment(CalliperModel.self) var calliperModel
     @Environment(LocationManager.self) var locationManager
@@ -20,10 +20,10 @@ struct MapView: View {
     
     var body: some View {
         @Bindable var mapModel = mapModel
-        @Bindable var siteMarkerModel = siteMarkerModel
+        @Bindable var markerModel = markerModel
         
         MapReader { proxy in
-            Map(position: $mapModel.camera, selection: $siteMarkerModel.selection) {
+            Map(position: $mapModel.camera, selection: $markerModel.selection) {
                 UserAnnotation()
                 ForEach(gridModel.lines) {gridline in
                     MapPolyline(coordinates: gridline.points).stroke(.white, lineWidth: 1)
@@ -34,11 +34,11 @@ struct MapView: View {
                     }
                     .tag(NOT_SELECTABLE)
                 }
-                ForEach(siteMarkerModel.markers) { marker in
+                ForEach(markerModel.data.markers) { marker in
                     if !marker.deleted {
                         Marker(marker.title, monogram: Text(marker.monogram), coordinate: CLLocationCoordinate2D(latitude: marker.latitude, longitude: marker.longitude))
                             .tag(marker.id)
-                            .tint(siteMarkerModel.markerColor(marker: marker))
+                            .tint(markerModel.markerColor(marker: marker))
                     }
                 }
                 ForEach(calliperModel.markers) { calliperMarker in
@@ -83,12 +83,12 @@ struct MapView: View {
                     MapPolyline(coordinates: navigationModel.trackHistoryPolyline)
                         .stroke(.green, lineWidth: 6)
                 }
-                if siteMarkerModel.showRangeRadius {
-                    if let marker = siteMarkerModel.selection {
-                        if siteMarkerModel.validMarker(markerIndex: marker){
-                            if siteMarkerModel.markers[marker].type == .FoundClueSite || (siteMarkerModel.markers[marker].type == .StartClueSite && siteMarkerModel.startingClueSet) {
-                                let center = CLLocationCoordinate2D(latitude: siteMarkerModel.markers[marker].latitude, longitude: siteMarkerModel.markers[marker].longitude)
-                                MapCircle(center: center, radius: siteMarkerModel.rangeRadius*METERS_PER_MILE)
+                if markerModel.showRangeRadius {
+                    if let marker = markerModel.selection {
+                        if markerModel.validMarker(markerIndex: marker){
+                            if markerModel.data.markers[marker].type == .FoundClueSite || (markerModel.data.markers[marker].type == .StartClueSite && markerModel.data.startingClueSet) {
+                                let center = CLLocationCoordinate2D(latitude: markerModel.data.markers[marker].latitude, longitude: markerModel.data.markers[marker].longitude)
+                                MapCircle(center: center, radius: markerModel.rangeRadius*METERS_PER_MILE)
                                     .foregroundStyle(.blue.opacity(0.2))
                             }
                         }
@@ -106,7 +106,7 @@ struct MapView: View {
     let huntInfoModel = HuntInfoModel()
     let gridModel = GridModel()
     let mapModel = MapModel()
-    let siteMarkerModel = SiteMarkerModel()
+    let markerModel = MarkerModel()
     let calliperModel = CalliperModel()
     let navigationModel = NavigationModel()
     let locationManager = LocationManager()
@@ -114,7 +114,7 @@ struct MapView: View {
         .environment(huntInfoModel)
         .environment(gridModel)
         .environment(mapModel)
-        .environment(siteMarkerModel)
+        .environment(markerModel)
         .environment(calliperModel)
         .environment(navigationModel)
         .environment(locationManager)

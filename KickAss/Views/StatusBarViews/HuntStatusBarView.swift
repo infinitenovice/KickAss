@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HuntStatusBarView: View {
     @Environment (TimerModel.self) var timerModel
-    @Environment (SiteMarkerModel.self) var siteMarkerModel
+    @Environment (MarkerModel.self) var markerModel
     
     var body: some View {
         HStack {
@@ -29,7 +29,7 @@ struct HuntStatusBarView: View {
             Spacer()
             HStack {
                 Text("Stats")
-                Text(statsString(stickers: siteMarkerModel.stickerCount, emergencies: siteMarkerModel.emergencies, sequenceGaps: siteMarkerModel.sequenceGaps ))
+                Text(statsString(stickers: markerModel.stickerCount, emergencies: markerModel.emergencies, sequenceGaps: markerModel.sequenceGaps ))
             }
             .frame(width: 200, alignment: .trailing)
             .padding(.trailing)
@@ -76,11 +76,11 @@ struct HuntStatusBarView: View {
 }
 
 #Preview {
-    let siteMarkerModel = SiteMarkerModel()
+    let markerModel = MarkerModel()
     let huntInfoModel = HuntInfoModel()
     let timerModel = TimerModel()
     return HuntStatusBarView()
         .environment(huntInfoModel)
         .environment(timerModel)
-        .environment(siteMarkerModel)
+        .environment(markerModel)
 }

@@ -8,12 +8,10 @@
 import SwiftUI
 import MapKit
 
-//- App start page
-//- hunt data archiving
 
 struct ContentView: View {
     @Environment(MapModel.self) var mapModel
-    @Environment(SiteMarkerModel.self) var siteMarkerModel
+    @Environment(MarkerModel.self) var markerModel
     @Environment(NavigationModel.self) var navigationModel
     @Environment(LocationManager.self) var locationManager
     @Environment(TimerModel.self) var timerModel
@@ -29,14 +27,14 @@ struct ContentView: View {
             if navigationModel.navigationInProgress() {
                 NavigationView()
             }
-            if let marker = siteMarkerModel.selection {
-                if siteMarkerModel.validMarker(markerIndex: marker){
+            if let marker = markerModel.selection {
+                if markerModel.validMarker(markerIndex: marker){
                     SiteDetailView(markerIndex: marker)
                 }
             }
         }
         .onAppear() {
-            siteMarkerModel.load()
+            markerModel.load()
             timerModel.setHuntStartTime(start: huntInfoModel.huntInfo.huntStartDate)
         }
         .task(id: navigationModel.targetDestination) {
@@ -52,7 +50,9 @@ struct ContentView: View {
             if newValue == TimerModel.HuntState.InProgress {
                 navigationModel.trackingEnabled = true
                 timerModel.resetClueTimer()
-                siteMarkerModel.selection = 1 //Starting Clue Site
+                if !markerModel.data.startingClueSet {
+                    markerModel.selection = 1 //Starting Clue Site
+                }
             } else {
                 navigationModel.trackingEnabled = false
                 timerModel.stopClueTimer()
@@ -66,7 +66,7 @@ struct ContentView: View {
     let huntInfoModel = HuntInfoModel()
     let gridModel = GridModel()
     let mapModel = MapModel()
-    let siteMarkerModel = SiteMarkerModel()
+    let markerModel = MarkerModel()
     let calliperModel = CalliperModel()
     let navigationModel = NavigationModel()
     let locationManager = LocationManager()
@@ -74,7 +74,7 @@ struct ContentView: View {
         .environment(huntInfoModel)
         .environment(gridModel)
         .environment(mapModel)
-        .environment(siteMarkerModel)
+        .environment(markerModel)
         .environment(calliperModel)
         .environment(navigationModel)
         .environment(locationManager)

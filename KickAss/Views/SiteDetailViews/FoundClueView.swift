@@ -10,21 +10,21 @@ import SwiftUI
 struct FoundClueView: View {
     let markerIndex: Int
 
-    @Environment(SiteMarkerModel.self) var siteMarkerModel
+    @Environment(MarkerModel.self) var markerModel
     
     var body: some View {
         VStack{
             List {
-                Text("Clue \(siteMarkerModel.markers[markerIndex].monogram)")
-                Text(siteMarkerModel.markers[markerIndex].method.rawValue)
+                Text("Clue \(markerModel.data.markers[markerIndex].monogram)")
+                Text(markerModel.data.markers[markerIndex].method.rawValue)
             }//List
             .font(.title2)
             .frame(width: 300,height: 90,alignment: .center)
             .listStyle(.plain)
             .cornerRadius(15)
             Button {
-                siteMarkerModel.markers[markerIndex].type = .PossibleClueSite
-                siteMarkerModel.markers[markerIndex].method = .NotFound
+                markerModel.data.markers[markerIndex].type = .PossibleClueSite
+                markerModel.data.markers[markerIndex].method = .NotFound
             } label: {Text("Edit")}
                 .frame(width: 220, height: 50)
                 .buttonStyle(.borderedProminent)
@@ -36,10 +36,10 @@ struct FoundClueView: View {
 }
 
 #Preview {
-    let siteMarkerModel = SiteMarkerModel()
-    siteMarkerModel.newMarker(location: GRID_CENTER)
-    siteMarkerModel.selection = 0
+    let markerModel = MarkerModel()
+    markerModel.newMarker(location: GRID_CENTER)
+    markerModel.selection = 0
     return FoundClueView(markerIndex: 0)
-        .environment(siteMarkerModel)
+        .environment(markerModel)
 
 }

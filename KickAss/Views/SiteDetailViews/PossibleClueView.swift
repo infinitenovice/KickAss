@@ -10,17 +10,17 @@ import SwiftUI
 struct PossibleClueView: View {
     let markerIndex: Int
 
-    @Environment(SiteMarkerModel.self) var siteMarkerModel
+    @Environment(MarkerModel.self) var markerModel
     @Environment(TimerModel.self) var timerModel
 
     var body: some View {
-        @Bindable var siteMarkerModel = siteMarkerModel
+        @Bindable var markerModel = markerModel
 
         VStack{
             List {
                 Text("Possible Clue Site")
-                Picker("Clue Letter", selection: $siteMarkerModel.markers[markerIndex].monogram) {
-                    ForEach(siteMarkerModel.ClueLetterMonograms, id: \.self) { item in
+                Picker("Clue Letter", selection: $markerModel.data.markers[markerIndex].monogram) {
+                    ForEach(markerModel.ClueLetterMonograms, id: \.self) { item in
                         Text(item)
                     }
                 }
@@ -34,7 +34,7 @@ struct PossibleClueView: View {
             ScrollView(.horizontal) {
                 LazyHStack {
                     Button {
-                        siteMarkerModel.markSiteFound(markerIndex: markerIndex, method: .Found)
+                        markerModel.markSiteFound(markerIndex: markerIndex, method: .Found)
                         timerModel.resetClueTimer()
                         } label: {Text("Found")}
                             .frame(width: 220, height: 50)
@@ -43,7 +43,7 @@ struct PossibleClueView: View {
                             .font(.title3)
                             .foregroundColor(.white)
                     Button {
-                        siteMarkerModel.markSiteFound(markerIndex: markerIndex, method: .Emergency)
+                        markerModel.markSiteFound(markerIndex: markerIndex, method: .Emergency)
                         timerModel.resetClueTimer()
                         } label: {Text("Emergency")}
                             .frame(width: 220, height: 50)
@@ -52,10 +52,10 @@ struct PossibleClueView: View {
                             .font(.title3)
                             .foregroundColor(.white)
                      Button {
-                        siteMarkerModel.markers[markerIndex].type = .JackassSite
-                        siteMarkerModel.markers[markerIndex].method = .NotFound
-                        siteMarkerModel.markers[markerIndex].monogram = "JA"
-                         siteMarkerModel.selection = nil
+                        markerModel.data.markers[markerIndex].type = .JackassSite
+                        markerModel.data.markers[markerIndex].method = .NotFound
+                        markerModel.data.markers[markerIndex].monogram = "JA"
+                         markerModel.selection = nil
                         } label: {Text("Jackass!")}
                             .frame(width: 220, height: 50)
                             .buttonStyle(.borderedProminent)
@@ -63,10 +63,10 @@ struct PossibleClueView: View {
                             .font(.title3)
                             .foregroundColor(.white)
                     Button {
-                        siteMarkerModel.markers[markerIndex].deleted = true
-                        siteMarkerModel.markers[markerIndex].method = .NotFound
-                        siteMarkerModel.markers[markerIndex].monogram = "?"
-                        siteMarkerModel.selection = nil
+                        markerModel.data.markers[markerIndex].deleted = true
+                        markerModel.data.markers[markerIndex].method = .NotFound
+                        markerModel.data.markers[markerIndex].monogram = "?"
+                        markerModel.selection = nil
                         } label: {Text("Delete")}
                             .frame(width: 220, height: 50)
                             .buttonStyle(.borderedProminent)
@@ -83,10 +83,10 @@ struct PossibleClueView: View {
 
 #Preview {
     let timerModel = TimerModel()
-    let siteMarkerModel = SiteMarkerModel()
-    siteMarkerModel.newMarker(location: GRID_CENTER)
-    siteMarkerModel.selection = 0
+    let markerModel = MarkerModel()
+    markerModel.newMarker(location: GRID_CENTER)
+    markerModel.selection = 0
     return PossibleClueView(markerIndex: 0)
-        .environment(siteMarkerModel)
+        .environment(markerModel)
         .environment(timerModel)
 }

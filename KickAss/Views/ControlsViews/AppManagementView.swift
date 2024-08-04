@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct AppManagementView: View {
-    @Environment (SiteMarkerModel.self) var siteMarkerModel
+    @Environment (MarkerModel.self) var markerModel
     @Environment (NavigationModel.self) var navigationModel
     @Environment (TimerModel.self) var timerModel
     @Environment (HuntInfoModel.self) var huntInfoModel
@@ -19,7 +19,7 @@ struct AppManagementView: View {
     var body: some View {
         @Bindable var navigationModel = navigationModel
         @Bindable var timerModel = timerModel
-        @Bindable var siteMarkerModel = siteMarkerModel
+        @Bindable var markerModel = markerModel
         @Bindable var huntInfoModel = huntInfoModel
         Form {
             Section(header: Text("Options/App Management")) {
@@ -30,12 +30,12 @@ struct AppManagementView: View {
                 Toggle(isOn: $navigationModel.showTrackHistory) {
                     Text("Show Track History")
                 }                
-                Toggle(isOn: $siteMarkerModel.showRangeRadius) {
+                Toggle(isOn: $markerModel.showRangeRadius) {
                     Text("Show Range Radius")
                 }
-                if siteMarkerModel.showRangeRadius {
-                    Stepper(value: $siteMarkerModel.rangeRadius, in: 3...5, step: 0.1) {
-                        Text(String(format: "Range Radius %0.1f", siteMarkerModel.rangeRadius))
+                if markerModel.showRangeRadius {
+                    Stepper(value: $markerModel.rangeRadius, in: 3...5, step: 0.1) {
+                        Text(String(format: "Range Radius %0.1f", markerModel.rangeRadius))
                     }
                 }
                 Toggle(isOn: $enableManagement) {
@@ -52,11 +52,11 @@ struct AppManagementView: View {
                             Text("Reset Hunt - CANNOT BE UNDONE!")
                             Spacer()
                             Button {
-                                siteMarkerModel.deleteAllMarkers()
+                                markerModel.deleteAllMarkers()
                                 navigationModel.deleteTrackHistory()
                                 timerModel.checkInTime = .distantFuture
                                 timerModel.firstClueArrivalTime = .distantFuture
-                                siteMarkerModel.startingClueSet = false
+                                markerModel.data.startingClueSet = false
                             } label: {
                                 Text("Reset")
                             }
@@ -73,11 +73,11 @@ struct AppManagementView: View {
 
 #Preview {
     let huntInfoModel = HuntInfoModel()
-    let siteMarkerModel = SiteMarkerModel()
+    let markerModel = MarkerModel()
     let navigationModel = NavigationModel()
     let timerModel = TimerModel()
     return AppManagementView()
-        .environment(siteMarkerModel)
+        .environment(markerModel)
         .environment(navigationModel)
         .environment(timerModel)
         .environment(huntInfoModel)

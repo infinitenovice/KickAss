@@ -11,7 +11,7 @@ import MapKit
 struct SiteDetailView: View {
     let markerIndex: Int
     
-    @Environment(SiteMarkerModel.self) var siteMarkerModel
+    @Environment(MarkerModel.self) var markerModel
     @Environment(MapModel.self) var mapModel
     @Environment(NavigationModel.self) var navigationModel
     @Environment(HuntInfoModel.self) var huntInfoModel
@@ -25,8 +25,8 @@ struct SiteDetailView: View {
                         HStack {
                             Spacer()
                             Button {
-                                siteMarkerModel.markers[markerIndex].latitude = mapModel.region().center.latitude
-                                siteMarkerModel.markers[markerIndex].longitude = mapModel.region().center.longitude
+                                markerModel.data.markers[markerIndex].latitude = mapModel.region().center.latitude
+                                markerModel.data.markers[markerIndex].longitude = mapModel.region().center.longitude
                                 } label: {Image(systemName: "move.3d")}
                             Spacer()
                             Button {
@@ -34,12 +34,12 @@ struct SiteDetailView: View {
                                 } label: {Image(systemName: "square.and.arrow.up")}
                                 .sheet(isPresented: self.$isShowingMessages) {
                                     MessageSender(recipients: huntInfoModel.phoneList(),
-                                                  message: "http://maps.apple.com/?ll="+String(siteMarkerModel.markers[markerIndex].latitude)+","+String(siteMarkerModel.markers[markerIndex].longitude))
+                                                  message: "http://maps.apple.com/?ll="+String(markerModel.data.markers[markerIndex].latitude)+","+String(markerModel.data.markers[markerIndex].longitude))
                                 }
 
                             Spacer()
                             Button {
-                                navigationModel.targetDestination = MKPlacemark(coordinate:  CLLocationCoordinate2D(latitude: siteMarkerModel.markers[markerIndex].latitude, longitude: siteMarkerModel.markers[markerIndex].longitude))                            } label: {Image(systemName: "car.circle")}
+                                navigationModel.targetDestination = MKPlacemark(coordinate:  CLLocationCoordinate2D(latitude: markerModel.data.markers[markerIndex].latitude, longitude: markerModel.data.markers[markerIndex].longitude))                            } label: {Image(systemName: "car.circle")}
                             Spacer()
                         }//HStack
                         .buttonStyle(.borderedProminent)
@@ -47,7 +47,7 @@ struct SiteDetailView: View {
                         .font(.title)
                         .foregroundColor(.white)
                         .frame(width: 300,height: 50)
-                        switch siteMarkerModel.markers[markerIndex].type {
+                        switch markerModel.data.markers[markerIndex].type {
                         case .CheckInSite:
                             CheckInView()
                         case .StartClueSite:
@@ -66,7 +66,7 @@ struct SiteDetailView: View {
                 Spacer()
             }//HStack
             .onDisappear() {
-                siteMarkerModel.save()
+                markerModel.save()
 //                timerModel.resetClueTimer()
             }
     }//body
@@ -76,12 +76,12 @@ struct SiteDetailView: View {
     let timerModel = TimerModel()
     let huntInfoModel = HuntInfoModel()
     let mapModel = MapModel()
-    let siteMarkerModel = SiteMarkerModel()
+    let markerModel = MarkerModel()
     let navigationModel = NavigationModel()
-    siteMarkerModel.newMarker(location: GRID_CENTER)
-    siteMarkerModel.selection = 0
+    markerModel.newMarker(location: GRID_CENTER)
+    markerModel.selection = 0
     return SiteDetailView(markerIndex: 0)
-        .environment(siteMarkerModel)
+        .environment(markerModel)
         .environment(mapModel)
         .environment(navigationModel)
         .environment(huntInfoModel)
