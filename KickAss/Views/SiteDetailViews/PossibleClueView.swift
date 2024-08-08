@@ -24,9 +24,10 @@ struct PossibleClueView: View {
                         Text(item)
                     }
                 }
+                LatLonDisplayView(markerIndex: markerIndex)
             }//List
             .font(.title2)
-            .frame(width: 300,height: 90)
+            .frame(width: 300,height: 130)
             .listStyle(.plain)
             .cornerRadius(15)
         }//VStack

@@ -20,6 +20,7 @@ class TimerModel {
     var huntStartTime: Date = .now
     var clueStartTime: Date = .now
     var firstClueArrivalTime: Date = .distantFuture
+    var lastClueCredit: Int = 0
     var checkInTime: Date = .distantFuture
     var huntState: HuntState = .NotStarted
     private var clueTimerActive: Bool = false
@@ -54,6 +55,7 @@ class TimerModel {
     }
     func checkIn() {
         checkInTime = .now
+        lastClueCredit = clueTimeElapsed
         stopClueTimer()
     }
     func setHuntStartTime(start: Date) {

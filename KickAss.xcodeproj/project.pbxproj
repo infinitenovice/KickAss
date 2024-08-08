@@ -36,6 +36,7 @@
 		29D229422C55094E00C3CDAF /* CheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229412C55094E00C3CDAF /* CheckInView.swift */; };
 		29D229442C550BC600C3CDAF /* StartingClueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229432C550BC600C3CDAF /* StartingClueView.swift */; };
 		29D229462C550D8600C3CDAF /* JackAssSiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229452C550D8600C3CDAF /* JackAssSiteView.swift */; };
+		29DEF0EA2C65162600E618EE /* LatLonDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DEF0E92C65162600E618EE /* LatLonDisplayView.swift */; };
 		29EC9DFF2C593D2D005CC3C9 /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EC9DFE2C593D2D005CC3C9 /* StatusBarView.swift */; };
 		29EC9E012C593F5C005CC3C9 /* PreHuntStatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EC9E002C593F5C005CC3C9 /* PreHuntStatusBarView.swift */; };
 		29EC9E032C593FDF005CC3C9 /* HuntStatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EC9E022C593FDF005CC3C9 /* HuntStatusBarView.swift */; };
@@ -72,6 +73,7 @@
 		29D229412C55094E00C3CDAF /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
 		29D229432C550BC600C3CDAF /* StartingClueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingClueView.swift; sourceTree = "<group>"; };
 		29D229452C550D8600C3CDAF /* JackAssSiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackAssSiteView.swift; sourceTree = "<group>"; };
+		29DEF0E92C65162600E618EE /* LatLonDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatLonDisplayView.swift; sourceTree = "<group>"; };
 		29EC9DFE2C593D2D005CC3C9 /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
 		29EC9E002C593F5C005CC3C9 /* PreHuntStatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreHuntStatusBarView.swift; sourceTree = "<group>"; };
 		29EC9E022C593FDF005CC3C9 /* HuntStatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HuntStatusBarView.swift; sourceTree = "<group>"; };
@@ -173,6 +175,7 @@
 				29D229412C55094E00C3CDAF /* CheckInView.swift */,
 				29D229432C550BC600C3CDAF /* StartingClueView.swift */,
 				29D229452C550D8600C3CDAF /* JackAssSiteView.swift */,
+				29DEF0E92C65162600E618EE /* LatLonDisplayView.swift */,
 			);
 			path = SiteDetailViews;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				29D229272C530D7800C3CDAF /* SettingsView.swift in Sources */,
 				29D229332C534B0F00C3CDAF /* HuntInfoModel.swift in Sources */,
 				29D229442C550BC600C3CDAF /* StartingClueView.swift in Sources */,
+				29DEF0EA2C65162600E618EE /* LatLonDisplayView.swift in Sources */,
 				29EC9E012C593F5C005CC3C9 /* PreHuntStatusBarView.swift in Sources */,
 				29D2291F2C52FA8200C3CDAF /* LocationDeniedView.swift in Sources */,
 				29D2293E2C54A42500C3CDAF /* PossibleClueView.swift in Sources */,

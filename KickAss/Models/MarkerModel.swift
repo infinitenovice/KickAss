@@ -102,7 +102,7 @@ class MarkerModel {
     func monogramValid(monogram: String) -> Bool {
         var markerPreviouslyUsed = false
         for index in 0..<data.markers.count {
-            if data.markers[index].type == .FoundClueSite {
+            if data.markers[index].type == .FoundClueSite || data.markers[index].type == .StartClueSite {
                 if monogram == data.markers[index].monogram {
                     markerPreviouslyUsed = true
                 }

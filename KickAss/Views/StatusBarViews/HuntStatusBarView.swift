@@ -63,7 +63,7 @@ struct HuntStatusBarView: View {
         stickerCount -= 1 //The start clue sticker doesn's count
         if stickerCount > 0 {
             clueCredits = Double(stickerCount)-Double(sequenceGaps)/2
-            let adjustedHuntTime = timerModel.huntTimeElapsed - timerModel.firstClueCredit() + timerModel.penaltyTime() + emergencies*20
+            let adjustedHuntTime = timerModel.huntTimeElapsed - timerModel.firstClueCredit() - timerModel.lastClueCredit + timerModel.penaltyTime() + emergencies*20
             if clueCredits > 0 {
                 aveClueTime = (Double(adjustedHuntTime) / clueCredits) / 60
             }
