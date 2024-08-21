@@ -89,6 +89,11 @@ class GridModel {
             gridLabels.append(gridLabel)
         }
         return gridLabels
+        
+    }
+    
+    func onGrid(point: CLLocationCoordinate2D) -> Bool {
+        return (point.latitude <= boundaryNorth && point.latitude >= boundarySouth && point.longitude <= boundaryEast && point.longitude >= boundaryWest)
     }
     
     struct GridLine: Identifiable {

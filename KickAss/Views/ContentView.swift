@@ -58,6 +58,9 @@ struct ContentView: View {
                 timerModel.stopClueTimer()
             }
         }
+        .onOpenURL() { url in
+            markerModel.processIncommingMarker(url: url)
+        }
     }
 }
 

@@ -75,7 +75,7 @@ class MarkerModel {
         data.startingClueSet = true
         setNextMonogramLetter(monogram: monogram)
     }
-    func newMarker(type: SiteType = .PossibleClueSite, location: CLLocationCoordinate2D, monogram: String = "?", title: String = "") {
+    func newMarker(type: SiteType = .PossibleClueSite, location: CLLocationCoordinate2D, monogram: String = "?", title: String = "", airDroppedMarker: Bool = false) {
         var marker: SiteMarker = SiteMarker(
             id:             data.markers.count,
             type:           type,
@@ -85,11 +85,13 @@ class MarkerModel {
             monogram:       monogram,
             title:          title
             )
-            if data.startingClueSet {
-                marker.monogram = ClueLetterMonograms[data.monogramLetterIndex]
-            }
+        if data.startingClueSet && !airDroppedMarker {
+            marker.monogram = ClueLetterMonograms[data.monogramLetterIndex]
+        }
         data.markers.append(marker)
-        selection = marker.id
+        if !airDroppedMarker {
+            selection = marker.id
+        }
         save()
     }
     func selectedMarkerCoordinates() -> CLLocationCoordinate2D? {
@@ -214,5 +216,15 @@ class MarkerModel {
             }
         }
         stickerCount = clueStickers.count
+    }
+    func processIncommingMarker(url: URL) {
+        if let components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+            let label = components.queryItems?[0].value ?? ""
+            let coordString = components.queryItems?[1].value ?? ""
+            let coords = coordString.components(separatedBy: ",")
+            let lat = Double(coords[0]) ?? 0.0
+            let lon = Double(coords[1]) ?? 0.0
+            newMarker(location: CLLocationCoordinate2D(latitude: lat, longitude: lon), title: label, airDroppedMarker: true)
+        }
     }
 }

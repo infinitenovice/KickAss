@@ -6,11 +6,15 @@
 //
 
 import SwiftUI
+import MapKit
+import AVFoundation
+
 
 struct LatLonDisplayView: View {
     let markerIndex: Int
 
     @Environment(MarkerModel.self) var markerModel
+    @Environment(GridModel.self) var gridModel
 
     var body: some View {
         @Bindable var markerModel = markerModel
@@ -21,7 +25,7 @@ struct LatLonDisplayView: View {
             formatter.minimumFractionDigits = 5
             return formatter
         }()
-        
+
         HStack {
             Spacer()
             TextField("", value: $markerModel.data.markers[markerIndex].latitude, formatter: formatter)
@@ -33,26 +37,22 @@ struct LatLonDisplayView: View {
             Spacer()
         }
         .frame(width: 300)
-//        .border(Color.black)
-
-//        Button {
-//            
-//        } label: {
-//            HStack {
-//                Spacer()
-//                Text(String(format: "%0.5f", markerModel.data.markers[markerIndex].latitude))
-//                Text(String(format: "%0.5f", markerModel.data.markers[markerIndex].longitude))
-//                Spacer()
-//            }
-//            .font(.footnote)
-//        }
+        .onDisappear() {
+            let point = CLLocationCoordinate2D(latitude: markerModel.data.markers[markerIndex].latitude, longitude: markerModel.data.markers[markerIndex].longitude)
+            if !gridModel.onGrid(point: point) {
+                markerModel.selection = markerIndex
+                AudioServicesPlaySystemSound(SystemSoundID(BUTTON_ERROR_SOUND))
+            }
+        }
     }
 }
 
 #Preview {
+    let gridModel = GridModel()
     let markerModel = MarkerModel()
     markerModel.newMarker(location: GRID_CENTER)
     markerModel.selection = 0
     return LatLonDisplayView(markerIndex: 0)
         .environment(markerModel)
+        .environment(gridModel)
 }

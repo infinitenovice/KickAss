@@ -24,12 +24,13 @@ struct PossibleClueView: View {
                         Text(item)
                     }
                 }
+                TextField("Marker Label", text: $markerModel.data.markers[markerIndex].title)
                 LatLonDisplayView(markerIndex: markerIndex)
             }//List
-            .font(.title2)
-            .frame(width: 300,height: 130)
             .listStyle(.plain)
+            .font(.title2)
             .cornerRadius(15)
+            .frame(width: 300,height: 170)
         }//VStack
         HStack {
             ScrollView(.horizontal) {
@@ -82,12 +83,12 @@ struct PossibleClueView: View {
     }
 }
 
-#Preview {
-    let timerModel = TimerModel()
-    let markerModel = MarkerModel()
-    markerModel.newMarker(location: GRID_CENTER)
-    markerModel.selection = 0
-    return PossibleClueView(markerIndex: 0)
-        .environment(markerModel)
-        .environment(timerModel)
-}
+//#Preview {
+//    let timerModel = TimerModel()
+//    let markerModel = MarkerModel()
+//    markerModel.newMarker(location: GRID_CENTER)
+//    markerModel.selection = 0
+//    return PossibleClueView(markerIndex: 0)
+//        .environment(markerModel)
+//        .environment(timerModel)
+//}

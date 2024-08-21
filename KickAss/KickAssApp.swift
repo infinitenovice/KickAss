@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct KickAssApp: App {
+    
     @State private var gridModel        = GridModel()
     @State private var markerModel  = MarkerModel()
     @State private var mapModel         = MapModel()
@@ -36,3 +37,4 @@ struct KickAssApp: App {
         .environment(timerModel)
     }
 }
+

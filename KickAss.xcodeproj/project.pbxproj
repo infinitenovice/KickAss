@@ -48,6 +48,7 @@
 		297C19732C514E5D00AEFE14 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		297C19762C514E5D00AEFE14 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		297C19802C51501300AEFE14 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		298862D22C74F6ED00C984E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		29D229062C51541000C3CDAF /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		29D229082C515DE600C3CDAF /* GridModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridModel.swift; sourceTree = "<group>"; };
 		29D2290A2C516BBF00C3CDAF /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
@@ -109,9 +110,11 @@
 		297C196E2C514E5B00AEFE14 /* KickAss */ = {
 			isa = PBXGroup;
 			children = (
+				298862D22C74F6ED00C984E5 /* Info.plist */,
 				297C196F2C514E5B00AEFE14 /* KickAssApp.swift */,
 				297C197D2C514E7D00AEFE14 /* Models */,
 				297C197E2C514EA300AEFE14 /* Views */,
+				29D2293C2C54A3DE00C3CDAF /* SiteDetailViews */,
 				297C197F2C514F0900AEFE14 /* Services */,
 				297C19732C514E5D00AEFE14 /* Assets.xcassets */,
 				297C19752C514E5D00AEFE14 /* Preview Content */,
@@ -152,7 +155,6 @@
 				29D229222C52FF4500C3CDAF /* NavigationView.swift */,
 				29EC9DFB2C593BA6005CC3C9 /* StatusBarViews */,
 				29EC9DFA2C593AFE005CC3C9 /* ControlsViews */,
-				29D2293C2C54A3DE00C3CDAF /* SiteDetailViews */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -439,6 +441,7 @@
 				DEVELOPMENT_TEAM = 477527MZAP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KickAss/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location needed to route you to the clue sites!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -473,6 +476,7 @@
 				DEVELOPMENT_TEAM = 477527MZAP;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = KickAss/Info.plist;
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location needed to route you to the clue sites!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

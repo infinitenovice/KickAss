@@ -19,18 +19,17 @@ struct StartingClueView: View {
 
         VStack{
             List {
+                Text("Starting Clue Site")
                 if timerModel.firstClueArrivalTime < .now {
                     Text("Clue \(markerModel.data.markers[markerIndex].monogram)")
-                    Text("Starting Clue Site Found")
                 } else {
-                    Text("Starting Clue Site")
                     Picker("Clue Letter", selection: $markerModel.data.markers[markerIndex].monogram) {
                         ForEach(markerModel.ClueLetterMonograms, id: \.self) { item in
                             Text(item)
                         }
                     }
-                    LatLonDisplayView(markerIndex: markerIndex)
                 }
+                LatLonDisplayView(markerIndex: markerIndex)
             }//List
             .font(.title2)
             .frame(width: 300,height: 130)
@@ -45,7 +44,7 @@ struct StartingClueView: View {
                         AudioServicesPlaySystemSound(SystemSoundID(BUTTON_ERROR_SOUND))
                     }
                 } label: {Text("Found")}
-                    .frame(width: 220, height: 50)
+                    .frame(width: 220, height: 65)
                     .buttonStyle(.borderedProminent)
                     .tint(.mapButton)
                     .font(.title3)
