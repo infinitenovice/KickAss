@@ -32,11 +32,11 @@ struct NavigationView: View {
                         .foregroundColor(.white)
                         .padding(.trailing)
                     }
-                    .font(.title)
+                    .font(.title2)
   
                     VStack {
                         Text(navigationModel.stepInstructions ?? "End of route")
-                            .font(.title)
+                            .font(.title2)
                             .lineLimit(2)
                             .frame(width: 280,height: 70, alignment: .leading)
                             .padding(.leading)

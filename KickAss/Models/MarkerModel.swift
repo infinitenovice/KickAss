@@ -166,8 +166,8 @@ class MarkerModel {
         }
         if data.markers.isEmpty {
             print("creating required markers")
-            newMarker(type: .CheckInSite, location: CHECK_IN_SITE, monogram: CHECK_IN_MONOGRAM)
-            newMarker(type: .StartClueSite, location: GRID_CENTER, monogram: "?")
+            newMarker(type: .CheckInSite, location: CHECK_IN_SITE, monogram: "WW", title: "West World")
+            newMarker(type: .StartClueSite, location: GRID_CENTER, monogram: "?", title: "Start Clue")
         }
         updateStats()
     }
