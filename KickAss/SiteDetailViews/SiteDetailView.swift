@@ -16,6 +16,8 @@ struct SiteDetailView: View {
     @Environment(NavigationModel.self) var navigationModel
     @Environment(HuntInfoModel.self) var huntInfoModel
     @Environment(TimerModel.self) var timerModel
+    @Environment(CloudKitModel.self) var cloudKitModel
+    
     @State private var isShowingMessages = false
 
     var body: some View {
@@ -39,7 +41,10 @@ struct SiteDetailView: View {
 
                             Spacer()
                             Button {
-                                navigationModel.targetDestination = MKPlacemark(coordinate:  CLLocationCoordinate2D(latitude: markerModel.data.markers[markerIndex].latitude, longitude: markerModel.data.markers[markerIndex].longitude))                            } label: {Image(systemName: "car.circle")}
+                                let coordinate = CLLocationCoordinate2D(latitude: markerModel.data.markers[markerIndex].latitude, longitude: markerModel.data.markers[markerIndex].longitude)
+                                cloudKitModel.update(coordinate: coordinate)
+                                navigationModel.targetDestination = MKPlacemark(coordinate: coordinate)
+                                } label: {Image(systemName: "car.circle")}
                             Spacer()
                         }//HStack
                         .buttonStyle(.borderedProminent)

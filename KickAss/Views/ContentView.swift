@@ -16,6 +16,7 @@ struct ContentView: View {
     @Environment(LocationManager.self) var locationManager
     @Environment(TimerModel.self) var timerModel
     @Environment(HuntInfoModel.self) var huntInfoModel
+    @Environment(CloudKitModel.self) var cloudKitModel
 
     var body: some View {
         ZStack {
@@ -73,6 +74,7 @@ struct ContentView: View {
     let calliperModel = CalliperModel()
     let navigationModel = NavigationModel()
     let locationManager = LocationManager()
+    let cloudKitModel = CloudKitModel()
     return ContentView()
         .environment(huntInfoModel)
         .environment(gridModel)
@@ -82,5 +84,6 @@ struct ContentView: View {
         .environment(navigationModel)
         .environment(locationManager)
         .environment(timerModel)
+        .environment(cloudKitModel)
 
 }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		294FB2E92C84398C00540AD1 /* CloudKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294FB2E82C84398C00540AD1 /* CloudKitModel.swift */; };
 		297C19702C514E5B00AEFE14 /* KickAssApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297C196F2C514E5B00AEFE14 /* KickAssApp.swift */; };
 		297C19742C514E5D00AEFE14 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297C19732C514E5D00AEFE14 /* Assets.xcassets */; };
 		297C19772C514E5D00AEFE14 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297C19762C514E5D00AEFE14 /* Preview Assets.xcassets */; };
@@ -43,6 +44,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		294FB2E82C84398C00540AD1 /* CloudKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitModel.swift; sourceTree = "<group>"; };
+		2976495C2C8384A2007122B6 /* KickAss.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KickAss.entitlements; sourceTree = "<group>"; };
 		297C196C2C514E5B00AEFE14 /* KickAss.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KickAss.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		297C196F2C514E5B00AEFE14 /* KickAssApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KickAssApp.swift; sourceTree = "<group>"; };
 		297C19732C514E5D00AEFE14 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -110,6 +113,7 @@
 		297C196E2C514E5B00AEFE14 /* KickAss */ = {
 			isa = PBXGroup;
 			children = (
+				2976495C2C8384A2007122B6 /* KickAss.entitlements */,
 				298862D22C74F6ED00C984E5 /* Info.plist */,
 				297C196F2C514E5B00AEFE14 /* KickAssApp.swift */,
 				297C197D2C514E7D00AEFE14 /* Models */,
@@ -141,6 +145,7 @@
 				29D229202C52FB3F00C3CDAF /* NavigationModel.swift */,
 				29D229362C53E62C00C3CDAF /* TimerModel.swift */,
 				29D229322C534B0F00C3CDAF /* HuntInfoModel.swift */,
+				294FB2E82C84398C00540AD1 /* CloudKitModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -277,6 +282,7 @@
 				29D229172C527D6C00C3CDAF /* SiteDetailView.swift in Sources */,
 				297C19812C51501300AEFE14 /* MapView.swift in Sources */,
 				29D229392C53F57600C3CDAF /* ContentView.swift in Sources */,
+				294FB2E92C84398C00540AD1 /* CloudKitModel.swift in Sources */,
 				29D229212C52FB4000C3CDAF /* NavigationModel.swift in Sources */,
 				29EC9E032C593FDF005CC3C9 /* HuntStatusBarView.swift in Sources */,
 				29D229192C52ECC400C3CDAF /* CaliperModel.swift in Sources */,
@@ -435,6 +441,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = KickAss/KickAss.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"KickAss/Preview Content\"";
@@ -470,6 +477,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = KickAss/KickAss.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"KickAss/Preview Content\"";

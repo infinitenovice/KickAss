@@ -11,13 +11,14 @@ import SwiftUI
 struct KickAssApp: App {
     
     @State private var gridModel        = GridModel()
-    @State private var markerModel  = MarkerModel()
+    @State private var markerModel      = MarkerModel()
     @State private var mapModel         = MapModel()
     @State private var calliperModel    = CalliperModel()
     @State private var locationManager  = LocationManager()
     @State private var navigationModel  = NavigationModel()
     @State private var huntInfoModel    = HuntInfoModel()
     @State private var timerModel       = TimerModel()
+    @State private var cloudKitModel    = CloudKitModel()
 
     var body: some Scene {
         WindowGroup {
@@ -35,6 +36,7 @@ struct KickAssApp: App {
         .environment(navigationModel)
         .environment(huntInfoModel)
         .environment(timerModel)
+        .environment(cloudKitModel)
     }
 }
 
