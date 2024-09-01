@@ -33,6 +33,8 @@ struct SiteDetailView: View {
                             Spacer()
                             Button {
                                 isShowingMessages = true
+                                let coordinate = CLLocationCoordinate2D(latitude: markerModel.data.markers[markerIndex].latitude, longitude: markerModel.data.markers[markerIndex].longitude)
+                                cloudKitModel.update(coordinate: coordinate)
                                 } label: {Image(systemName: "square.and.arrow.up")}
                                 .sheet(isPresented: self.$isShowingMessages) {
                                     MessageSender(recipients: huntInfoModel.phoneList(),

@@ -28,11 +28,12 @@ class HuntInfoModel {
         var name: String = ""
         var phoneNumber: String = ""
         var iPhone: Bool = false
+        var enable: Bool = false
     }
     func phoneList() -> [String] {
         var phoneList: [String] = []
         for member in 0..<huntInfo.teamMembers.count {
-            if (huntInfo.teamMembers[member].phoneNumber != "")  {
+            if (huntInfo.teamMembers[member].phoneNumber != "" && huntInfo.teamMembers[member].enable)  {
                 if huntInfo.smsFowardingEnabled { //send to all team members
                     phoneList.append(huntInfo.teamMembers[member].phoneNumber)
                 } else if huntInfo.teamMembers[member].iPhone { //send only to team member with iPhones

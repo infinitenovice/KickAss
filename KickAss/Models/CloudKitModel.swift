@@ -87,4 +87,8 @@ class CloudKitModel {
             print(message)
         }
     }
+    
+    func reset() {
+        
+    }
 }

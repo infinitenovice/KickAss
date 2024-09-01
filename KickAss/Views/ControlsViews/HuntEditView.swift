@@ -22,14 +22,20 @@ struct HuntEditView: View {
                 TextField("Car Number", text: $huntInfoModel.huntInfo.carNumber)
                 TextField("Team Name", text: $huntInfoModel.huntInfo.teamName)
             }
-            Section(header: Text("Team Members")) {
+            Section(header: Text("Team Member Distribution List")) {
                 ForEach($huntInfoModel.huntInfo.teamMembers) { $member in
                     HStack {
                         TextField("Name", text: $member.name)
-                            .frame(width: 200)
+                            .frame(width: 100)
                         TextField("Phone Number", text: $member.phoneNumber)
                         Toggle(isOn: $member.iPhone) {
                             Text("iPhone")
+                                .font(.title3)
+                        }
+                        .frame(width: 120)
+                        .padding(.trailing)
+                        Toggle(isOn: $member.enable) {
+                            Text("Enable")
                                 .font(.title3)
                         }
                         .frame(width: 120)

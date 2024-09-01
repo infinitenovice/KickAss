@@ -12,8 +12,9 @@ struct AppManagementView: View {
     @Environment (NavigationModel.self) var navigationModel
     @Environment (TimerModel.self) var timerModel
     @Environment (HuntInfoModel.self) var huntInfoModel
+    @Environment (CloudKitModel.self) var cloudKitModel
+    
     @State var enableManagement: Bool = false
-    @State var enableReset: Bool = false
 
 
     var body: some View {
@@ -35,31 +36,28 @@ struct AppManagementView: View {
                 }
                 if markerModel.showRangeRadius {
                     Stepper(value: $markerModel.rangeRadius, in: 3...5, step: 0.1) {
-                        Text(String(format: "Range Radius %0.1f", markerModel.rangeRadius))
+                        Text(String(format: "Update Range Radius (miles)   %0.1f", markerModel.rangeRadius))
                     }
                 }
+                Text("")
                 Toggle(isOn: $enableManagement) {
                     Text("Enable Management Functions")
                 }
                 if enableManagement {
-                    DatePicker(selection: $timerModel.checkInTime, label: { Text("Check-In Time") })
-                    DatePicker(selection: $timerModel.firstClueArrivalTime, label: { Text("First Clue Arrival Time") })
-                    Toggle(isOn: $enableReset) {
-                        Text("Enable Hunt Reset")
-                    }
-                    if enableReset {
-                        HStack {
-                            Text("Reset Hunt - CANNOT BE UNDONE!")
-                            Spacer()
-                            Button {
-                                markerModel.deleteAllMarkers()
-                                navigationModel.deleteTrackHistory()
-                                timerModel.checkInTime = .distantFuture
-                                timerModel.firstClueArrivalTime = .distantFuture
-                                markerModel.data.startingClueSet = false
-                            } label: {
-                                Text("Reset")
-                            }
+                    DatePicker(selection: $timerModel.checkInTime, label: { Text("Edit Check-In Time") })
+                    DatePicker(selection: $timerModel.firstClueArrivalTime, label: { Text("Edit First Clue Arrival Time") })
+                    Text("")
+                    HStack {
+                        Text("Reset Hunt - CANNOT BE UNDONE!")
+                        Spacer()
+                        Button {
+                            markerModel.deleteAllMarkers()
+                            navigationModel.deleteTrackHistory()
+                            timerModel.checkInTime = .distantFuture
+                            timerModel.firstClueArrivalTime = .distantFuture
+                            markerModel.data.startingClueSet = false
+                        } label: {
+                            Text("Reset")
                         }
                     }
                 }
@@ -76,9 +74,11 @@ struct AppManagementView: View {
     let markerModel = MarkerModel()
     let navigationModel = NavigationModel()
     let timerModel = TimerModel()
+    let cloudKitModel = CloudKitModel()
     return AppManagementView()
         .environment(markerModel)
         .environment(navigationModel)
         .environment(timerModel)
         .environment(huntInfoModel)
+        .environment(cloudKitModel)
 }
