@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		294FB2E92C84398C00540AD1 /* CloudKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294FB2E82C84398C00540AD1 /* CloudKitModel.swift */; };
+		294FB30D2C8550A400540AD1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 294FB30C2C8550A400540AD1 /* LaunchScreen.storyboard */; };
 		297C19702C514E5B00AEFE14 /* KickAssApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297C196F2C514E5B00AEFE14 /* KickAssApp.swift */; };
 		297C19742C514E5D00AEFE14 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297C19732C514E5D00AEFE14 /* Assets.xcassets */; };
 		297C19772C514E5D00AEFE14 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297C19762C514E5D00AEFE14 /* Preview Assets.xcassets */; };
@@ -45,6 +46,7 @@
 
 /* Begin PBXFileReference section */
 		294FB2E82C84398C00540AD1 /* CloudKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitModel.swift; sourceTree = "<group>"; };
+		294FB30C2C8550A400540AD1 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2976495C2C8384A2007122B6 /* KickAss.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KickAss.entitlements; sourceTree = "<group>"; };
 		297C196C2C514E5B00AEFE14 /* KickAss.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KickAss.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		297C196F2C514E5B00AEFE14 /* KickAssApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KickAssApp.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				297C197F2C514F0900AEFE14 /* Services */,
 				297C19732C514E5D00AEFE14 /* Assets.xcassets */,
 				297C19752C514E5D00AEFE14 /* Preview Content */,
+				294FB30C2C8550A400540AD1 /* LaunchScreen.storyboard */,
 			);
 			path = KickAss;
 			sourceTree = "<group>";
@@ -267,6 +270,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				294FB30D2C8550A400540AD1 /* LaunchScreen.storyboard in Resources */,
 				297C19772C514E5D00AEFE14 /* Preview Assets.xcassets in Resources */,
 				297C19742C514E5D00AEFE14 /* Assets.xcassets in Resources */,
 			);
@@ -449,10 +453,12 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = KickAss/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Kick Ass";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location needed to route you to the clue sites!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -485,10 +491,12 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = KickAss/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Kick Ass";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location needed to route you to the clue sites!";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
