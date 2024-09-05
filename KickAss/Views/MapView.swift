@@ -86,7 +86,7 @@ struct MapView: View {
                 if markerModel.showRangeRadius {
                     if let marker = markerModel.selection {
                         if markerModel.validMarker(markerIndex: marker){
-                            if markerModel.data.markers[marker].type == .FoundClueSite || (markerModel.data.markers[marker].type == .StartClueSite && markerModel.data.startingClueSet) {
+                            if markerModel.data.markers[marker].found || (markerModel.data.markers[marker].type == .StartClueSite && markerModel.data.startingClueSet) {
                                 let center = CLLocationCoordinate2D(latitude: markerModel.data.markers[marker].latitude, longitude: markerModel.data.markers[marker].longitude)
                                 MapCircle(center: center, radius: markerModel.rangeRadius*METERS_PER_MILE)
                                     .foregroundStyle(.blue.opacity(0.2))
@@ -102,20 +102,3 @@ struct MapView: View {
     }//body
 }//MapView
 
-#Preview {
-    let huntInfoModel = HuntInfoModel()
-    let gridModel = GridModel()
-    let mapModel = MapModel()
-    let markerModel = MarkerModel()
-    let calliperModel = CalliperModel()
-    let navigationModel = NavigationModel()
-    let locationManager = LocationManager()
-    return MapView()
-        .environment(huntInfoModel)
-        .environment(gridModel)
-        .environment(mapModel)
-        .environment(markerModel)
-        .environment(calliperModel)
-        .environment(navigationModel)
-        .environment(locationManager)
-}

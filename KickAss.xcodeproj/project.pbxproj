@@ -9,6 +9,12 @@
 /* Begin PBXBuildFile section */
 		294FB2E92C84398C00540AD1 /* CloudKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294FB2E82C84398C00540AD1 /* CloudKitModel.swift */; };
 		294FB30D2C8550A400540AD1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 294FB30C2C8550A400540AD1 /* LaunchScreen.storyboard */; };
+		297031DD2C88993C005EEAE7 /* SiteInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297031DC2C88993C005EEAE7 /* SiteInfoView.swift */; };
+		297031E02C8899F0005EEAE7 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297031DF2C8899F0005EEAE7 /* Color.swift */; };
+		297031E22C889A79005EEAE7 /* ToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297031E12C889A79005EEAE7 /* ToggleStyle.swift */; };
+		297031E42C889DBF005EEAE7 /* SitePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297031E32C889DBF005EEAE7 /* SitePickerView.swift */; };
+		297031E62C88A57F005EEAE7 /* SiteEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297031E52C88A57F005EEAE7 /* SiteEditView.swift */; };
+		297031E82C89F339005EEAE7 /* StatisticsModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297031E72C89F339005EEAE7 /* StatisticsModel.swift */; };
 		297C19702C514E5B00AEFE14 /* KickAssApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297C196F2C514E5B00AEFE14 /* KickAssApp.swift */; };
 		297C19742C514E5D00AEFE14 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297C19732C514E5D00AEFE14 /* Assets.xcassets */; };
 		297C19772C514E5D00AEFE14 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297C19762C514E5D00AEFE14 /* Preview Assets.xcassets */; };
@@ -19,7 +25,6 @@
 		29D2290D2C51B06E00C3CDAF /* MarkerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D2290C2C51B06E00C3CDAF /* MarkerModel.swift */; };
 		29D229132C52679200C3CDAF /* MapButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229122C52679200C3CDAF /* MapButtonsView.swift */; };
 		29D229152C526D6B00C3CDAF /* CrossHairView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229142C526D6B00C3CDAF /* CrossHairView.swift */; };
-		29D229172C527D6C00C3CDAF /* SiteDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229162C527D6C00C3CDAF /* SiteDetailView.swift */; };
 		29D229192C52ECC400C3CDAF /* CaliperModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229182C52ECC400C3CDAF /* CaliperModel.swift */; };
 		29D2291B2C52EE4300C3CDAF /* ControlButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D2291A2C52EE4300C3CDAF /* ControlButtonsView.swift */; };
 		29D2291D2C52F80600C3CDAF /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D2291C2C52F80600C3CDAF /* LocationManager.swift */; };
@@ -33,11 +38,6 @@
 		29D229352C53E0A500C3CDAF /* MessageSender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229342C53E0A500C3CDAF /* MessageSender.swift */; };
 		29D229372C53E62C00C3CDAF /* TimerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229362C53E62C00C3CDAF /* TimerModel.swift */; };
 		29D229392C53F57600C3CDAF /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229382C53F57600C3CDAF /* ContentView.swift */; };
-		29D2293E2C54A42500C3CDAF /* PossibleClueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D2293D2C54A42500C3CDAF /* PossibleClueView.swift */; };
-		29D229402C54A8FA00C3CDAF /* FoundClueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D2293F2C54A8FA00C3CDAF /* FoundClueView.swift */; };
-		29D229422C55094E00C3CDAF /* CheckInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229412C55094E00C3CDAF /* CheckInView.swift */; };
-		29D229442C550BC600C3CDAF /* StartingClueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229432C550BC600C3CDAF /* StartingClueView.swift */; };
-		29D229462C550D8600C3CDAF /* JackAssSiteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229452C550D8600C3CDAF /* JackAssSiteView.swift */; };
 		29DEF0EA2C65162600E618EE /* LatLonDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29DEF0E92C65162600E618EE /* LatLonDisplayView.swift */; };
 		29EC9DFF2C593D2D005CC3C9 /* StatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EC9DFE2C593D2D005CC3C9 /* StatusBarView.swift */; };
 		29EC9E012C593F5C005CC3C9 /* PreHuntStatusBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29EC9E002C593F5C005CC3C9 /* PreHuntStatusBarView.swift */; };
@@ -47,6 +47,12 @@
 /* Begin PBXFileReference section */
 		294FB2E82C84398C00540AD1 /* CloudKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitModel.swift; sourceTree = "<group>"; };
 		294FB30C2C8550A400540AD1 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		297031DC2C88993C005EEAE7 /* SiteInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteInfoView.swift; sourceTree = "<group>"; };
+		297031DF2C8899F0005EEAE7 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		297031E12C889A79005EEAE7 /* ToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleStyle.swift; sourceTree = "<group>"; };
+		297031E32C889DBF005EEAE7 /* SitePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SitePickerView.swift; sourceTree = "<group>"; };
+		297031E52C88A57F005EEAE7 /* SiteEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteEditView.swift; sourceTree = "<group>"; };
+		297031E72C89F339005EEAE7 /* StatisticsModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsModel.swift; sourceTree = "<group>"; };
 		2976495C2C8384A2007122B6 /* KickAss.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = KickAss.entitlements; sourceTree = "<group>"; };
 		297C196C2C514E5B00AEFE14 /* KickAss.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KickAss.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		297C196F2C514E5B00AEFE14 /* KickAssApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KickAssApp.swift; sourceTree = "<group>"; };
@@ -60,7 +66,6 @@
 		29D2290C2C51B06E00C3CDAF /* MarkerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkerModel.swift; sourceTree = "<group>"; };
 		29D229122C52679200C3CDAF /* MapButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapButtonsView.swift; sourceTree = "<group>"; };
 		29D229142C526D6B00C3CDAF /* CrossHairView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrossHairView.swift; sourceTree = "<group>"; };
-		29D229162C527D6C00C3CDAF /* SiteDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteDetailView.swift; sourceTree = "<group>"; };
 		29D229182C52ECC400C3CDAF /* CaliperModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaliperModel.swift; sourceTree = "<group>"; };
 		29D2291A2C52EE4300C3CDAF /* ControlButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButtonsView.swift; sourceTree = "<group>"; };
 		29D2291C2C52F80600C3CDAF /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
@@ -74,11 +79,6 @@
 		29D229342C53E0A500C3CDAF /* MessageSender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageSender.swift; sourceTree = "<group>"; };
 		29D229362C53E62C00C3CDAF /* TimerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerModel.swift; sourceTree = "<group>"; };
 		29D229382C53F57600C3CDAF /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		29D2293D2C54A42500C3CDAF /* PossibleClueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PossibleClueView.swift; sourceTree = "<group>"; };
-		29D2293F2C54A8FA00C3CDAF /* FoundClueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoundClueView.swift; sourceTree = "<group>"; };
-		29D229412C55094E00C3CDAF /* CheckInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CheckInView.swift; sourceTree = "<group>"; };
-		29D229432C550BC600C3CDAF /* StartingClueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartingClueView.swift; sourceTree = "<group>"; };
-		29D229452C550D8600C3CDAF /* JackAssSiteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JackAssSiteView.swift; sourceTree = "<group>"; };
 		29DEF0E92C65162600E618EE /* LatLonDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LatLonDisplayView.swift; sourceTree = "<group>"; };
 		29EC9DFE2C593D2D005CC3C9 /* StatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusBarView.swift; sourceTree = "<group>"; };
 		29EC9E002C593F5C005CC3C9 /* PreHuntStatusBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreHuntStatusBarView.swift; sourceTree = "<group>"; };
@@ -96,6 +96,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		297031DE2C88996E005EEAE7 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				297031DF2C8899F0005EEAE7 /* Color.swift */,
+				297031E12C889A79005EEAE7 /* ToggleStyle.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		297C19632C514E5B00AEFE14 = {
 			isa = PBXGroup;
 			children = (
@@ -118,6 +127,7 @@
 				2976495C2C8384A2007122B6 /* KickAss.entitlements */,
 				298862D22C74F6ED00C984E5 /* Info.plist */,
 				297C196F2C514E5B00AEFE14 /* KickAssApp.swift */,
+				297031DE2C88996E005EEAE7 /* Extensions */,
 				297C197D2C514E7D00AEFE14 /* Models */,
 				297C197E2C514EA300AEFE14 /* Views */,
 				29D2293C2C54A3DE00C3CDAF /* SiteDetailViews */,
@@ -144,6 +154,7 @@
 				29D229082C515DE600C3CDAF /* GridModel.swift */,
 				29D2290A2C516BBF00C3CDAF /* MapModel.swift */,
 				29D2290C2C51B06E00C3CDAF /* MarkerModel.swift */,
+				297031E72C89F339005EEAE7 /* StatisticsModel.swift */,
 				29D229182C52ECC400C3CDAF /* CaliperModel.swift */,
 				29D229202C52FB3F00C3CDAF /* NavigationModel.swift */,
 				29D229362C53E62C00C3CDAF /* TimerModel.swift */,
@@ -179,13 +190,10 @@
 		29D2293C2C54A3DE00C3CDAF /* SiteDetailViews */ = {
 			isa = PBXGroup;
 			children = (
-				29D229162C527D6C00C3CDAF /* SiteDetailView.swift */,
-				29D2293D2C54A42500C3CDAF /* PossibleClueView.swift */,
-				29D2293F2C54A8FA00C3CDAF /* FoundClueView.swift */,
-				29D229412C55094E00C3CDAF /* CheckInView.swift */,
-				29D229432C550BC600C3CDAF /* StartingClueView.swift */,
-				29D229452C550D8600C3CDAF /* JackAssSiteView.swift */,
 				29DEF0E92C65162600E618EE /* LatLonDisplayView.swift */,
+				297031E52C88A57F005EEAE7 /* SiteEditView.swift */,
+				297031DC2C88993C005EEAE7 /* SiteInfoView.swift */,
+				297031E32C889DBF005EEAE7 /* SitePickerView.swift */,
 			);
 			path = SiteDetailViews;
 			sourceTree = "<group>";
@@ -283,31 +291,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				29D229172C527D6C00C3CDAF /* SiteDetailView.swift in Sources */,
 				297C19812C51501300AEFE14 /* MapView.swift in Sources */,
 				29D229392C53F57600C3CDAF /* ContentView.swift in Sources */,
 				294FB2E92C84398C00540AD1 /* CloudKitModel.swift in Sources */,
 				29D229212C52FB4000C3CDAF /* NavigationModel.swift in Sources */,
 				29EC9E032C593FDF005CC3C9 /* HuntStatusBarView.swift in Sources */,
+				297031E82C89F339005EEAE7 /* StatisticsModel.swift in Sources */,
 				29D229192C52ECC400C3CDAF /* CaliperModel.swift in Sources */,
 				29D229152C526D6B00C3CDAF /* CrossHairView.swift in Sources */,
 				29EC9DFF2C593D2D005CC3C9 /* StatusBarView.swift in Sources */,
 				29D2292B2C531D8000C3CDAF /* AppManagementView.swift in Sources */,
 				29D229272C530D7800C3CDAF /* SettingsView.swift in Sources */,
 				29D229332C534B0F00C3CDAF /* HuntInfoModel.swift in Sources */,
-				29D229442C550BC600C3CDAF /* StartingClueView.swift in Sources */,
 				29DEF0EA2C65162600E618EE /* LatLonDisplayView.swift in Sources */,
+				297031E62C88A57F005EEAE7 /* SiteEditView.swift in Sources */,
 				29EC9E012C593F5C005CC3C9 /* PreHuntStatusBarView.swift in Sources */,
 				29D2291F2C52FA8200C3CDAF /* LocationDeniedView.swift in Sources */,
-				29D2293E2C54A42500C3CDAF /* PossibleClueView.swift in Sources */,
 				29D2291B2C52EE4300C3CDAF /* ControlButtonsView.swift in Sources */,
-				29D229462C550D8600C3CDAF /* JackAssSiteView.swift in Sources */,
 				29D229372C53E62C00C3CDAF /* TimerModel.swift in Sources */,
 				29D2290B2C516BBF00C3CDAF /* MapModel.swift in Sources */,
+				297031E42C889DBF005EEAE7 /* SitePickerView.swift in Sources */,
+				297031E02C8899F0005EEAE7 /* Color.swift in Sources */,
 				29D2290D2C51B06E00C3CDAF /* MarkerModel.swift in Sources */,
 				29D229092C515DE600C3CDAF /* GridModel.swift in Sources */,
-				29D229422C55094E00C3CDAF /* CheckInView.swift in Sources */,
-				29D229402C54A8FA00C3CDAF /* FoundClueView.swift in Sources */,
+				297031DD2C88993C005EEAE7 /* SiteInfoView.swift in Sources */,
+				297031E22C889A79005EEAE7 /* ToggleStyle.swift in Sources */,
 				29D229352C53E0A500C3CDAF /* MessageSender.swift in Sources */,
 				29D229232C52FF4500C3CDAF /* NavigationView.swift in Sources */,
 				29D229072C51541000C3CDAF /* Globals.swift in Sources */,

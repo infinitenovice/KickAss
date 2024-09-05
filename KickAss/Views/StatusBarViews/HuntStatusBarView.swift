@@ -29,7 +29,7 @@ struct HuntStatusBarView: View {
             Spacer()
             HStack {
                 Text("Stats")
-                Text(statsString(stickers: markerModel.stickerCount, emergencies: markerModel.emergencies, sequenceGaps: markerModel.sequenceGaps ))
+//                Text(statsString(stickers: markerModel.stickerCount, emergencies: markerModel.emergencies, sequenceGaps: markerModel.sequenceGaps ))
             }
             .frame(width: 200, alignment: .trailing)
             .padding(.trailing)
@@ -75,12 +75,3 @@ struct HuntStatusBarView: View {
     }
 }
 
-#Preview {
-    let markerModel = MarkerModel()
-    let huntInfoModel = HuntInfoModel()
-    let timerModel = TimerModel()
-    return HuntStatusBarView()
-        .environment(huntInfoModel)
-        .environment(timerModel)
-        .environment(markerModel)
-}

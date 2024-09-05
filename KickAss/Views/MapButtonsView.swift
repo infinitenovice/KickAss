@@ -31,7 +31,7 @@ struct MapButtonsView: View {
             .buttonStyle(.borderedProminent)
             .foregroundColor(.white)
             .font(.title)
-            .tint(.mapButton)
+            .tint(.secondaryBackground)
             .padding(.horizontal)
         }
     }
@@ -64,12 +64,3 @@ extension Color {
 }
 
 
-#Preview {
-    let navigationModel = NavigationModel()
-    let markerModel = MarkerModel()
-    let mapModel = MapModel()
-    return MapButtonsView()
-        .environment(markerModel)
-        .environment(mapModel)
-        .environment(navigationModel)
-}

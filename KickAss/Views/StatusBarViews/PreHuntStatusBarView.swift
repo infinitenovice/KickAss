@@ -32,10 +32,3 @@ struct PreHuntStatusBarView: View {
     }
 }
 
-#Preview {
-    let huntInfoModel = HuntInfoModel()
-    let timerModel = TimerModel()
-    return PreHuntStatusBarView()
-        .environment(huntInfoModel)
-        .environment(timerModel)
-}

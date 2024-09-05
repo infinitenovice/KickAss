@@ -70,14 +70,3 @@ struct NavigationView: View {
     }
 }
 
-#Preview {
-//    let map = MapModel()
-    let timerModel = TimerModel()
-    let navigationModel = NavigationModel()
-    let locationManager = LocationManager()
-    return NavigationView()
-//        .environment(map)
-        .environment(navigationModel)
-        .environment(locationManager)
-        .environment(timerModel)
-}

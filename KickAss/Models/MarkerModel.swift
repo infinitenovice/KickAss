@@ -11,15 +11,17 @@ import AVFoundation
 
 @Observable
 class MarkerModel {
+    static let shared = MarkerModel()
     
     var data: SavedData = SavedData(markers: [], startingClueSet: false, monogramLetterIndex: 0)
     
     var selection: Int?
-    var emergencies: Int = 0
-    var sequenceGaps: Int = 0
-    var stickerCount: Int = 0
     var showRangeRadius: Bool = true
     var rangeRadius: Double = SEARCH_RADIUS
+
+    private init() {
+        
+    }
     
     struct SavedData : Codable {
         var markers: [SiteMarker] = []
@@ -32,7 +34,8 @@ class MarkerModel {
         var type: SiteType                  = .PossibleClueSite
         var latitude: CLLocationDegrees     = 0.0
         var longitude: CLLocationDegrees    = 0.0
-        var method: MethodFound             = .NotFound
+        var found: Bool                     = false
+        var emergency: Bool                 = false
         var monogram: String                = ""
         var title: String                   = ""
         var deleted: Bool                   = false
@@ -41,14 +44,9 @@ class MarkerModel {
         case CheckInSite
         case StartClueSite
         case PossibleClueSite
-        case FoundClueSite
         case JackassSite
     }
-    enum MethodFound: String, Codable, CaseIterable {
-        case NotFound           = "Possible Clue Site"
-        case Found              = "Clue Site Found"
-        case Emergency          = "Pulled Emergency"
-    }
+
     let ClueLetterMonograms: [String] = [
         "?","A","B","C","D","E","F","G","H","I","J","K","L","M",
         "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
@@ -71,9 +69,9 @@ class MarkerModel {
             }
         }
     }
-    func markStartingClue(monogram: String) {
+    func markStartingClue() {
         data.startingClueSet = true
-        setNextMonogramLetter(monogram: monogram)
+        save()
     }
     func newMarker(type: SiteType = .PossibleClueSite, location: CLLocationCoordinate2D, monogram: String = "?", title: String = "", airDroppedMarker: Bool = false) {
         var marker: SiteMarker = SiteMarker(
@@ -81,7 +79,8 @@ class MarkerModel {
             type:           type,
             latitude:       location.latitude,
             longitude:      location.longitude,
-            method:         .NotFound,
+            found:          false,
+            emergency:      false,
             monogram:       monogram,
             title:          title
             )
@@ -104,7 +103,7 @@ class MarkerModel {
     func monogramValid(monogram: String) -> Bool {
         var markerPreviouslyUsed = false
         for index in 0..<data.markers.count {
-            if data.markers[index].type == .FoundClueSite || data.markers[index].type == .StartClueSite {
+            if data.markers[index].found || data.markers[index].type == .StartClueSite {
                 if monogram == data.markers[index].monogram {
                     markerPreviouslyUsed = true
                 }
@@ -116,35 +115,23 @@ class MarkerModel {
             return true
         }
     }
-    func markSiteFound(markerIndex: Int, method: MethodFound) {
-        if monogramValid(monogram: data.markers[markerIndex].monogram) {
-            data.markers[markerIndex].type = .FoundClueSite
-            data.markers[markerIndex].method = method
-            setNextMonogramLetter(monogram: data.markers[markerIndex].monogram)
-            updateStats()
-        } else {
-            AudioServicesPlaySystemSound(SystemSoundID(BUTTON_ERROR_SOUND))
-        }
-    }
+    
     func markerColor(marker: SiteMarker) -> Color {
         switch marker.type {
         case .CheckInSite:
-            return Color.white
+            return Color.requiredSite
         case .StartClueSite:
-            return Color.white
+            return Color.requiredSite
         case .PossibleClueSite:
-            return Color.green
-        case .JackassSite:
-            return Color.red
-        case .FoundClueSite:
-            switch marker.method {
-            case .Found:
-                return Color.blue
-            case .Emergency:
-                return Color.yellow
-            case .NotFound:
-                return Color.white
+            if marker.emergency {
+                return Color.emergencySite
+            } else if marker.found {
+                return Color.foundSite
+            } else {
+                return Color.potentialSite
             }
+        case .JackassSite:
+            return Color.jackassSite
         }
     }
     func deleteAllMarkers() {
@@ -169,7 +156,6 @@ class MarkerModel {
             newMarker(type: .CheckInSite, location: CHECK_IN_SITE, monogram: "WW", title: "West World")
             newMarker(type: .StartClueSite, location: GRID_CENTER, monogram: "?", title: "Start Clue")
         }
-        updateStats()
     }
     func save() {
         do {
@@ -178,44 +164,6 @@ class MarkerModel {
         } catch {
             print(error)
         }
-    }
-    func updateStats() {
-        var clueStickers: [String] = []
-        var startClueMonogram: String = ""
-        
-        emergencies = 0
-        sequenceGaps = 0
-        
-        for index in 0..<data.markers.count {
-            if data.markers[index].type == .FoundClueSite {
-                clueStickers.append(data.markers[index].monogram)
-                if data.markers[index].method == .Emergency {
-                    emergencies += 1
-                }
-            }
-            if data.markers[index].type == .StartClueSite {
-                startClueMonogram = data.markers[index].monogram
-                clueStickers.append(data.markers[index].monogram)
-            }
-        }
-        if !clueStickers.isEmpty {
-            clueStickers.sort()
-            if startClueMonogram != "" {
-                while clueStickers[0] != startClueMonogram {
-                    let sticker = clueStickers[0]
-                    clueStickers.removeFirst()
-                    clueStickers.append(sticker)
-                }
-            }
-            for index in 0..<clueStickers.count-1 {
-                let currentCharValue = clueStickers[index].first?.asciiValue ?? 0
-                let nextCharValue = clueStickers[index+1].first?.asciiValue ?? 0
-                if currentCharValue != nextCharValue-1 {
-                    sequenceGaps += 1
-                }
-            }
-        }
-        stickerCount = clueStickers.count
     }
     func processIncommingMarker(url: URL) {
         if let components = URLComponents(url: url, resolvingAgainstBaseURL: false) {

@@ -17,6 +17,7 @@ struct ContentView: View {
     @Environment(TimerModel.self) var timerModel
     @Environment(HuntInfoModel.self) var huntInfoModel
     @Environment(CloudKitModel.self) var cloudKitModel
+    @Environment(StatisticsModel.self) var statisicsModel
 
     var body: some View {
         ZStack {
@@ -30,7 +31,8 @@ struct ContentView: View {
             }
             if let marker = markerModel.selection {
                 if markerModel.validMarker(markerIndex: marker){
-                    SiteDetailView(markerIndex: marker)
+//                    SiteDetailView(markerIndex: marker)
+                    SiteEditView(markerIndex: marker)
                 }
             }
         }
@@ -43,6 +45,7 @@ struct ContentView: View {
         }
         .onReceive(timerModel.timer) { _ in
             timerModel.updateTimers()
+            statisicsModel.update()
         }
         .onChange(of: locationManager.userLocation) { oldValue, newValue in
             navigationModel.updateLocation(oldLocation: oldValue, newLocation: newValue)
@@ -65,25 +68,4 @@ struct ContentView: View {
     }
 }
 
-#Preview {
-    let timerModel = TimerModel()
-    let huntInfoModel = HuntInfoModel()
-    let gridModel = GridModel()
-    let mapModel = MapModel()
-    let markerModel = MarkerModel()
-    let calliperModel = CalliperModel()
-    let navigationModel = NavigationModel()
-    let locationManager = LocationManager()
-    let cloudKitModel = CloudKitModel()
-    return ContentView()
-        .environment(huntInfoModel)
-        .environment(gridModel)
-        .environment(mapModel)
-        .environment(markerModel)
-        .environment(calliperModel)
-        .environment(navigationModel)
-        .environment(locationManager)
-        .environment(timerModel)
-        .environment(cloudKitModel)
 
-}

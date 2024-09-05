@@ -69,16 +69,3 @@ struct AppManagementView: View {
     }
 }
 
-#Preview {
-    let huntInfoModel = HuntInfoModel()
-    let markerModel = MarkerModel()
-    let navigationModel = NavigationModel()
-    let timerModel = TimerModel()
-    let cloudKitModel = CloudKitModel()
-    return AppManagementView()
-        .environment(markerModel)
-        .environment(navigationModel)
-        .environment(timerModel)
-        .environment(huntInfoModel)
-        .environment(cloudKitModel)
-}

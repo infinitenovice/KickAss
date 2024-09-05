@@ -22,14 +22,3 @@ struct SettingsView: View {
     }
 }
 
-#Preview {
-    let markerModel = MarkerModel()
-    let huntInfoModel = HuntInfoModel()
-    let navigationModel = NavigationModel()
-    let timerModel = TimerModel()
-    return SettingsView()
-        .environment(huntInfoModel)
-        .environment(markerModel)
-        .environment(navigationModel)
-        .environment(timerModel)
-}

@@ -80,14 +80,3 @@ struct ControlButtonsView: View {
     }
 }
 
-#Preview {
-    let timerModel = TimerModel()
-    let huntInfoModel = HuntInfoModel()
-    let calliperModel = CalliperModel()
-    let mapModel = MapModel()
-    return ControlButtonsView()
-        .environment(huntInfoModel)
-        .environment(calliperModel)
-        .environment(mapModel)
-        .environment(timerModel)
-}

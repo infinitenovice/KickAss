@@ -27,20 +27,9 @@ struct StatusBarView: View {
             .frame(width: STATUS_BAR_WIDTH,  alignment: .center)
             .foregroundColor(.white)
             .font(.title2)
-            .background(Color.black)
+            .background(.secondaryBackground)
             .cornerRadius(15)
         }
     }
 }
 
-#Preview {
-    let markerModel = MarkerModel()
-    let huntInfoModel = HuntInfoModel()
-    let timerModel = TimerModel()
-    timerModel.huntState = .InProgress
-    return StatusBarView()
-        .environment(timerModel)
-        .environment(huntInfoModel)
-        .environment(markerModel)
-
-}

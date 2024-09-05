@@ -14,6 +14,7 @@ let HuntDuration = 5*Hour+15*Minute
 
 @Observable
 class TimerModel {
+    static let shared = TimerModel()
     
     var huntTimeElapsed: Int = 0
     var clueTimeElapsed: Int = 0
@@ -28,6 +29,8 @@ class TimerModel {
     
     let calendar = Calendar.current
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
+    private init() {}  //limit class instantiations to a singleton 
     
     enum HuntState {
         case NotStarted
