@@ -12,12 +12,17 @@ struct PreHuntStatusBarView: View {
     @Environment(TimerModel.self) var timerModel
     let calendar = Calendar.current
     var body: some View {
-        HStack {
-            Text(huntInfoModel.huntInfo.huntTitle)
+        VStack {
+            HStack {
+                Text(huntInfoModel.huntInfo.huntTitle)
+                Text(huntInfoModel.huntInfo.huntTheme)
+            }
+            .font(.system(size: 10))
             if abs(timerModel.huntTimeElapsed) > 24*60*60  {
                 Text(huntInfoModel.huntInfo.huntStartDate, format: .dateTime.day().month().year())
             } else {
                 Text(huntCountdownString(interval: abs(timerModel.huntTimeElapsed)))
+                    .monospacedDigit()
             }
         }
     }

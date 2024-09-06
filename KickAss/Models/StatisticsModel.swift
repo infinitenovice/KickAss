@@ -58,6 +58,5 @@ class StatisticsModel {
         }
         emergenciesUsed = emergencyCount
         clueCredits = Double(cluesFound)-Double(gapCount)*0.5
-        print("Clues Found:\(cluesFound) Emergencies:\(emergenciesUsed) Clue Credits:\(clueCredits)")
     }
 }

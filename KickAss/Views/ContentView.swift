@@ -31,7 +31,6 @@ struct ContentView: View {
             }
             if let marker = markerModel.selection {
                 if markerModel.validMarker(markerIndex: marker){
-//                    SiteDetailView(markerIndex: marker)
                     SiteEditView(markerIndex: marker)
                 }
             }

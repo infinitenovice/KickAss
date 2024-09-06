@@ -23,7 +23,7 @@ struct MapView: View {
         @Bindable var markerModel = markerModel
         
         MapReader { proxy in
-            Map(position: $mapModel.camera, selection: $markerModel.selection) {
+            Map(position: $mapModel.camera,  interactionModes:[.pan,.zoom], selection: $markerModel.selection) {
                 UserAnnotation()
                 ForEach(gridModel.lines) {gridline in
                     MapPolyline(coordinates: gridline.points).stroke(.textPrimary, lineWidth: 1)

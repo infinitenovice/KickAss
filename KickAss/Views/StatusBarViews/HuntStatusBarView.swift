@@ -14,25 +14,51 @@ struct HuntStatusBarView: View {
     
     var body: some View {
         HStack {
-            HStack {
+            VStack {
                 Text("Hunt")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(.textSecondary)
                 Text(huntTimeDisplay(interval: timerModel.huntTimeElapsed))
+                    .monospacedDigit()
+                    .padding([.leading,.trailing])
             }
-            .frame(width: 170, alignment: .leading)
             .padding(.leading)
             Spacer()
-            HStack {
+            VStack {
                 Text("Clue")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(.textSecondary)
                 Text(clueTimeDisplay(interval: timerModel.clueTimeElapsed))
+                    .monospacedDigit()
+                    .padding([.leading,.trailing])
             }
-            .frame(width: 120, alignment: .leading)
-            .padding(.leading)
             Spacer()
-            HStack {
-                Text("Stats")
-                Text(statsString(found: statisticsModel.cluesFound, emergencies: statisticsModel.emergenciesUsed, clueCredits: statisticsModel.clueCredits ))
+            VStack {
+                Text("Found")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(.textSecondary)
+                Text("\(statisticsModel.cluesFound)")
+                    .monospacedDigit()
+                    .padding([.leading,.trailing])
             }
-            .frame(width: 200, alignment: .trailing)
+            Spacer()
+            VStack {
+                Text("Emergencies")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(.textSecondary)
+                Text("\(statisticsModel.emergenciesUsed)")
+                    .monospacedDigit()
+                    .padding([.leading,.trailing])
+            }
+            Spacer()
+            VStack {
+                Text("Average Time")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(.textSecondary)
+                Text(String(format: "%2.1f",averageClueTime()))
+                    .monospacedDigit()
+                    .padding([.leading,.trailing])
+            }
             .padding(.trailing)
         }
     }
@@ -57,16 +83,15 @@ struct HuntStatusBarView: View {
         let seconds = abs(interval%Minute)
         return String(format: "%0.1d:%0.2d", minutes, seconds)
     }
-    func statsString(found: Int, emergencies: Int, clueCredits: Double) -> String {
+    func averageClueTime() -> Double {
         var aveClueTime: Double = 0
-        if found > 0 {
-            let adjustedHuntTime = timerModel.huntTimeElapsed - timerModel.firstClueCredit() - timerModel.lastClueCredit + timerModel.penaltyTime() + emergencies*20
-            if clueCredits > 0 {
-                aveClueTime = (Double(adjustedHuntTime) / clueCredits) / 60
+        if statisticsModel.cluesFound > 0 {
+            let adjustedHuntTime = timerModel.huntTimeElapsed - timerModel.firstClueCredit() - timerModel.lastClueCredit + timerModel.penaltyTime() + statisticsModel.emergenciesUsed*20
+            if statisticsModel.clueCredits > 0 {
+                aveClueTime = (Double(adjustedHuntTime) / statisticsModel.clueCredits) / 60
             }
         }
-        return String(format: "F%1d E%1d %2.1f",found,emergencies,aveClueTime)
-
+        return aveClueTime
     }
 }
 
