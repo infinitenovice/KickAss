@@ -11,6 +11,7 @@ import SwiftUI
 @Observable
 class NavigationModel {
     var targetDestination: MKPlacemark?
+    var destinationMonogram: String?
     var route: MKRoute?
     var steps: [MKRoute.Step]
     var stepInstructions: String?
@@ -29,6 +30,7 @@ class NavigationModel {
     
     init() {
         targetDestination = nil
+        destinationMonogram = nil
         route = nil
         steps = []
         stepInstructions = nil
@@ -49,8 +51,13 @@ class NavigationModel {
         var longitude: Double
         var timestamp: Date
     }
+    func setDestination(destination: MarkerModel.SiteMarker) {
+        targetDestination = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: destination.latitude, longitude: destination.longitude))
+        destinationMonogram = destination.monogram
+    }
     func clearRoute() {
         targetDestination = nil
+        destinationMonogram = nil
         route = nil
         steps.removeAll()
         stepInstructions = nil

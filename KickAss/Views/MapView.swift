@@ -26,11 +26,11 @@ struct MapView: View {
             Map(position: $mapModel.camera, selection: $markerModel.selection) {
                 UserAnnotation()
                 ForEach(gridModel.lines) {gridline in
-                    MapPolyline(coordinates: gridline.points).stroke(.white, lineWidth: 1)
+                    MapPolyline(coordinates: gridline.points).stroke(.textPrimary, lineWidth: 1)
                 }
                 ForEach(gridModel.labels) {gridlabel in
                     Annotation("",coordinate: gridlabel.point) {
-                        Text(gridlabel.label).foregroundStyle(.white).font(.title2)
+                        Text(gridlabel.label).foregroundStyle(.textPrimary).font(.title2)
                     }
                     .tag(NOT_SELECTABLE)
                 }
@@ -54,7 +54,7 @@ struct MapView: View {
                     MapPolyline(coordinates: [calliperMarker.center,pointOnCircle]).stroke(.blue, lineWidth: 2)
                     Annotation("",coordinate: pointOnCircle) {
                         Text(String(Int(calliperMarker.radius*FEET_PER_METER))+" ft")
-                            .foregroundColor(Color.white)
+                            .foregroundColor(Color.textPrimary)
                             .font(.footnote)
                     }
                     .tag(NOT_SELECTABLE)

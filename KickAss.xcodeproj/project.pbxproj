@@ -19,6 +19,7 @@
 		297C19742C514E5D00AEFE14 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297C19732C514E5D00AEFE14 /* Assets.xcassets */; };
 		297C19772C514E5D00AEFE14 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 297C19762C514E5D00AEFE14 /* Preview Assets.xcassets */; };
 		297C19812C51501300AEFE14 /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297C19802C51501300AEFE14 /* MapView.swift */; };
+		29A5ED762C8B8D2F0064AB10 /* LongPressMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A5ED752C8B8D2F0064AB10 /* LongPressMenuView.swift */; };
 		29D229072C51541000C3CDAF /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229062C51541000C3CDAF /* Globals.swift */; };
 		29D229092C515DE600C3CDAF /* GridModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D229082C515DE600C3CDAF /* GridModel.swift */; };
 		29D2290B2C516BBF00C3CDAF /* MapModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29D2290A2C516BBF00C3CDAF /* MapModel.swift */; };
@@ -60,6 +61,7 @@
 		297C19762C514E5D00AEFE14 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		297C19802C51501300AEFE14 /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		298862D22C74F6ED00C984E5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		29A5ED752C8B8D2F0064AB10 /* LongPressMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LongPressMenuView.swift; sourceTree = "<group>"; };
 		29D229062C51541000C3CDAF /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		29D229082C515DE600C3CDAF /* GridModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridModel.swift; sourceTree = "<group>"; };
 		29D2290A2C516BBF00C3CDAF /* MapModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapModel.swift; sourceTree = "<group>"; };
@@ -130,7 +132,6 @@
 				297031DE2C88996E005EEAE7 /* Extensions */,
 				297C197D2C514E7D00AEFE14 /* Models */,
 				297C197E2C514EA300AEFE14 /* Views */,
-				29D2293C2C54A3DE00C3CDAF /* SiteDetailViews */,
 				297C197F2C514F0900AEFE14 /* Services */,
 				297C19732C514E5D00AEFE14 /* Assets.xcassets */,
 				297C19752C514E5D00AEFE14 /* Preview Content */,
@@ -172,6 +173,7 @@
 				29D229122C52679200C3CDAF /* MapButtonsView.swift */,
 				29D229142C526D6B00C3CDAF /* CrossHairView.swift */,
 				29D229222C52FF4500C3CDAF /* NavigationView.swift */,
+				29D2293C2C54A3DE00C3CDAF /* SiteDetailViews */,
 				29EC9DFB2C593BA6005CC3C9 /* StatusBarViews */,
 				29EC9DFA2C593AFE005CC3C9 /* ControlsViews */,
 			);
@@ -190,10 +192,11 @@
 		29D2293C2C54A3DE00C3CDAF /* SiteDetailViews */ = {
 			isa = PBXGroup;
 			children = (
-				29DEF0E92C65162600E618EE /* LatLonDisplayView.swift */,
 				297031E52C88A57F005EEAE7 /* SiteEditView.swift */,
 				297031DC2C88993C005EEAE7 /* SiteInfoView.swift */,
 				297031E32C889DBF005EEAE7 /* SitePickerView.swift */,
+				29DEF0E92C65162600E618EE /* LatLonDisplayView.swift */,
+				29A5ED752C8B8D2F0064AB10 /* LongPressMenuView.swift */,
 			);
 			path = SiteDetailViews;
 			sourceTree = "<group>";
@@ -309,6 +312,7 @@
 				29D2291F2C52FA8200C3CDAF /* LocationDeniedView.swift in Sources */,
 				29D2291B2C52EE4300C3CDAF /* ControlButtonsView.swift in Sources */,
 				29D229372C53E62C00C3CDAF /* TimerModel.swift in Sources */,
+				29A5ED762C8B8D2F0064AB10 /* LongPressMenuView.swift in Sources */,
 				29D2290B2C516BBF00C3CDAF /* MapModel.swift in Sources */,
 				297031E42C889DBF005EEAE7 /* SitePickerView.swift in Sources */,
 				297031E02C8899F0005EEAE7 /* Color.swift in Sources */,
@@ -467,8 +471,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -482,7 +486,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Debug;
 		};
@@ -505,8 +509,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen.storyboard;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -520,7 +524,7 @@
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 2;
 			};
 			name = Release;
 		};

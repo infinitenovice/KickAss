@@ -13,25 +13,22 @@ import AVFoundation
 class MarkerModel {
     static let shared = MarkerModel()
     
-    var data: SavedData = SavedData(markers: [], startingClueSet: false, monogramLetterIndex: 0)
+    var data: SavedData = SavedData(markers: [], startingClueSet: false)
     
     var selection: Int?
     var showRangeRadius: Bool = true
     var rangeRadius: Double = SEARCH_RADIUS
 
-    private init() {
-        
-    }
+    private init() {}  //Limit instantiaion to singleton
     
     struct SavedData : Codable {
         var markers: [SiteMarker] = []
         var startingClueSet: Bool = false
-        var monogramLetterIndex: Int = 0
     }
     
     struct SiteMarker: Identifiable, Codable {
         var id: Int                         = 0
-        var type: SiteType                  = .PossibleClueSite
+        var type: SiteType                  = .ClueSite
         var latitude: CLLocationDegrees     = 0.0
         var longitude: CLLocationDegrees    = 0.0
         var found: Bool                     = false
@@ -43,7 +40,7 @@ class MarkerModel {
     enum SiteType: Codable {
         case CheckInSite
         case StartClueSite
-        case PossibleClueSite
+        case ClueSite
         case JackassSite
     }
 
@@ -59,22 +56,25 @@ class MarkerModel {
             return false
         }
     }
-    func setNextMonogramLetter (monogram: String) {
-        for index in 0..<ClueLetterMonograms.count {
-            if ClueLetterMonograms[index] == monogram {
-                data.monogramLetterIndex = index + 1
-                if data.monogramLetterIndex == ClueLetterMonograms.count {
-                    data.monogramLetterIndex = 1  // wrap from Z to A, skip "?"
-                }
-            }
-        }
+    func deleteMarker(markerIndex: Int) {
+        data.markers[markerIndex].monogram = ""
+        data.markers[markerIndex].deleted = true
+        selection = nil
+        save()
+    }
+    func jackassMarker(markerIndex: Int) {
+        data.markers[markerIndex].monogram = "JA"
+        data.markers[markerIndex].type = .JackassSite
+        data.markers[markerIndex].title = "Jackass!"
+//        selection = nil
+        save()
     }
     func markStartingClue() {
         data.startingClueSet = true
         save()
     }
-    func newMarker(type: SiteType = .PossibleClueSite, location: CLLocationCoordinate2D, monogram: String = "?", title: String = "", airDroppedMarker: Bool = false) {
-        var marker: SiteMarker = SiteMarker(
+    func newMarker(type: SiteType = .ClueSite, location: CLLocationCoordinate2D, monogram: String = "?", title: String = "", airDroppedMarker: Bool = false) {
+        let marker: SiteMarker = SiteMarker(
             id:             data.markers.count,
             type:           type,
             latitude:       location.latitude,
@@ -84,9 +84,6 @@ class MarkerModel {
             monogram:       monogram,
             title:          title
             )
-        if data.startingClueSet && !airDroppedMarker {
-            marker.monogram = ClueLetterMonograms[data.monogramLetterIndex]
-        }
         data.markers.append(marker)
         if !airDroppedMarker {
             selection = marker.id
@@ -119,24 +116,23 @@ class MarkerModel {
     func markerColor(marker: SiteMarker) -> Color {
         switch marker.type {
         case .CheckInSite:
-            return Color.requiredSite
+            return Color.markerRequired
         case .StartClueSite:
-            return Color.requiredSite
-        case .PossibleClueSite:
+            return Color.markerRequired
+        case .ClueSite:
             if marker.emergency {
-                return Color.emergencySite
+                return Color.markerEmergency
             } else if marker.found {
-                return Color.foundSite
+                return Color.markerFound
             } else {
-                return Color.potentialSite
+                return Color.markerDefault
             }
         case .JackassSite:
-            return Color.jackassSite
+            return Color.markerJackass
         }
     }
     func deleteAllMarkers() {
         data.markers.removeAll()
-        data.monogramLetterIndex = 0
         data.startingClueSet = false
         save()
         load()

@@ -10,18 +10,16 @@ import SwiftUI
 
 extension Color {
     
-    static let theme = ColorTheme()
+//    static let textPrimary = Color("PrimaryTextColor")
+//    static let textSecondary = Color("SecondaryTextColor")
+//    static let textStandout = Color("StandoutText")
+//    static let backgroundPrimary = Color("PrimaryBackgroundColor")
+//    static let backgroundSecondary = Color("SecondaryBackgroundColor")
+//    static let markerEmergency = Color("EmergencyMarkerColor")
+//    static let markerFound = Color("FoundMarkerColor")
+//    static let markerJackass = Color("JackassMarkerColor")
+//    static let markerDefault = Color("DefaultMarkerColor")
+//    static let markerRequired = Color("RequiredMarkerColor")
+    
 }
 
-struct ColorTheme {
-    
-    let accent = Color("AccentColor")
-    let background = Color("BackgroundColor")
-    let secondarytext = Color("SecondaryTextColor")
-    let secondarybackground = Color("SecondaryBackgroundColor")
-    let emergency = Color("SiteEmergencyColor")
-    let found = Color("SiteFoundColor")
-    let jackass = Color("SiteJackassColor")
-    let potentialsite = Color("SitePotentialColor")
-    let requiredsite = Color("SiteRequiredColor")
-}

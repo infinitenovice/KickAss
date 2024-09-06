@@ -14,7 +14,6 @@ struct SitePickerView: View {
 
     @Environment(MarkerModel.self) var markerModel
 
-    @State var clueletter = "A"
 
     
     var body: some View {
@@ -28,9 +27,8 @@ struct SitePickerView: View {
                             isShowing = false
                         } label: {
                             Text("\(item)")
-                                .bold()
-                                .font(.title3)
-                                .foregroundStyle(.white)
+                                .font(.system(size: 22, weight: .bold))
+                                .foregroundStyle(.textPrimary)
                         }
                         Spacer(minLength: 0)
                     }
@@ -38,6 +36,7 @@ struct SitePickerView: View {
                 .listRowSeparator(.hidden)
             }
             .frame(width: 85, height: 600)
+            .background(.backgroundTertiary)
             .scrollContentBackground(.hidden)
             
         

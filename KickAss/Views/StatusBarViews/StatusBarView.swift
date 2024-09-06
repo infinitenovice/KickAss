@@ -25,9 +25,9 @@ struct StatusBarView: View {
             }
             .font(.system(size: 20))
             .frame(width: STATUS_BAR_WIDTH,  alignment: .center)
-            .foregroundColor(.white)
+            .foregroundColor(.textPrimary)
             .font(.title2)
-            .background(.secondaryBackground)
+            .background(.backgroundSecondary)
             .cornerRadius(15)
         }
     }

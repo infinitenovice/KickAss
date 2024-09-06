@@ -10,6 +10,7 @@ import SwiftUI
 struct HuntStatusBarView: View {
     @Environment (TimerModel.self) var timerModel
     @Environment (MarkerModel.self) var markerModel
+    @Environment (StatisticsModel.self) var statisticsModel
     
     var body: some View {
         HStack {
@@ -29,7 +30,7 @@ struct HuntStatusBarView: View {
             Spacer()
             HStack {
                 Text("Stats")
-//                Text(statsString(stickers: markerModel.stickerCount, emergencies: markerModel.emergencies, sequenceGaps: markerModel.sequenceGaps ))
+                Text(statsString(found: statisticsModel.cluesFound, emergencies: statisticsModel.emergenciesUsed, clueCredits: statisticsModel.clueCredits ))
             }
             .frame(width: 200, alignment: .trailing)
             .padding(.trailing)
@@ -56,21 +57,15 @@ struct HuntStatusBarView: View {
         let seconds = abs(interval%Minute)
         return String(format: "%0.1d:%0.2d", minutes, seconds)
     }
-    func statsString(stickers: Int, emergencies: Int, sequenceGaps: Int) -> String {
-        var clueCredits: Double = 0
+    func statsString(found: Int, emergencies: Int, clueCredits: Double) -> String {
         var aveClueTime: Double = 0
-        var stickerCount: Int = stickers
-        stickerCount -= 1 //The start clue sticker doesn's count
-        if stickerCount > 0 {
-            clueCredits = Double(stickerCount)-Double(sequenceGaps)/2
+        if found > 0 {
             let adjustedHuntTime = timerModel.huntTimeElapsed - timerModel.firstClueCredit() - timerModel.lastClueCredit + timerModel.penaltyTime() + emergencies*20
             if clueCredits > 0 {
                 aveClueTime = (Double(adjustedHuntTime) / clueCredits) / 60
             }
-        } else {
-            stickerCount = 0
         }
-        return String(format: "F%1d E%1d %2.1f",stickerCount,emergencies,aveClueTime)
+        return String(format: "F%1d E%1d %2.1f",found,emergencies,aveClueTime)
 
     }
 }

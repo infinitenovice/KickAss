@@ -5,6 +5,26 @@
 //  Created by Infinite Novice on 7/24/24.
 //
 
+/*
+ Todo:
+ Long press option
+ Update timer and stats display
+ font extensions
+ checkbox color switching
+ 
+
+ Add searching for message and monogram to nav link app
+ Add found button to nav link app
+ Publish nav link to test flight
+ Add auto-drop to navlink app instead of post/airdrop shortcut
+ 
+ Check route functionality, remove my step processing if possible
+ Refactor environment with container class
+ Refactor globals to config class
+ clue letter filter on picker so letter can be used only once
+ Refactor to not have to pass marker selection as parameter
+ Refactor persistent data into top level class
+ */
 import SwiftUI
 
 @main

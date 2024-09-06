@@ -29,9 +29,9 @@ struct MapButtonsView: View {
                 Spacer()
             }//VStack
             .buttonStyle(.borderedProminent)
-            .foregroundColor(.white)
+            .foregroundColor(.textPrimary)
             .font(.title)
-            .tint(.secondaryBackground)
+            .tint(.backgroundSecondary)
             .padding(.horizontal)
         }
     }

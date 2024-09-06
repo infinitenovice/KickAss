@@ -28,7 +28,10 @@ struct SiteEditView: View {
                         Button {
                             markerModel.data.markers[markerIndex].latitude = mapModel.region().center.latitude
                             markerModel.data.markers[markerIndex].longitude = mapModel.region().center.longitude
-                            } label: {Image(systemName: "move.3d")}
+                        } label: {
+                            Image(systemName: "arrow.up.and.down.and.arrow.left.and.right")
+                            //Image(systemName: "move.3d")
+                        }
                         Spacer()
                         Button {
                             isShowingMessages = true
@@ -44,21 +47,20 @@ struct SiteEditView: View {
                         Button {
                             let coordinate = CLLocationCoordinate2D(latitude: markerModel.data.markers[markerIndex].latitude, longitude: markerModel.data.markers[markerIndex].longitude)
                             cloudKitModel.update(coordinate: coordinate)
-                            navigationModel.targetDestination = MKPlacemark(coordinate: coordinate)
+                            navigationModel.setDestination(destination: markerModel.data.markers[markerIndex])
                         } label: {Image(systemName: "car.circle")}
                         Spacer()
                     }//HStack
                     .buttonStyle(.borderedProminent)
-                    .tint(.secondaryBackground)
+                    .tint(.backgroundSecondary)
                     .font(.title)
-                    .foregroundColor(.white)
+                    .foregroundColor(.textPrimary)
                     .frame(width: 300,height: 50)
                     SiteInfoView(markerIndex: markerIndex)
                         .frame(width: 250, height: 180)
                     Spacer()
                 }//VStack
-                .frame(width: 300)
-//                .padding(.leading)
+                .frame(width: 275)
                 Spacer()
             }//HStack
             .onDisappear() {

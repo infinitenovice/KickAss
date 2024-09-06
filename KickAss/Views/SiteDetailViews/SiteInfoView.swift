@@ -14,6 +14,7 @@ struct SiteInfoView: View {
     @Environment(TimerModel.self) var timerModel
     
     @State var pickerShowing: Bool = false
+    @State var longPressMenuShowing: Bool = false
     
 
     var body: some View {
@@ -21,7 +22,7 @@ struct SiteInfoView: View {
         
         ZStack{
             RoundedRectangle(cornerRadius: 15)
-                .fill(.secondaryBackground)
+                .fill(.backgroundSecondary)
             HStack{
                 VStack(alignment: .leading) {
                     HStack{
@@ -31,27 +32,37 @@ struct SiteInfoView: View {
                         .font(.system(size: 22, weight: .bold))
                         .frame(width: 140)
                         Spacer()
-                        Button{
-                            if markerModel.data.markers[markerIndex].type != .CheckInSite {
-                                pickerShowing.toggle()
-                            }
-                        } label: {
+                        Group {
                             ZStack {
                                 Circle()
-                                    .fill(.secondaryBackground)
-                                    .stroke(.secondaryBorder, lineWidth: 2)
+                                    .fill(.backgroundSecondary)
+                                    .stroke(.textSecondary, lineWidth: 2)
                                 Text(markerModel.data.markers[markerIndex].monogram)
                             }
                             .font(.system(size: 22, weight: .bold))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(.textPrimary)
                             .frame(width: 45, height: 45)
+                            .onTapGesture {
+                                if markerModel.data.markers[markerIndex].type != .CheckInSite && markerModel.data.markers[markerIndex].type != .JackassSite {
+                                    pickerShowing.toggle()
+                                }
+                            }
+                            .onLongPressGesture{
+                                if markerModel.data.markers[markerIndex].type != .CheckInSite &&
+                                    markerModel.data.markers[markerIndex].type != .StartClueSite {
+                                        longPressMenuShowing = true
+                                }
+                            }
                         }
                         .popover(isPresented: $pickerShowing) {
                             SitePickerView(markerIndex: markerIndex, pickedItem: $markerModel.data.markers[markerIndex].monogram, isShowing: $pickerShowing)
                         }
+                        .popover(isPresented: $longPressMenuShowing) {
+                            LongPressMenuView(markerIndex: markerIndex, isShowing: $longPressMenuShowing)
+                        }
                     }
                     LatLonDisplayView(markerIndex: markerIndex)
-                        .foregroundColor(.gray)
+                        .foregroundColor(.textSecondary)
                     Spacer()
                     switch markerModel.data.markers[markerIndex].type {
                     case .CheckInSite:
@@ -80,9 +91,9 @@ struct SiteInfoView: View {
                                 }
                         } else {
                             Text("No Clue Letter")
-                                .foregroundStyle(.red)
+                                .foregroundStyle(.textStandout)
                         }
-                    case .PossibleClueSite:
+                    case .ClueSite:
                         if markerModel.data.markers[markerIndex].monogram != "?" {
                             Toggle("Found", isOn: $markerModel.data.markers[markerIndex].found)
                                 .toggleStyle(.checkboxIOS)
@@ -96,10 +107,17 @@ struct SiteInfoView: View {
                                 .toggleStyle(.checkboxIOS)
                         } else {
                             Text("No Clue Letter")
-                                .foregroundStyle(.red)
+                                .foregroundStyle(.textStandout)
                         }
                     case .JackassSite:
-                        Text("Jackass options")
+                        HStack {
+                            Spacer()
+                            Image("KickingDonkey")
+                                .resizable()
+                                .frame(width: 50, height: 50)
+                                .background(.backgroundSecondary)
+                            Spacer()
+                        }
                     }
                     Spacer()
                 }
