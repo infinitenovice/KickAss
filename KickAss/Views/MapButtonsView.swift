@@ -29,9 +29,9 @@ struct MapButtonsView: View {
                 Spacer()
             }//VStack
             .buttonStyle(.borderedProminent)
-            .foregroundColor(.textPrimary)
+            .foregroundColor(Color.theme.textPrimary)
             .font(.title)
-            .tint(.backgroundSecondary)
+            .tint(Color.theme.backgroundSecondary)
             .padding(.horizontal)
         }
     }
@@ -40,18 +40,6 @@ struct MapButtonsView: View {
             var region = mapModel.region()
             region.span = GRID_CELL_ZOOM
             
-//            if let routeRegion = navigationModel.routeRegion() {
-//                region = routeRegion
-//            } else {
-//                if let selection = markerModel.selection {
-//                    if markerModel.validMarker(markerIndex: selection) {
-//                        region.center = CLLocationCoordinate2D(latitude: markerModel.data.markers[selection].latitude, longitude: markerModel.data.markers[selection].longitude)
-//                        if markerModel.data.markers[selection].type == .FoundClueSite || (markerModel.data.markers[selection].type == .StartClueSite && markerModel.data.startingClueSet) {
-//                            region.span = SEARCH_ZOOM_REGION
-//                        }
-//                    }
-//                }
-//            }
             mapModel.camera = .region(region)
         }
     }

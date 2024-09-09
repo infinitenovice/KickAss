@@ -7,8 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		294FB2E92C84398C00540AD1 /* CloudKitModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294FB2E82C84398C00540AD1 /* CloudKitModel.swift */; };
 		294FB30D2C8550A400540AD1 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 294FB30C2C8550A400540AD1 /* LaunchScreen.storyboard */; };
+		295987592C8CE03C00C3D4A3 /* NavLinkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295987582C8CE03C00C3D4A3 /* NavLinkModel.swift */; };
+		2959875D2C8CFC8E00C3D4A3 /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2959875C2C8CFC8E00C3D4A3 /* AppError.swift */; };
 		297031DD2C88993C005EEAE7 /* SiteInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297031DC2C88993C005EEAE7 /* SiteInfoView.swift */; };
 		297031E02C8899F0005EEAE7 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297031DF2C8899F0005EEAE7 /* Color.swift */; };
 		297031E22C889A79005EEAE7 /* ToggleStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 297031E12C889A79005EEAE7 /* ToggleStyle.swift */; };
@@ -46,8 +47,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		294FB2E82C84398C00540AD1 /* CloudKitModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudKitModel.swift; sourceTree = "<group>"; };
 		294FB30C2C8550A400540AD1 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		295987582C8CE03C00C3D4A3 /* NavLinkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavLinkModel.swift; sourceTree = "<group>"; };
+		2959875C2C8CFC8E00C3D4A3 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
 		297031DC2C88993C005EEAE7 /* SiteInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SiteInfoView.swift; sourceTree = "<group>"; };
 		297031DF2C8899F0005EEAE7 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		297031E12C889A79005EEAE7 /* ToggleStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleStyle.swift; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 				2976495C2C8384A2007122B6 /* KickAss.entitlements */,
 				298862D22C74F6ED00C984E5 /* Info.plist */,
 				297C196F2C514E5B00AEFE14 /* KickAssApp.swift */,
+				2959875C2C8CFC8E00C3D4A3 /* AppError.swift */,
 				297031DE2C88996E005EEAE7 /* Extensions */,
 				297C197D2C514E7D00AEFE14 /* Models */,
 				297C197E2C514EA300AEFE14 /* Views */,
@@ -160,7 +163,7 @@
 				29D229202C52FB3F00C3CDAF /* NavigationModel.swift */,
 				29D229362C53E62C00C3CDAF /* TimerModel.swift */,
 				29D229322C534B0F00C3CDAF /* HuntInfoModel.swift */,
-				294FB2E82C84398C00540AD1 /* CloudKitModel.swift */,
+				295987582C8CE03C00C3D4A3 /* NavLinkModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -296,7 +299,6 @@
 			files = (
 				297C19812C51501300AEFE14 /* MapView.swift in Sources */,
 				29D229392C53F57600C3CDAF /* ContentView.swift in Sources */,
-				294FB2E92C84398C00540AD1 /* CloudKitModel.swift in Sources */,
 				29D229212C52FB4000C3CDAF /* NavigationModel.swift in Sources */,
 				29EC9E032C593FDF005CC3C9 /* HuntStatusBarView.swift in Sources */,
 				297031E82C89F339005EEAE7 /* StatisticsModel.swift in Sources */,
@@ -306,6 +308,7 @@
 				29D2292B2C531D8000C3CDAF /* AppManagementView.swift in Sources */,
 				29D229272C530D7800C3CDAF /* SettingsView.swift in Sources */,
 				29D229332C534B0F00C3CDAF /* HuntInfoModel.swift in Sources */,
+				2959875D2C8CFC8E00C3D4A3 /* AppError.swift in Sources */,
 				29DEF0EA2C65162600E618EE /* LatLonDisplayView.swift in Sources */,
 				297031E62C88A57F005EEAE7 /* SiteEditView.swift in Sources */,
 				29EC9E012C593F5C005CC3C9 /* PreHuntStatusBarView.swift in Sources */,
@@ -321,6 +324,7 @@
 				297031DD2C88993C005EEAE7 /* SiteInfoView.swift in Sources */,
 				297031E22C889A79005EEAE7 /* ToggleStyle.swift in Sources */,
 				29D229352C53E0A500C3CDAF /* MessageSender.swift in Sources */,
+				295987592C8CE03C00C3D4A3 /* NavLinkModel.swift in Sources */,
 				29D229232C52FF4500C3CDAF /* NavigationView.swift in Sources */,
 				29D229072C51541000C3CDAF /* Globals.swift in Sources */,
 				297C19702C514E5B00AEFE14 /* KickAssApp.swift in Sources */,

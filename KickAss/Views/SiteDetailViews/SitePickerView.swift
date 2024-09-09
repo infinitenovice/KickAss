@@ -18,28 +18,26 @@ struct SitePickerView: View {
     
     var body: some View {
 
-            Form {
-                ForEach(markerModel.ClueLetterMonograms, id: \.self) {item in
-                    HStack{
-                        Spacer(minLength: 0)
-                        Button {
-                            pickedItem = item
-                            isShowing = false
-                        } label: {
-                            Text("\(item)")
-                                .font(.system(size: 22, weight: .bold))
-                                .foregroundStyle(.textPrimary)
-                        }
-                        Spacer(minLength: 0)
+        Form {
+            ForEach(markerModel.ClueLetterMonograms, id: \.self) {item in
+                HStack{
+                    Spacer(minLength: 0)
+                    Button {
+                        pickedItem = item
+                        isShowing = false
+                    } label: {
+                        Text("\(item)")
+                            .font(.system(size: 22, weight: .bold))
+                            .foregroundStyle(Color.theme.textPrimary)
                     }
+                    Spacer(minLength: 0)
                 }
-                .listRowSeparator(.hidden)
             }
-            .frame(width: 85, height: 600)
-            .background(.backgroundTertiary)
-            .scrollContentBackground(.hidden)
-            
-        
+            .listRowSeparator(.hidden)
+        }
+        .frame(width: 85, height: 600)
+        .background(Color.theme.backgroundTertiary)
+        .scrollContentBackground(.hidden)
     }
 }
 

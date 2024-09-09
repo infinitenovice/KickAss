@@ -32,8 +32,8 @@ struct LongPressMenuView: View {
             .padding()
         }
         .buttonStyle(.borderedProminent)
-        .tint(.backgroundSecondary)
-        .background(.backgroundTertiary)
+        .tint(Color.theme.backgroundSecondary)
+        .background(Color.theme.backgroundTertiary)
     }
 }
 

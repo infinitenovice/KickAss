@@ -12,7 +12,7 @@ struct AppManagementView: View {
     @Environment (NavigationModel.self) var navigationModel
     @Environment (TimerModel.self) var timerModel
     @Environment (HuntInfoModel.self) var huntInfoModel
-    @Environment (CloudKitModel.self) var cloudKitModel
+    @Environment (NavLinkModel.self) var navLinkModel
     
     @State var enableManagement: Bool = false
 
@@ -55,7 +55,16 @@ struct AppManagementView: View {
                             navigationModel.deleteTrackHistory()
                             timerModel.checkInTime = .distantFuture
                             timerModel.firstClueArrivalTime = .distantFuture
-                            markerModel.data.startingClueSet = false
+                            navLinkModel.clearAll()
+                        } label: {
+                            Text("Reset")
+                        }
+                    }
+                    HStack {
+                        Text("Reset Nav Link")
+                        Spacer()
+                        Button {
+                            navLinkModel.clearAll()
                         } label: {
                             Text("Reset")
                         }

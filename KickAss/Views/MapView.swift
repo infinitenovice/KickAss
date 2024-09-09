@@ -26,11 +26,11 @@ struct MapView: View {
             Map(position: $mapModel.camera,  interactionModes:[.pan,.zoom], selection: $markerModel.selection) {
                 UserAnnotation()
                 ForEach(gridModel.lines) {gridline in
-                    MapPolyline(coordinates: gridline.points).stroke(.textPrimary, lineWidth: 1)
+                    MapPolyline(coordinates: gridline.points).stroke(.white, lineWidth: 1)
                 }
                 ForEach(gridModel.labels) {gridlabel in
                     Annotation("",coordinate: gridlabel.point) {
-                        Text(gridlabel.label).foregroundStyle(.textPrimary).font(.title2)
+                        Text(gridlabel.label).foregroundStyle(Color.theme.textPrimary).font(.title2)
                     }
                     .tag(NOT_SELECTABLE)
                 }
@@ -54,7 +54,7 @@ struct MapView: View {
                     MapPolyline(coordinates: [calliperMarker.center,pointOnCircle]).stroke(.blue, lineWidth: 2)
                     Annotation("",coordinate: pointOnCircle) {
                         Text(String(Int(calliperMarker.radius*FEET_PER_METER))+" ft")
-                            .foregroundColor(Color.textPrimary)
+                            .foregroundColor(Color.theme.textPrimary)
                             .font(.footnote)
                     }
                     .tag(NOT_SELECTABLE)
@@ -86,7 +86,7 @@ struct MapView: View {
                 if markerModel.showRangeRadius {
                     if let marker = markerModel.selection {
                         if markerModel.validMarker(markerIndex: marker){
-                            if markerModel.data.markers[marker].found || (markerModel.data.markers[marker].type == .StartClueSite && markerModel.data.startingClueSet) {
+                            if markerModel.data.markers[marker].found {
                                 let center = CLLocationCoordinate2D(latitude: markerModel.data.markers[marker].latitude, longitude: markerModel.data.markers[marker].longitude)
                                 MapCircle(center: center, radius: markerModel.rangeRadius*METERS_PER_MILE)
                                     .foregroundStyle(.blue.opacity(0.2))

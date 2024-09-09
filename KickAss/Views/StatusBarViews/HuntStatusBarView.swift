@@ -15,49 +15,49 @@ struct HuntStatusBarView: View {
     var body: some View {
         HStack {
             VStack {
-                Text("Hunt")
-                    .font(.system(size: 10, weight: .bold))
-                    .foregroundStyle(.textSecondary)
                 Text(huntTimeDisplay(interval: timerModel.huntTimeElapsed))
                     .monospacedDigit()
                     .padding([.leading,.trailing])
+                Text("Hunt")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(Color.theme.textSecondary)
             }
             .padding(.leading)
             Spacer()
             VStack {
-                Text("Clue")
-                    .font(.system(size: 10, weight: .bold))
-                    .foregroundStyle(.textSecondary)
                 Text(clueTimeDisplay(interval: timerModel.clueTimeElapsed))
                     .monospacedDigit()
                     .padding([.leading,.trailing])
+                Text("Clue")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(Color.theme.textSecondary)
             }
             Spacer()
             VStack {
-                Text("Found")
-                    .font(.system(size: 10, weight: .bold))
-                    .foregroundStyle(.textSecondary)
                 Text("\(statisticsModel.cluesFound)")
                     .monospacedDigit()
                     .padding([.leading,.trailing])
+                Text("Found")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(Color.theme.textSecondary)
             }
             Spacer()
             VStack {
-                Text("Emergencies")
-                    .font(.system(size: 10, weight: .bold))
-                    .foregroundStyle(.textSecondary)
                 Text("\(statisticsModel.emergenciesUsed)")
                     .monospacedDigit()
                     .padding([.leading,.trailing])
+                Text("Emergencies")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(Color.theme.textSecondary)
             }
             Spacer()
             VStack {
-                Text("Average Time")
-                    .font(.system(size: 10, weight: .bold))
-                    .foregroundStyle(.textSecondary)
                 Text(String(format: "%2.1f",averageClueTime()))
                     .monospacedDigit()
                     .padding([.leading,.trailing])
+                Text("Average Time")
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(Color.theme.textSecondary)
             }
             .padding(.trailing)
         }

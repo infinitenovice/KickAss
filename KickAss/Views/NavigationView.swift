@@ -28,12 +28,12 @@ struct NavigationView: View {
                                 .font(.system(size: 25, weight: .semibold))
                                 .offset(x:15)
                         }
-                        .foregroundColor(.textSecondary)
+                        .foregroundColor(Color.theme.textSecondary)
                         .frame(width: 50)
                         if let monogram = navigationModel.destinationMonogram {
                             Text(monogram)
                                 .font(.system(size: 22, weight: .semibold))
-                                .foregroundStyle(.textSecondary)
+                                .foregroundStyle(Color.theme.textSecondary)
                         }
                         Spacer()
                         Button {
@@ -58,15 +58,15 @@ struct NavigationView: View {
                                 Text(arrivalTime, format: .dateTime.hour().minute())
                             }
                         }
-                        .foregroundColor(.textSecondary)
+                        .foregroundColor(Color.theme.textSecondary)
                         .padding()
                     }
                     .font(.system(size: 20))
                     Spacer()
                 }
-                .foregroundStyle(.textPrimary)
+                .foregroundStyle(Color.theme.textPrimary)
                 .frame(width: 250, height:250, alignment: .leading)
-                .background(.backgroundSecondary)
+                .background(Color.theme.backgroundSecondary)
                 .cornerRadius(15)
                 .padding(.leading,12)
                 .padding(.bottom,50)

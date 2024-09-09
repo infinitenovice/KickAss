@@ -9,16 +9,21 @@ import CloudKit
 
 @Observable
 class CloudKitModel {
-
+    static let shared = CloudKitModel()
+    var markerModel = MarkerModel.shared
+    
     var destinationRecord: CKRecord? = nil
     
     let container = CKContainer(identifier: "iCloud.InfiniteNovice.KickAssMapLink")
     let RECORD_TYPE = "Destination"
     let LOCATION_FIELD = "Location"
     let TIMESTAMP_FIELD = "Timestamp"
+    let FOUND_FIELD = "Found"
+    let MONOGRAM_FIELD = "Monogram"
+    let MARKER_ID_FIELD = "ID"
     let DEFAULT_LOCATION = CLLocation(latitude: 33.63203, longitude: -111.88011)  //West World
 
-    init() {
+    private init() {
         fetch()
     }
     
@@ -31,6 +36,11 @@ class CloudKitModel {
             case .success(let record):
                 DispatchQueue.main.async{
                     self.destinationRecord = record
+                    if let id = record[self.MARKER_ID_FIELD] as? Int {
+                        if let status: Bool = record[self.FOUND_FIELD] as? Bool {
+                            self.markerModel.data.markers[id].found = status
+                        }
+                    }
                 }
             case .failure(let error):
                 self.setErrorMessage(message: error.localizedDescription)
@@ -60,21 +70,19 @@ class CloudKitModel {
         }
     }
     
-    func update(coordinate: CLLocationCoordinate2D) {
+    func update(destination: MarkerModel.SiteMarker) {
+        let coordinate = CLLocationCoordinate2D(latitude: destination.latitude, longitude: destination.longitude)
         if let record = destinationRecord {
             let location = CLLocation(latitude: coordinate.latitude, longitude: coordinate.longitude)
             record[TIMESTAMP_FIELD] = Date.now
             record[LOCATION_FIELD] = location
+            record[FOUND_FIELD] = destination.found
+            record[MONOGRAM_FIELD] = destination.monogram
+            record[MARKER_ID_FIELD] = destination.id
             save(record: record)
         } else {
             setErrorMessage(message: "No destination record to update")
         }
-    }
-    func newRecord() {
-        let record = CKRecord(recordType: RECORD_TYPE)
-        record[LOCATION_FIELD] = DEFAULT_LOCATION
-        record[TIMESTAMP_FIELD] = Date.now
-        save(record: record)
     }
     
     func setStatusMessage(message: String) {

@@ -21,7 +21,7 @@ class StatisticsModel {
         var emergencyCount = 0
         var gapCount = 0
         
-        if markerModel.data.startingClueSet {
+        if markerModel.data.markers[1].found {  // if starting clue found
             for index in 0..<markerModel.data.markers.count {
                 if markerModel.data.markers[index].found {
                     clueStickers.append(markerModel.data.markers[index].monogram)

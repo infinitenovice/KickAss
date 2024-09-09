@@ -8,14 +8,18 @@
 import CoreLocation
 import SwiftUI
 import AVFoundation
+import OSLog
+
 
 @Observable
 class MarkerModel {
     static let shared = MarkerModel()
+    var log = Logger(subsystem: "KickAss", category: "MarkerModel")
     
-    var data: SavedData = SavedData(markers: [], startingClueSet: false)
+    var data: SavedData = SavedData(markers: [])
     
     var selection: Int?
+    var refresh: Bool = false
     var showRangeRadius: Bool = true
     var rangeRadius: Double = SEARCH_RADIUS
 
@@ -23,7 +27,6 @@ class MarkerModel {
     
     struct SavedData : Codable {
         var markers: [SiteMarker] = []
-        var startingClueSet: Bool = false
     }
     
     struct SiteMarker: Identifiable, Codable {
@@ -52,7 +55,7 @@ class MarkerModel {
         if markerIndex >= 0 && markerIndex < data.markers.count {
             return true
         } else {
-            print("Invalid marker index:",markerIndex)
+            log.info("Invalid marker index: \(markerIndex)")
             return false
         }
     }
@@ -66,12 +69,12 @@ class MarkerModel {
         data.markers[markerIndex].monogram = "JA"
         data.markers[markerIndex].type = .JackassSite
         data.markers[markerIndex].title = "Jackass!"
-//        selection = nil
         save()
     }
-    func markStartingClue() {
-        data.startingClueSet = true
-        save()
+    func markAsFound(markerIndex: Int) {
+        if validMarker(markerIndex: markerIndex) {
+            data.markers[markerIndex].found = true
+        }
     }
     func newMarker(type: SiteType = .ClueSite, location: CLLocationCoordinate2D, monogram: String = "?", title: String = "", airDroppedMarker: Bool = false) {
         let marker: SiteMarker = SiteMarker(
@@ -116,24 +119,23 @@ class MarkerModel {
     func markerColor(marker: SiteMarker) -> Color {
         switch marker.type {
         case .CheckInSite:
-            return Color.markerRequired
+            return Color.theme.markerRequired
         case .StartClueSite:
-            return Color.markerRequired
+            return Color.theme.markerRequired
         case .ClueSite:
             if marker.emergency {
-                return Color.markerEmergency
+                return Color.theme.markerEmergency
             } else if marker.found {
-                return Color.markerFound
+                return Color.theme.markerFound
             } else {
-                return Color.markerDefault
+                return Color.theme.markerDefault
             }
         case .JackassSite:
-            return Color.markerJackass
+            return Color.theme.markerJackass
         }
     }
     func deleteAllMarkers() {
         data.markers.removeAll()
-        data.startingClueSet = false
         save()
         load()
     }
@@ -144,11 +146,11 @@ class MarkerModel {
                 let fileData = try JSONDecoder().decode(SavedData.self, from: jsonData)
                 data = fileData
             } catch {
-                print(error)
+                log.error("\(error.localizedDescription)")
             }
         }
         if data.markers.isEmpty {
-            print("creating required markers")
+            log.info("creating required markers")
             newMarker(type: .CheckInSite, location: CHECK_IN_SITE, monogram: "WW", title: "West World")
             newMarker(type: .StartClueSite, location: GRID_CENTER, monogram: "?", title: "Start Clue")
         }
@@ -158,7 +160,7 @@ class MarkerModel {
             let fileData = try JSONEncoder().encode(data)
             try fileData.write(to: SITE_MARKERS_URL)
         } catch {
-            print(error)
+            log.error("\(error.localizedDescription)")
         }
     }
     func processIncommingMarker(url: URL) {

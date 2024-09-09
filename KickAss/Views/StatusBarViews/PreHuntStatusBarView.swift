@@ -13,26 +13,26 @@ struct PreHuntStatusBarView: View {
     let calendar = Calendar.current
     var body: some View {
         VStack {
+            Text(huntCountdownString(interval: abs(timerModel.huntTimeElapsed)))
+                .monospacedDigit()
             HStack {
+                Text("Countdown")
+                Text("-")
                 Text(huntInfoModel.huntInfo.huntTitle)
+                Text("-")
                 Text(huntInfoModel.huntInfo.huntTheme)
             }
             .font(.system(size: 10))
-            if abs(timerModel.huntTimeElapsed) > 24*60*60  {
-                Text(huntInfoModel.huntInfo.huntStartDate, format: .dateTime.day().month().year())
-            } else {
-                Text(huntCountdownString(interval: abs(timerModel.huntTimeElapsed)))
-                    .monospacedDigit()
-            }
         }
     }
     func huntCountdownString(interval: Int) -> String {
         var intervalString = ""
-
-        let hours = interval/Hour
+        
+        let days = interval/Day
+        let hours = (interval%Day)/Hour
         let minutes = (interval%Hour)/Minute
         let seconds = interval%Minute
-        intervalString += String(format: "%0.2d:%0.2d:%0.2d", hours, minutes, seconds)
+        intervalString += String(format: "%0.2d:%0.2d:%0.2d:%0.2d", days, hours, minutes, seconds)
         return intervalString
     }
 }

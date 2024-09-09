@@ -7,39 +7,38 @@
 
 /*
  Todo:
- Long press option
- Update timer and stats display
- font extensions
- checkbox color switching
- 
-
- Add searching for message and monogram to nav link app
- Add found button to nav link app
+ Implement publish and clear for destination sharing accross devices
+ fix manual ll entry to keep marker inside grid
  Publish nav link to test flight
  Add auto-drop to navlink app instead of post/airdrop shortcut
  
+ replace print statements with logger
  Check route functionality, remove my step processing if possible
  Refactor environment with container class
  Refactor globals to config class
  clue letter filter on picker so letter can be used only once
  Refactor to not have to pass marker selection as parameter
  Refactor persistent data into top level class
+ checkbox color switching
+ font extensions
  */
 import SwiftUI
+import OSLog
 
 @main
 struct KickAssApp: App {
-    
+    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
+
     @State private var gridModel        = GridModel()
     @State private var mapModel         = MapModel()
     @State private var calliperModel    = CalliperModel()
     @State private var locationManager  = LocationManager()
-    @State private var navigationModel  = NavigationModel()
     @State private var huntInfoModel    = HuntInfoModel()
-    @State private var cloudKitModel    = CloudKitModel()
     @State private var statisticsModel  = StatisticsModel()
+    @State private var navigationModel  = NavigationModel.shared
     @State private var timerModel       = TimerModel.shared
     @State private var markerModel      = MarkerModel.shared
+    @State private var navLinkModel     = NavLinkModel.shared
 
     var body: some Scene {
         WindowGroup {
@@ -53,12 +52,41 @@ struct KickAssApp: App {
         .environment(mapModel)
         .environment(calliperModel)
         .environment(locationManager)
-        .environment(navigationModel)
         .environment(huntInfoModel)
-        .environment(cloudKitModel)
         .environment(statisticsModel)
+        .environment(navigationModel)
         .environment(timerModel)
         .environment(markerModel)
+        .environment(navLinkModel)
     }
 }
 
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate {
+    var navLinkModel = NavLinkModel.shared
+    
+    var log = Logger(subsystem: "KickAss", category: "AppDelegate")
+    
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        UNUserNotificationCenter.current().requestAuthorization(options: .alert) { granted, error in
+            if let error = error {
+                self.log.error("User notifications error: \(error.localizedDescription)")
+            } else {
+                DispatchQueue.main.async {
+                    UIApplication.shared.registerForRemoteNotifications()
+                    self.log.info("Registered for remote notifications")
+                }
+            }
+        }
+        UNUserNotificationCenter.current().delegate = self
+        return true
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.sound, .badge])
+        self.log.info("Foreground notification")
+        self.navLinkModel.fetchUpdateQueue()
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
+        self.log.info( "Background notification")
+        self.navLinkModel.fetchUpdateQueue()
+    }
+}

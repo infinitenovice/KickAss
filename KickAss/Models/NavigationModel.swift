@@ -10,6 +10,8 @@ import SwiftUI
 
 @Observable
 class NavigationModel {
+    static let shared = NavigationModel()
+    
     var targetDestination: MKPlacemark?
     var destinationMonogram: String?
     var route: MKRoute?
@@ -52,8 +54,10 @@ class NavigationModel {
         var timestamp: Date
     }
     func setDestination(destination: MarkerModel.SiteMarker) {
-        targetDestination = MKPlacemark(coordinate: CLLocationCoordinate2D(latitude: destination.latitude, longitude: destination.longitude))
+        let coordinate = CLLocationCoordinate2D(latitude: destination.latitude, longitude: destination.longitude)
+        targetDestination = MKPlacemark(coordinate: coordinate)
         destinationMonogram = destination.monogram
+
     }
     func clearRoute() {
         targetDestination = nil

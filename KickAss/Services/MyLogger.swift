@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import OSLog
 
 @Observable
 class MyLogger {
@@ -16,11 +17,15 @@ class MyLogger {
     
     private init() {}
     
+    let newLog = Logger()
+    
     func post(entry: String) {
         print(entry)
         if log.count >= MaxEntries {
             log.remove(at: 0)
         }
         log.append(entry)
+        
+        newLog.
     }
 }

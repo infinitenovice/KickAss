@@ -12,6 +12,7 @@ struct SiteInfoView: View {
 
     @Environment(MarkerModel.self) var markerModel
     @Environment(TimerModel.self) var timerModel
+    @Environment(NavLinkModel.self) var navLinkModel
     
     @State var pickerShowing: Bool = false
     @State var longPressMenuShowing: Bool = false
@@ -22,7 +23,7 @@ struct SiteInfoView: View {
         
         ZStack{
             RoundedRectangle(cornerRadius: 15)
-                .fill(.backgroundSecondary)
+                .fill(Color.theme.backgroundSecondary)
             HStack{
                 VStack(alignment: .leading) {
                     HStack{
@@ -35,12 +36,12 @@ struct SiteInfoView: View {
                         Group {
                             ZStack {
                                 Circle()
-                                    .fill(.backgroundSecondary)
-                                    .stroke(.textSecondary, lineWidth: 2)
+                                    .fill(Color.theme.backgroundSecondary)
+                                    .stroke(Color.theme.textSecondary, lineWidth: 2)
                                 Text(markerModel.data.markers[markerIndex].monogram)
                             }
                             .font(.system(size: 22, weight: .bold))
-                            .foregroundStyle(.textPrimary)
+                            .foregroundStyle(Color.theme.textPrimary)
                             .frame(width: 45, height: 45)
                             .onTapGesture {
                                 if markerModel.data.markers[markerIndex].type != .CheckInSite && markerModel.data.markers[markerIndex].type != .JackassSite {
@@ -56,13 +57,16 @@ struct SiteInfoView: View {
                         }
                         .popover(isPresented: $pickerShowing) {
                             SitePickerView(markerIndex: markerIndex, pickedItem: $markerModel.data.markers[markerIndex].monogram, isShowing: $pickerShowing)
+                                .onDisappear() {
+                                    markerModel.refresh.toggle()
+                                }
                         }
                         .popover(isPresented: $longPressMenuShowing) {
                             LongPressMenuView(markerIndex: markerIndex, isShowing: $longPressMenuShowing)
                         }
                     }
                     LatLonDisplayView(markerIndex: markerIndex)
-                        .foregroundColor(.textSecondary)
+                        .foregroundColor(Color.theme.textSecondary)
                     Spacer()
                     switch markerModel.data.markers[markerIndex].type {
                     case .CheckInSite:
@@ -82,16 +86,16 @@ struct SiteInfoView: View {
                                 .toggleStyle(.checkboxIOS)
                                 .onChange(of: markerModel.data.markers[markerIndex].found) {_, found in
                                     if found {
-                                        markerModel.markStartingClue()
                                         timerModel.setFirstClueArrivalTime()
                                     } else {
                                         timerModel.firstClueArrivalTime = .distantFuture
                                         timerModel.clueStartTime = timerModel.huntStartTime
                                     }
+                                    markerModel.refresh.toggle()
                                 }
                         } else {
                             Text("No Clue Letter")
-                                .foregroundStyle(.textStandout)
+                                .foregroundStyle(Color.theme.textStandout)
                         }
                     case .ClueSite:
                         if markerModel.data.markers[markerIndex].monogram != "?" {
@@ -102,12 +106,13 @@ struct SiteInfoView: View {
                                     if found {
                                         timerModel.resetClueTimer()
                                     }
+                                    markerModel.refresh.toggle()
                                 }
                             Toggle("Emergency", isOn: $markerModel.data.markers[markerIndex].emergency)
                                 .toggleStyle(.checkboxIOS)
                         } else {
                             Text("No Clue Letter")
-                                .foregroundStyle(.textStandout)
+                                .foregroundStyle(Color.theme.textStandout)
                         }
                     case .JackassSite:
                         HStack {
@@ -115,7 +120,7 @@ struct SiteInfoView: View {
                             Image("KickingDonkey")
                                 .resizable()
                                 .frame(width: 50, height: 50)
-                                .background(.backgroundSecondary)
+                                .background(Color.theme.backgroundSecondary)
                             Spacer()
                         }
                     }

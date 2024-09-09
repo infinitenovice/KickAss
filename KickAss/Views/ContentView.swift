@@ -16,8 +16,8 @@ struct ContentView: View {
     @Environment(LocationManager.self) var locationManager
     @Environment(TimerModel.self) var timerModel
     @Environment(HuntInfoModel.self) var huntInfoModel
-    @Environment(CloudKitModel.self) var cloudKitModel
     @Environment(StatisticsModel.self) var statisicsModel
+    @Environment(NavLinkModel.self) var navLinkModel
 
     var body: some View {
         ZStack {
@@ -32,6 +32,24 @@ struct ContentView: View {
             if let marker = markerModel.selection {
                 if markerModel.validMarker(markerIndex: marker){
                     SiteEditView(markerIndex: marker)
+                        .onAppear() {
+                            DispatchQueue.main.async {
+                                navLinkModel.clear(queue: .publishQueue)
+                                navLinkModel.publishDestination(destination: markerModel.data.markers[marker])
+                            }
+                        }
+                        .onChange(of: markerModel.refresh) {
+                            DispatchQueue.main.async {
+                                navLinkModel.clear(queue: .publishQueue)
+                                navLinkModel.publishDestination(destination: markerModel.data.markers[marker])
+                            }
+                        }
+                        .onChange(of: markerModel.selection) {
+                            DispatchQueue.main.async {
+                                navLinkModel.clear(queue: .publishQueue)
+                                navLinkModel.publishDestination(destination: markerModel.data.markers[marker])
+                            }
+                        }
                 }
             }
         }
@@ -53,7 +71,7 @@ struct ContentView: View {
             if newValue == TimerModel.HuntState.InProgress {
                 navigationModel.trackingEnabled = true
                 timerModel.resetClueTimer()
-                if !markerModel.data.startingClueSet {
+                if !markerModel.data.markers[1].found {
                     markerModel.selection = 1 //Starting Clue Site
                 }
             } else {

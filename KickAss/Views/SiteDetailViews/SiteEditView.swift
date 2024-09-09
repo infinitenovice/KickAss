@@ -16,7 +16,6 @@ struct SiteEditView: View {
     @Environment(NavigationModel.self) var navigationModel
     @Environment(HuntInfoModel.self) var huntInfoModel
     @Environment(TimerModel.self) var timerModel
-    @Environment(CloudKitModel.self) var cloudKitModel
     
     @State private var isShowingMessages = false
 
@@ -28,6 +27,7 @@ struct SiteEditView: View {
                         Button {
                             markerModel.data.markers[markerIndex].latitude = mapModel.region().center.latitude
                             markerModel.data.markers[markerIndex].longitude = mapModel.region().center.longitude
+                            markerModel.refresh.toggle()
                         } label: {
                             Image(systemName: "arrow.up.and.down.and.arrow.left.and.right")
                             //Image(systemName: "move.3d")
@@ -35,8 +35,6 @@ struct SiteEditView: View {
                         Spacer()
                         Button {
                             isShowingMessages = true
-                            let coordinate = CLLocationCoordinate2D(latitude: markerModel.data.markers[markerIndex].latitude, longitude: markerModel.data.markers[markerIndex].longitude)
-                            cloudKitModel.update(coordinate: coordinate)
                             } label: {Image(systemName: "square.and.arrow.up")}
                             .sheet(isPresented: self.$isShowingMessages) {
                                 MessageSender(recipients: huntInfoModel.phoneList(),
@@ -45,16 +43,14 @@ struct SiteEditView: View {
                         
                         Spacer()
                         Button {
-                            let coordinate = CLLocationCoordinate2D(latitude: markerModel.data.markers[markerIndex].latitude, longitude: markerModel.data.markers[markerIndex].longitude)
-                            cloudKitModel.update(coordinate: coordinate)
                             navigationModel.setDestination(destination: markerModel.data.markers[markerIndex])
                         } label: {Image(systemName: "car.circle")}
                         Spacer()
                     }//HStack
                     .buttonStyle(.borderedProminent)
-                    .tint(.backgroundSecondary)
+                    .tint(Color.theme.backgroundSecondary)
                     .font(.title)
-                    .foregroundColor(.textPrimary)
+                    .foregroundColor(Color.theme.textPrimary)
                     .frame(width: 300,height: 50)
                     SiteInfoView(markerIndex: markerIndex)
                         .frame(width: 250, height: 180)

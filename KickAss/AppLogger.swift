@@ -6,3 +6,6 @@
 //
 
 import Foundation
+import OSLog
+
+let AppLogger = Logger(subsystem: <#T##String#>, category: <#T##String#>)
