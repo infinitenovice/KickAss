@@ -22,13 +22,19 @@ struct SitePickerView: View {
             ForEach(markerModel.ClueLetterMonograms, id: \.self) {item in
                 HStack{
                     Spacer(minLength: 0)
-                    Button {
-                        pickedItem = item
-                        isShowing = false
-                    } label: {
+                    if markerModel.monogramAvailable(monogram: item){
+                        Button {
+                            pickedItem = item
+                            isShowing = false
+                        } label: {
+                            Text("\(item)")
+                                .font(.system(size: 22, weight: .bold))
+                                .foregroundStyle(Color.theme.textPrimary)
+                        }
+                    } else {
                         Text("\(item)")
                             .font(.system(size: 22, weight: .bold))
-                            .foregroundStyle(Color.theme.textPrimary)
+                            .foregroundStyle(Color.theme.textSecondary)
                     }
                     Spacer(minLength: 0)
                 }

@@ -8,18 +8,15 @@
 /*
  Todo:
  Implement publish and clear for destination sharing accross devices
- fix manual ll entry to keep marker inside grid
+ - test navlink toggle on all scenarios
  Publish nav link to test flight
  Add auto-drop to navlink app instead of post/airdrop shortcut
  
- replace print statements with logger
  Check route functionality, remove my step processing if possible
  Refactor environment with container class
  Refactor globals to config class
- clue letter filter on picker so letter can be used only once
  Refactor to not have to pass marker selection as parameter
- Refactor persistent data into top level class
- checkbox color switching
+ Refactor persistent data (JSON save data) into top level class
  font extensions
  */
 import SwiftUI
@@ -83,10 +80,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         completionHandler([.sound, .badge])
         self.log.info("Foreground notification")
-        self.navLinkModel.fetchUpdateQueue()
+        navLinkModel.fetchRecords(queue: .updateQueue, processOnFetch: true, removeOnFetch: true)
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
         self.log.info( "Background notification")
-        self.navLinkModel.fetchUpdateQueue()
+        navLinkModel.fetchRecords(queue: .updateQueue, processOnFetch: true, removeOnFetch: true)
     }
 }

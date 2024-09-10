@@ -14,10 +14,14 @@ import OSLog
 class NavLinkModel {
     static let shared = NavLinkModel()
     var markerModel = MarkerModel.shared
-
-    
     var log = Logger(subsystem: "KickAss", category: "NavLinkModel")
-  
+ 
+    private init() {
+        self.subscribe()
+        self.clear(queue: .publishQueue)
+        self.clear(queue: .updateQueue)
+    }
+    
     let container = CKContainer(identifier: "iCloud.InfiniteNovice.KickAssMapLink")
     struct NavLinkMarker {
         var marker_id:  Int
@@ -43,11 +47,7 @@ class NavLinkModel {
         case updateQueue   = "updateQueue"
     }
     
-    private init() {
-        self.subscribe()
-        self.clear(queue: .publishQueue)
-        self.clear(queue: .updateQueue)
-    }
+
     func subscribe() {
         let subscription = CKQuerySubscription(recordType: NavLinkMarkerCK.type, predicate: NSPredicate(value: true), subscriptionID: "KickAssNavLink", options: [.firesOnRecordUpdate, .firesOnRecordCreation, .firesOnRecordDeletion])
         let notification = CKSubscription.NotificationInfo()
@@ -124,8 +124,8 @@ class NavLinkModel {
             log.info("Processed .publish queue record")
         case .updateQueue:
             if let markerIndex = record[NavLinkMarkerCK.marker_id] as? Int {
-                markerModel.markAsFound(markerIndex: markerIndex)
-                log.info("Marked as found marker: \(markerIndex)")
+                markerModel.toggleFoundStatus(markerIndex: markerIndex)
+                log.info("Toggle Found Status: \(markerIndex)")
             } else {
                 log.error("CKRecord content invalid: marker_id")
             }
@@ -137,9 +137,6 @@ class NavLinkModel {
     func clearAll() {
         clear(queue: .publishQueue)
         clear(queue: .updateQueue)
-    }
-    func fetchUpdateQueue() {
-        fetchRecords(queue: .updateQueue, processOnFetch: true, removeOnFetch: true)
     }
     func publishDestination(destination: MarkerModel.SiteMarker) {
         let navLinkMarker = NavLinkModel.NavLinkMarker(

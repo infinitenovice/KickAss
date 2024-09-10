@@ -79,6 +79,7 @@ struct SiteInfoView: View {
                                 } else {
                                     timerModel.checkInTime = .distantFuture
                                 }
+                                markerModel.refresh.toggle()
                             }
                     case .StartClueSite:
                         if markerModel.data.markers[markerIndex].monogram != "?" {

@@ -32,24 +32,6 @@ struct ContentView: View {
             if let marker = markerModel.selection {
                 if markerModel.validMarker(markerIndex: marker){
                     SiteEditView(markerIndex: marker)
-                        .onAppear() {
-                            DispatchQueue.main.async {
-                                navLinkModel.clear(queue: .publishQueue)
-                                navLinkModel.publishDestination(destination: markerModel.data.markers[marker])
-                            }
-                        }
-                        .onChange(of: markerModel.refresh) {
-                            DispatchQueue.main.async {
-                                navLinkModel.clear(queue: .publishQueue)
-                                navLinkModel.publishDestination(destination: markerModel.data.markers[marker])
-                            }
-                        }
-                        .onChange(of: markerModel.selection) {
-                            DispatchQueue.main.async {
-                                navLinkModel.clear(queue: .publishQueue)
-                                navLinkModel.publishDestination(destination: markerModel.data.markers[marker])
-                            }
-                        }
                 }
             }
         }

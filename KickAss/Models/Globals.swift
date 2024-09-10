@@ -44,3 +44,4 @@ let TRACK_HISTORY_URL = URL.documentsDirectory.appending(path: "TrackHistory.jso
 // Misc
 let BUTTON_ERROR_SOUND = 1057 //Tink
 let CALLIPER_CLEAR_CLICKS = 2
+let LOGSUBSYSTEM = "KickAss"

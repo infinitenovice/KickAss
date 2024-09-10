@@ -7,10 +7,12 @@
 
 import MapKit
 import SwiftUI
+import OSLog
 
 @Observable
 class NavigationModel {
     static let shared = NavigationModel()
+    var log = Logger(subsystem: LOGSUBSYSTEM, category: "NavigationModel")
     
     var targetDestination: MKPlacemark?
     var destinationMonogram: String?
@@ -90,34 +92,34 @@ class NavigationModel {
     func navigationInProgress() -> Bool {
         return (route != nil)
     }
-    func routeRegion() -> MKCoordinateRegion? {
-        
-        if navigationInProgress() {
-            var maxLat = -90.0
-            var minLat = 90.0
-            var maxLon = -180.0
-            var minLon = 180.0
-            
-            for stepIndex in 0..<steps.count {
-                let coordinates = steps[stepIndex].polyline.coordinates
-                for pointIndex in 0..<coordinates.count {
-                    let point = coordinates[pointIndex]
-                    if point.latitude > maxLat {maxLat = point.latitude}
-                    if point.latitude < minLat {minLat = point.latitude}
-                    if point.longitude > maxLon {maxLon = point.longitude}
-                    if point.longitude < minLon {minLon = point.longitude}
-                }
-            }
-            var region: MKCoordinateRegion = GRID_REGION
-
-            region.span = MKCoordinateSpan(latitudeDelta: (maxLat-minLat)*1.1, longitudeDelta: (maxLon-minLon)*1.1)
-            region.center = CLLocationCoordinate2D(latitude: (maxLat-minLat)/2+minLat, longitude: (maxLon-minLon)/2+minLon)
-            print(region.center)
-            return region
-        } else {
-            return nil
-        }
-    }
+//    func routeRegion() -> MKCoordinateRegion? {
+//
+//        if navigationInProgress() {
+//            var maxLat = -90.0
+//            var minLat = 90.0
+//            var maxLon = -180.0
+//            var minLon = 180.0
+//
+//            for stepIndex in 0..<steps.count {
+//                let coordinates = steps[stepIndex].polyline.coordinates
+//                for pointIndex in 0..<coordinates.count {
+//                    let point = coordinates[pointIndex]
+//                    if point.latitude > maxLat {maxLat = point.latitude}
+//                    if point.latitude < minLat {minLat = point.latitude}
+//                    if point.longitude > maxLon {maxLon = point.longitude}
+//                    if point.longitude < minLon {minLon = point.longitude}
+//                }
+//            }
+//            var region: MKCoordinateRegion = GRID_REGION
+//
+//            region.span = MKCoordinateSpan(latitudeDelta: (maxLat-minLat)*1.1, longitudeDelta: (maxLon-minLon)*1.1)
+//            region.center = CLLocationCoordinate2D(latitude: (maxLat-minLat)/2+minLat, longitude: (maxLon-minLon)/2+minLon)
+//            log.info(region.center)
+//            return region
+//        } else {
+//            return nil
+//        }
+//    }
     func nextStep() {
         if !steps.isEmpty {
             steps.remove(at: 0)
@@ -175,13 +177,13 @@ class NavigationModel {
                 let jsonData = try Data(contentsOf: TRACK_HISTORY_URL)
                 let data = try JSONDecoder().decode([TrackPoint].self, from: jsonData)
                 trackHistoryData = data
-                print("Loaded Track History:",trackHistoryData.count)
+                log.info("Loaded Track History: \(self.trackHistoryData.count)")
                 for trackIndex in 0..<trackHistoryData.count {
                     let point = CLLocationCoordinate2D(latitude: trackHistoryData[trackIndex].latitude, longitude: trackHistoryData[trackIndex].longitude)
                     trackHistoryPolyline.append(point)
                 }
             } catch {
-                print(error)
+                log.error("\(error)")
             }
         }
     }
@@ -190,7 +192,7 @@ class NavigationModel {
             let data = try JSONEncoder().encode(trackHistoryData)
             try data.write(to: TRACK_HISTORY_URL)
         } catch {
-            print(error)
+            log.error("\(error)")
         }
     }
     func deleteTrackHistory() {
@@ -199,23 +201,11 @@ class NavigationModel {
         do {
             try FileManager.default.removeItem(at: TRACK_HISTORY_URL)
         } catch {
-            print(error)
+            log.error("\(error)")
         }
     }
     
 }
-public extension MKMultiPoint {
-    var coordinates: [CLLocationCoordinate2D] {
-        var coords = [CLLocationCoordinate2D](repeating: kCLLocationCoordinate2DInvalid,
-                                              count: pointCount)
-        getCoordinates(&coords, range: NSRange(location: 0, length: pointCount))
-        return coords
-    }
-}
-public extension CLLocationCoordinate2D {
-    func distance(from: CLLocationCoordinate2D) -> CLLocationDistance {
-        let destination=CLLocation(latitude:from.latitude,longitude:from.longitude)
-        return CLLocation(latitude: latitude, longitude: longitude).distance(from: destination)
-    }
-}
+
+
 

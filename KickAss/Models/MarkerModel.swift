@@ -23,7 +23,13 @@ class MarkerModel {
     var showRangeRadius: Bool = true
     var rangeRadius: Double = SEARCH_RADIUS
 
-    private init() {}  //Limit instantiaion to singleton
+    let ClueLetterMonograms: [String] = [
+        "?","A","B","C","D","E","F","G","H","I","J","K","L","M",
+        "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+    ]
+    
+    // Singleton init
+    private init() {}
     
     struct SavedData : Codable {
         var markers: [SiteMarker] = []
@@ -47,10 +53,7 @@ class MarkerModel {
         case JackassSite
     }
 
-    let ClueLetterMonograms: [String] = [
-        "?","A","B","C","D","E","F","G","H","I","J","K","L","M",
-        "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
-    ]
+    
     func validMarker(markerIndex: Int) -> Bool {
         if markerIndex >= 0 && markerIndex < data.markers.count {
             return true
@@ -60,7 +63,9 @@ class MarkerModel {
         }
     }
     func deleteMarker(markerIndex: Int) {
-        data.markers[markerIndex].monogram = ""
+        data.markers[markerIndex].monogram = "?"
+        data.markers[markerIndex].found = false
+        data.markers[markerIndex].emergency = false
         data.markers[markerIndex].deleted = true
         selection = nil
         save()
@@ -71,9 +76,10 @@ class MarkerModel {
         data.markers[markerIndex].title = "Jackass!"
         save()
     }
-    func markAsFound(markerIndex: Int) {
+    func toggleFoundStatus(markerIndex: Int) {
         if validMarker(markerIndex: markerIndex) {
-            data.markers[markerIndex].found = true
+            data.markers[markerIndex].found.toggle()
+            log.info("Toggled Status: \(markerIndex):\(self.data.markers[markerIndex].found)")
         }
     }
     func newMarker(type: SiteType = .ClueSite, location: CLLocationCoordinate2D, monogram: String = "?", title: String = "", airDroppedMarker: Bool = false) {
@@ -100,20 +106,16 @@ class MarkerModel {
             return nil
         }
     }
-    func monogramValid(monogram: String) -> Bool {
-        var markerPreviouslyUsed = false
-        for index in 0..<data.markers.count {
-            if data.markers[index].found || data.markers[index].type == .StartClueSite {
-                if monogram == data.markers[index].monogram {
-                    markerPreviouslyUsed = true
-                }
+    func monogramAvailable(monogram: String) -> Bool {
+        var monogramAvailable = true
+        var index: Int = 0
+        while index < data.markers.count && monogramAvailable {
+            if monogram == data.markers[index].monogram {
+                monogramAvailable = false
             }
+            index += 1
         }
-        if monogram == "?" || markerPreviouslyUsed {
-            return false
-        } else {
-            return true
-        }
+        return(monogram == "?" || monogramAvailable)
     }
     
     func markerColor(marker: SiteMarker) -> Color {

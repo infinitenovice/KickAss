@@ -16,6 +16,7 @@ struct SiteEditView: View {
     @Environment(NavigationModel.self) var navigationModel
     @Environment(HuntInfoModel.self) var huntInfoModel
     @Environment(TimerModel.self) var timerModel
+    @Environment(NavLinkModel.self) var navLinkModel
     
     @State private var isShowingMessages = false
 
@@ -59,9 +60,29 @@ struct SiteEditView: View {
                 .frame(width: 275)
                 Spacer()
             }//HStack
+            .onAppear() {
+                DispatchQueue.main.async {
+                    navLinkModel.clear(queue: .publishQueue)
+                    navLinkModel.publishDestination(destination: markerModel.data.markers[markerIndex])
+                }
+            }
             .onDisappear() {
                 markerModel.save()
+                navLinkModel.clear(queue: .publishQueue)
             }
+            .onChange(of: markerModel.refresh) {
+                DispatchQueue.main.async {
+                    navLinkModel.clear(queue: .publishQueue)
+                    navLinkModel.publishDestination(destination: markerModel.data.markers[markerIndex])
+                }
+            }
+            .onChange(of: markerModel.selection) {
+                DispatchQueue.main.async {
+                    navLinkModel.clear(queue: .publishQueue)
+                    navLinkModel.publishDestination(destination: markerModel.data.markers[markerIndex])
+                }
+            }
+
     }
 }
 

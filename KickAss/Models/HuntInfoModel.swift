@@ -6,10 +6,13 @@
 //
 
 import Foundation
+import OSLog
 
 @Observable
 class HuntInfoModel {
+    var log = Logger(subsystem: LOGSUBSYSTEM, category: "HuntInfoModel")
     var huntInfo = HuntInfo()
+    
     
     init() {
         self.load()
@@ -50,7 +53,7 @@ class HuntInfoModel {
                 let data = try JSONDecoder().decode(HuntInfo.self, from: jsonData)
                 huntInfo = data
             } catch {
-                print(error)
+                log.error("\(error)")
             }
         }
     }
@@ -59,7 +62,7 @@ class HuntInfoModel {
             let data = try JSONEncoder().encode(huntInfo)
             try data.write(to: HUNT_INFO_URL)
         } catch {
-            print(error)
+            log.error("\(error)")
         }
     }
 }

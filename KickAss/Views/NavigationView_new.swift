@@ -8,7 +8,7 @@
 import SwiftUI
 import MapKit
 
-struct NavigationView: View {
+struct NavigationView_new: View {
     @Environment(NavigationModel.self) var navigationModel
     @Environment(TimerModel.self) var timerModel
 
@@ -30,11 +30,9 @@ struct NavigationView: View {
                         }
                         .foregroundColor(Color.theme.textSecondary)
                         .frame(width: 50)
-                        if let monogram = navigationModel.destinationMonogram {
-                            Text(monogram)
-                                .font(.system(size: 22, weight: .semibold))
-                                .foregroundStyle(Color.theme.textSecondary)
-                        }
+                        Text(navigationModel.destinationMonogram ?? "??")
+                            .font(.system(size: 22, weight: .semibold))
+                            .foregroundStyle(Color.theme.textSecondary)
                         Spacer()
                         Button {
                             navigationModel.clearRoute()

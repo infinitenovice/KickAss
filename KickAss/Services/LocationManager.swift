@@ -7,9 +7,11 @@
 
 import SwiftUI
 import CoreLocation
+import OSLog
 
 @Observable
 class LocationManager: NSObject, CLLocationManagerDelegate {
+    var log = Logger(subsystem: LOGSUBSYSTEM, category: "LocationManager")
     @ObservationIgnored  let manager = CLLocationManager()
     var userLocation: CLLocation?
     var heading: Double = 0
@@ -52,7 +54,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             manager.requestWhenInUseAuthorization()
         case .denied:
             isAuthorized = false
-            print("user location access denied")
+            log.info("user location access denied")
         default:
             isAuthorized = true
             startLocationServices()
@@ -60,6 +62,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
-        print(error)
+        log.error("\(error)")
     }
 }
