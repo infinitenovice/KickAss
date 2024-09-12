@@ -44,7 +44,7 @@ struct SiteEditView: View {
                         
                         Spacer()
                         Button {
-                            navigationModel.setDestination(destination: markerModel.data.markers[markerIndex])
+                            navigationModel.initiateRoute(destination: markerModel.data.markers[markerIndex])
                         } label: {Image(systemName: "car.circle")}
                         Spacer()
                     }//HStack
@@ -74,6 +74,9 @@ struct SiteEditView: View {
                 DispatchQueue.main.async {
                     navLinkModel.clear(queue: .publishQueue)
                     navLinkModel.publishDestination(destination: markerModel.data.markers[markerIndex])
+                    if navigationModel.navigationInProgress() {
+                        navigationModel.initiateRoute(destination: markerModel.data.markers[markerIndex])
+                    }
                 }
             }
             .onChange(of: markerModel.selection) {

@@ -11,8 +11,10 @@ import OSLog
 
 @Observable
 class LocationManager: NSObject, CLLocationManagerDelegate {
+    static let shared = LocationManager()
     var log = Logger(subsystem: LOGSUBSYSTEM, category: "LocationManager")
     @ObservationIgnored  let manager = CLLocationManager()
+    
     var userLocation: CLLocation?
     var heading: Double = 0
     var isAuthorized: Bool = false

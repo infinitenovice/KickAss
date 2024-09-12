@@ -13,4 +13,10 @@ public extension CLLocationCoordinate2D {
         let destination=CLLocation(latitude:from.latitude,longitude:from.longitude)
         return CLLocation(latitude: latitude, longitude: longitude).distance(from: destination)
     }
+    func location() -> CLLocation {
+        let location=CLLocation(latitude: self.latitude, longitude: self.longitude)
+        return location
+    }
 }
+
+

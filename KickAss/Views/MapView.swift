@@ -59,25 +59,9 @@ struct MapView: View {
                     }
                     .tag(NOT_SELECTABLE)
                 }
-                if navigationModel.route != nil {
-                    ForEach(navigationModel.steps, id: \.self) { step in
-                        MapPolyline(step.polyline)
-                            .stroke(.blue,lineWidth: 6)
-                    }
-                    if let coord = navigationModel.stepStartLocation {
-                        Annotation("",coordinate: coord) {
-                            Text("X")
-                                .foregroundColor(.green)
-                        }
-                        .tag(NOT_SELECTABLE)
-                    }
-                    if let coord = navigationModel.stepEndLocation {
-                        Annotation("",coordinate: coord) {
-                            Text("X")
-                                .foregroundColor(.red)
-                        }
-                        .tag(NOT_SELECTABLE)
-                    }
+                ForEach(navigationModel.steps, id: \.self) { step in
+                    MapPolyline(step.polyline)
+                        .stroke(.blue,lineWidth: 6)
                 }
                 if navigationModel.showTrackHistory {
                     MapPolyline(coordinates: navigationModel.trackHistoryPolyline)

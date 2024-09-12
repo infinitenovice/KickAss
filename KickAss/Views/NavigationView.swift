@@ -8,9 +8,10 @@
 import SwiftUI
 import MapKit
 
-struct NavigationView_new: View {
+struct NavigationView: View {
     @Environment(NavigationModel.self) var navigationModel
     @Environment(TimerModel.self) var timerModel
+    @Environment(LocationManager.self) var locationManager
 
     var body: some View {
         HStack {
@@ -30,7 +31,7 @@ struct NavigationView_new: View {
                         }
                         .foregroundColor(Color.theme.textSecondary)
                         .frame(width: 50)
-                        Text(navigationModel.destinationMonogram ?? "??")
+                        Text(navigationModel.destinationMonogram)
                             .font(.system(size: 22, weight: .semibold))
                             .foregroundStyle(Color.theme.textSecondary)
                         Spacer()
@@ -43,21 +44,21 @@ struct NavigationView_new: View {
                     }
                     .padding()
                     VStack {
-                        Text(String(Int((navigationModel.stepRemainingDistance ?? 0)*FEET_PER_METER))+" ft")
-                        Text(navigationModel.stepInstructions ?? "End of route")
-                            .font(.system(size: 20))
-                            .lineLimit(3)
-                            .frame(height: 80)
-                            .padding([.trailing, .leading])
-                        HStack {
-                            if let route = navigationModel.route {
-                                let arrivalTime = Date.now.addingTimeInterval(route.expectedTravelTime) 
+                        if let wayPoint = navigationModel.wayPointNext?.location(),
+                           let wayPointDistance = locationManager.userLocation?.distance(from: wayPoint) {
+                            Text(String(Int(wayPointDistance*FEET_PER_METER))+" ft")
+                            Text(navigationModel.stepInstructions)
+                                .font(.system(size: 20))
+                                .lineLimit(3)
+                                .frame(height: 80)
+                                .padding([.trailing, .leading])
+                            HStack {
                                 Text("ETA ")
-                                Text(arrivalTime, format: .dateTime.hour().minute())
+                                Text(navigationModel.estimatedArrivalTime, format: .dateTime.hour().minute())
                             }
+                            .foregroundColor(Color.theme.textSecondary)
+                            .padding()
                         }
-                        .foregroundColor(Color.theme.textSecondary)
-                        .padding()
                     }
                     .font(.system(size: 20))
                     Spacer()

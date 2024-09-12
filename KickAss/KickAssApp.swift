@@ -18,6 +18,7 @@
  Refactor to not have to pass marker selection as parameter
  Refactor persistent data (JSON save data) into top level class
  font extensions
+ change NOTSELECTABLE to nil for tags
  */
 import SwiftUI
 import OSLog
