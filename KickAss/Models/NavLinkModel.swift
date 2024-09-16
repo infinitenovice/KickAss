@@ -16,42 +16,27 @@ class NavLinkModel {
     var markerModel = MarkerModel.shared
     var log = Logger(subsystem: "KickAss", category: "NavLinkModel")
  
-    private init() {
-        self.subscribe()
-        self.clear(queue: .publishQueue)
-        self.clear(queue: .updateQueue)
-    }
-    
     let container = CKContainer(identifier: "iCloud.InfiniteNovice.KickAssMapLink")
-    struct NavLinkMarker {
-        var marker_id:  Int
-        var location:   CLLocation
-        var monogram:   String
-        var status:     Bool
-    }
-    struct NavLinkMarkerCK {
+    var currentPosting: CKRecord
+    
+    struct DestinationRecord {
         // Header
         static let type         = "Destination"
-        static let queue        = "queue"
         static let timestamp    = "timestamp"
         // Payload
-        static let marker_id    = "marker_id"
-        static let location     = "location"
         static let monogram     = "monogram"
+        static let location     = "location"
         static let status       = "status"
-        
-
     }
-    enum NavLinkQueueID: String {
-        case publishQueue  = "publishQueue"
-        case updateQueue   = "updateQueue"
+    private init() {
+        self.currentPosting = CKRecord(recordType: DestinationRecord.type)
+        self.subscribe()
+        self.reset()
     }
-    
-
     func subscribe() {
-        let subscription = CKQuerySubscription(recordType: NavLinkMarkerCK.type, predicate: NSPredicate(value: true), subscriptionID: "KickAssNavLink", options: [.firesOnRecordUpdate, .firesOnRecordCreation, .firesOnRecordDeletion])
+        let subscription = CKQuerySubscription(recordType: DestinationRecord.type, predicate: NSPredicate(value: true), subscriptionID: "KickAssNavLink", options: [.firesOnRecordDeletion,.firesOnRecordCreation,.firesOnRecordUpdate])
         let notification = CKSubscription.NotificationInfo()
-        notification.alertBody = "Incomming Request"
+        notification.alertBody = "Get a clue!"
         subscription.notificationInfo = notification
         container.publicCloudDatabase.save(subscription) { _, error in
             guard error == nil else {
@@ -61,36 +46,65 @@ class NavLinkModel {
             self.log.info("Status Updates Subscription Successful")
         }
     }
-    func save(record: CKRecord) {
-        container.publicCloudDatabase.save(record) { _, error in
+    func postSite(site: MarkerModel.SiteMarker) {
+        self.container.publicCloudDatabase.fetch(withRecordID: currentPosting.recordID) { record, error in
             guard error == nil else {
                 self.log.error("\(error!.localizedDescription)")
                 return
             }
-            self.log.info("Record Saved: \(record.recordID)")
+            if let record = record {
+                self.log.info("Fetched: \(self.currentPosting.recordID)")
+                record[DestinationRecord.timestamp] = Date.now
+                record[DestinationRecord.location] = CLLocation(latitude: site.latitude, longitude: site.longitude)
+                record[DestinationRecord.status] = site.found
+                record[DestinationRecord.monogram] = site.monogram
+                self.container.publicCloudDatabase.save(record) { _, error in
+                    guard error == nil else {
+                        self.log.error("postSite:\(error!.localizedDescription)")
+                        return
+                    }
+                    self.currentPosting = record
+                    self.log.info("Posted: \(record.recordID)")
+                }
+            }
         }
     }
-    func put(marker: NavLinkMarker, queue: NavLinkQueueID) {
-        let record = CKRecord(recordType: NavLinkMarkerCK.type)
-        record[NavLinkMarkerCK.queue] = queue.rawValue
-        record[NavLinkMarkerCK.timestamp] = Date.now
-        record[NavLinkMarkerCK.location] = marker.location
-        record[NavLinkMarkerCK.status] = marker.status
-        record[NavLinkMarkerCK.monogram] = marker.monogram
-        record[NavLinkMarkerCK.marker_id] = marker.marker_id
-        self.save(record: record)
+    func removePosting() {
+        self.container.publicCloudDatabase.fetch(withRecordID: currentPosting.recordID) { record, error in
+            guard error == nil else {
+                self.log.error("\(error!.localizedDescription)")
+                return
+            }
+            if let record = record {
+                record[DestinationRecord.monogram] = "nil"
+                record[DestinationRecord.timestamp] = Date.now
+                record[DestinationRecord.location] = CLLocation(latitude: 0.0, longitude: 0.0)
+                record[DestinationRecord.status] = false
+                self.container.publicCloudDatabase.save(record) { _, error in
+                    guard error == nil else {
+                        self.log.error("\(error!.localizedDescription)")
+                        return
+                    }
+                    self.currentPosting = record
+                    self.log.info("Posting Removed \(self.currentPosting.recordID)")
+                }
+            }
+        }
     }
-    func fetchRecords(queue: NavLinkQueueID, processOnFetch: Bool, removeOnFetch: Bool) {
-        var records: [CKRecord] = []
-        let predicate = NSPredicate(format: "queue == %@", argumentArray: [queue.rawValue])
-        let sort = NSSortDescriptor(key: NavLinkMarkerCK.timestamp, ascending: true)
-        let query = CKQuery(recordType: NavLinkMarkerCK.type, predicate: predicate)
-        query.sortDescriptors = [sort]
+    func reset() {
+        let predicate = NSPredicate(value: true)
+        let query = CKQuery(recordType: DestinationRecord.type, predicate: predicate)
         let operation = CKQueryOperation(query: query)
         operation.recordMatchedBlock = { id, result in
             switch result {
             case .success(let record):
-                records.append(record)
+                self.container.publicCloudDatabase.delete(withRecordID: record.recordID) { _, error in
+                    if let error = error {
+                        self.log.error("\(error.localizedDescription)")
+                    } else {
+                        self.log.info("Record Deleted \(record.recordID)")
+                    }
+                }
             case .failure(let error):
                 self.log.error("\(error.localizedDescription)")
             }
@@ -98,19 +112,16 @@ class NavLinkModel {
         operation.queryResultBlock = { result in
             switch result {
             case .success(_ ):
-                DispatchQueue.main.async {
-                    for index in 0..<records.count {
-                        if processOnFetch {
-                            self.processRecord(queue: queue,record: records[index])
-                        }
-                        if removeOnFetch {
-                            self.container.publicCloudDatabase.delete(withRecordID: records[index].recordID) { _, error in
-                                if let error = error {
-                                    self.log.error("\(error.localizedDescription)")
-                                }
-                            }
-                        }
+                self.currentPosting[DestinationRecord.monogram] = "nil"
+                self.currentPosting[DestinationRecord.timestamp] = Date.now
+                self.currentPosting[DestinationRecord.location] = CLLocation(latitude: 0.0, longitude: 0.0)
+                self.currentPosting[DestinationRecord.status] = false
+                self.container.publicCloudDatabase.save(self.currentPosting) { _, error in
+                    guard error == nil else {
+                        self.log.error("\(error!.localizedDescription)")
+                        return
                     }
+                    self.log.info("Posted nil record: \(self.currentPosting.recordID)")
                 }
             case .failure(let error):
                 self.log.error("\(error.localizedDescription)")
@@ -118,32 +129,9 @@ class NavLinkModel {
         }
         container.publicCloudDatabase.add(operation)
     }
-    func processRecord(queue: NavLinkQueueID, record: CKRecord) {
-        switch queue {
-        case .publishQueue:
-            log.info("Processed .publish queue record")
-        case .updateQueue:
-            if let markerIndex = record[NavLinkMarkerCK.marker_id] as? Int {
-                markerModel.toggleFoundStatus(markerIndex: markerIndex)
-                log.info("Toggle Found Status: \(markerIndex)")
-            } else {
-                log.error("CKRecord content invalid: marker_id")
-            }
+    func processSiteFoundNotification() {
+        if let marker = self.markerModel.setSelectedMarkerStatusToFound() {
+            self.postSite(site: marker)
         }
-    }
-    func clear(queue: NavLinkQueueID) {
-        fetchRecords(queue: queue, processOnFetch: false, removeOnFetch: true)
-    }
-    func clearAll() {
-        clear(queue: .publishQueue)
-        clear(queue: .updateQueue)
-    }
-    func publishDestination(destination: MarkerModel.SiteMarker) {
-        let navLinkMarker = NavLinkModel.NavLinkMarker(
-            marker_id: destination.id,
-            location: CLLocation(latitude: destination.latitude, longitude: destination.longitude),
-            monogram: destination.monogram,
-            status: destination.found)
-        put(marker: navLinkMarker, queue: .publishQueue)
     }
 }

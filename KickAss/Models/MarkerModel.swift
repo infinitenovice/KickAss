@@ -24,7 +24,7 @@ class MarkerModel {
     var rangeRadius: Double = SEARCH_RADIUS
 
     let ClueLetterMonograms: [String] = [
-        "?","A","B","C","D","E","F","G","H","I","J","K","L","M",
+        "A","B","C","D","E","F","G","H","I","J","K","L","M",
         "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
     ]
     
@@ -76,10 +76,18 @@ class MarkerModel {
         data.markers[markerIndex].title = "Jackass!"
         save()
     }
-    func toggleFoundStatus(markerIndex: Int) {
-        if validMarker(markerIndex: markerIndex) {
-            data.markers[markerIndex].found.toggle()
-            log.info("Toggled Status: \(markerIndex):\(self.data.markers[markerIndex].found)")
+    func setSelectedMarkerStatusToFound() -> SiteMarker? {
+        if let markerIndex = self.selection {
+            if validMarker(markerIndex: markerIndex) {
+                data.markers[markerIndex].found = true
+                log.info("Set Status to Found: \(markerIndex):\(self.data.markers[markerIndex].found)")
+                return self.data.markers[markerIndex]
+            } else {
+                log.error("Failed to set status, invalid marker: \(markerIndex)")
+                return nil
+            }
+        } else {
+            return nil
         }
     }
     func newMarker(type: SiteType = .ClueSite, location: CLLocationCoordinate2D, monogram: String = "?", title: String = "", airDroppedMarker: Bool = false) {

@@ -18,17 +18,18 @@ struct HuntStatusBarView: View {
                 Text(huntTimeDisplay(interval: timerModel.huntTimeElapsed))
                     .monospacedDigit()
                     .padding([.leading,.trailing])
-                Text("Hunt")
+                Text("Hunt Time Remaining")
                     .font(.system(size: 10, weight: .bold))
                     .foregroundStyle(Color.theme.textSecondary)
             }
             .padding(.leading)
+            .padding(.top, 4)
             Spacer()
             VStack {
                 Text(clueTimeDisplay(interval: timerModel.clueTimeElapsed))
                     .monospacedDigit()
                     .padding([.leading,.trailing])
-                Text("Clue")
+                Text("Clue Time Elapsed")
                     .font(.system(size: 10, weight: .bold))
                     .foregroundStyle(Color.theme.textSecondary)
             }
@@ -55,11 +56,11 @@ struct HuntStatusBarView: View {
                 Text(String(format: "%2.1f",averageClueTime()))
                     .monospacedDigit()
                     .padding([.leading,.trailing])
-                Text("Average Time")
+                Text("Average Clue Time")
                     .font(.system(size: 10, weight: .bold))
                     .foregroundStyle(Color.theme.textSecondary)
+                    .padding(.trailing)
             }
-            .padding(.trailing)
         }
     }
     func huntTimeDisplay(interval: Int) -> String {

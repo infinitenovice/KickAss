@@ -55,16 +55,6 @@ struct AppManagementView: View {
                             navigationModel.deleteTrackHistory()
                             timerModel.checkInTime = .distantFuture
                             timerModel.firstClueArrivalTime = .distantFuture
-                            navLinkModel.clearAll()
-                        } label: {
-                            Text("Reset")
-                        }
-                    }
-                    HStack {
-                        Text("Reset Nav Link")
-                        Spacer()
-                        Button {
-                            navLinkModel.clearAll()
                         } label: {
                             Text("Reset")
                         }

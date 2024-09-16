@@ -21,71 +21,44 @@ struct SiteEditView: View {
     @State private var isShowingMessages = false
 
     var body: some View {
-            HStack {
-                VStack {
-                    HStack {
-                        Spacer()
-                        Button {
-                            markerModel.data.markers[markerIndex].latitude = mapModel.region().center.latitude
-                            markerModel.data.markers[markerIndex].longitude = mapModel.region().center.longitude
-                            markerModel.refresh.toggle()
-                        } label: {
-                            Image(systemName: "arrow.up.and.down.and.arrow.left.and.right")
-                            //Image(systemName: "move.3d")
-                        }
-                        Spacer()
-                        Button {
-                            isShowingMessages = true
-                            } label: {Image(systemName: "square.and.arrow.up")}
-                            .sheet(isPresented: self.$isShowingMessages) {
-                                MessageSender(recipients: huntInfoModel.phoneList(),
-                                              message: "http://maps.apple.com/?ll="+String(markerModel.data.markers[markerIndex].latitude)+","+String(markerModel.data.markers[markerIndex].longitude))
-                            }
-                        
-                        Spacer()
-                        Button {
-                            navigationModel.initiateRoute(destination: markerModel.data.markers[markerIndex])
-                        } label: {Image(systemName: "car.circle")}
-                        Spacer()
-                    }//HStack
-                    .buttonStyle(.borderedProminent)
-                    .tint(Color.theme.backgroundSecondary)
-                    .font(.title)
-                    .foregroundColor(Color.theme.textPrimary)
-                    .frame(width: 300,height: 50)
-                    SiteInfoView(markerIndex: markerIndex)
-                        .frame(width: 250, height: 180)
+        HStack {
+            VStack {
+                HStack {
                     Spacer()
-                }//VStack
-                .frame(width: 275)
-                Spacer()
-            }//HStack
-            .onAppear() {
-                DispatchQueue.main.async {
-                    navLinkModel.clear(queue: .publishQueue)
-                    navLinkModel.publishDestination(destination: markerModel.data.markers[markerIndex])
-                }
-            }
-            .onDisappear() {
-                markerModel.save()
-                navLinkModel.clear(queue: .publishQueue)
-            }
-            .onChange(of: markerModel.refresh) {
-                DispatchQueue.main.async {
-                    navLinkModel.clear(queue: .publishQueue)
-                    navLinkModel.publishDestination(destination: markerModel.data.markers[markerIndex])
-                    if navigationModel.navigationInProgress() {
-                        navigationModel.initiateRoute(destination: markerModel.data.markers[markerIndex])
+                    Button {
+                        markerModel.data.markers[markerIndex].latitude = mapModel.region().center.latitude
+                        markerModel.data.markers[markerIndex].longitude = mapModel.region().center.longitude
+                        markerModel.refresh.toggle()
+                    } label: {
+                        Image(systemName: "arrow.up.and.down.and.arrow.left.and.right")
                     }
-                }
-            }
-            .onChange(of: markerModel.selection) {
-                DispatchQueue.main.async {
-                    navLinkModel.clear(queue: .publishQueue)
-                    navLinkModel.publishDestination(destination: markerModel.data.markers[markerIndex])
-                }
-            }
-
+                    Spacer()
+                    Button {
+                        isShowingMessages = true
+                    } label: {Image(systemName: "square.and.arrow.up")}
+                        .sheet(isPresented: self.$isShowingMessages) {
+                            MessageSender(recipients: huntInfoModel.phoneList(),
+                                          message: "http://maps.apple.com/?ll="+String(markerModel.data.markers[markerIndex].latitude)+","+String(markerModel.data.markers[markerIndex].longitude))
+                        }
+                    
+                    Spacer()
+                    Button {
+                        navigationModel.initiateRoute(destination: markerModel.data.markers[markerIndex])
+                    } label: {Image(systemName: "car.circle")}
+                    Spacer()
+                }//HStack
+                .buttonStyle(.borderedProminent)
+                .tint(Color.theme.backgroundSecondary)
+                .font(.title)
+                .foregroundColor(Color.theme.textPrimary)
+                .frame(width: 300,height: 50)
+                SiteInfoView(markerIndex: markerIndex)
+                    .frame(width: 250, height: 180)
+                Spacer()
+            }//VStack
+            .frame(width: 275)
+            Spacer()
+        }//HStack
     }
 }
 

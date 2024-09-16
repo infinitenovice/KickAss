@@ -8,17 +8,19 @@
 /*
  Todo:
  Implement publish and clear for destination sharing accross devices
- - test navlink toggle on all scenarios
+ - appears to send three updates when clue info edited
  Publish nav link to test flight
  Add auto-drop to navlink app instead of post/airdrop shortcut
  
- Check route functionality, remove my step processing if possible
  Refactor environment with container class
  Refactor globals to config class
  Refactor to not have to pass marker selection as parameter
  Refactor persistent data (JSON save data) into top level class
  font extensions
  change NOTSELECTABLE to nil for tags
+ explore throwing errors instead of just logging them at point of occurence
+ explore using guards instead of nested if-else
+ 
  */
 import SwiftUI
 import OSLog
@@ -79,12 +81,8 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         return true
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
-        completionHandler([.sound, .badge])
         self.log.info("Foreground notification")
-        navLinkModel.fetchRecords(queue: .updateQueue, processOnFetch: true, removeOnFetch: true)
-    }
-    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse) async {
-        self.log.info( "Background notification")
-        navLinkModel.fetchRecords(queue: .updateQueue, processOnFetch: true, removeOnFetch: true)
+        self.navLinkModel.processSiteFoundNotification()
+        completionHandler([.sound, .badge])
     }
 }

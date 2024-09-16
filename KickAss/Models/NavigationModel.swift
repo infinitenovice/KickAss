@@ -70,8 +70,8 @@ class NavigationModel {
         steps = []
     }
     func fetchRoute(locationManager: LocationManager) async {
-        log.info("Fetch Route")
         if let userLocation = locationManager.userLocation, let targetDestination = self.targetDestination {
+            log.info("Fetch Route")
             let request = MKDirections.Request()
             let startPlacemark = MKPlacemark(coordinate: userLocation.coordinate)
             let endPlacemark = MKPlacemark(coordinate: targetDestination.coordinate)

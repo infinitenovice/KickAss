@@ -32,6 +32,22 @@ struct ContentView: View {
             if let marker = markerModel.selection {
                 if markerModel.validMarker(markerIndex: marker){
                     SiteEditView(markerIndex: marker)
+                        .onAppear() {
+                            navLinkModel.postSite(site: markerModel.data.markers[marker])
+                        }
+                        .onDisappear() {
+                            markerModel.save()
+                            navLinkModel.removePosting()
+                        }
+                        .onChange(of: markerModel.selection) {
+                            navLinkModel.postSite(site: markerModel.data.markers[marker])
+                        }
+                        .onChange(of: markerModel.refresh) {
+                            navLinkModel.postSite(site: markerModel.data.markers[marker])
+                            if navigationModel.navigationInProgress() {
+                                navigationModel.initiateRoute(destination: markerModel.data.markers[marker])
+                            }
+                        }
                 }
             }
         }
