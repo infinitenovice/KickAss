@@ -112,7 +112,7 @@ struct SiteInfoView: View {
                             Toggle("Emergency", isOn: $markerModel.data.markers[markerIndex].emergency)
                                 .toggleStyle(.checkboxIOS)
                         } else {
-                            Text("No Clue Letter")
+                            Text("Assign a Clue Letter")
                                 .foregroundStyle(Color.theme.textStandout)
                         }
                     case .JackassSite:

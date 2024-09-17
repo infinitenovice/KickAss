@@ -18,6 +18,7 @@ struct LatLonDisplayView: View {
 
     var body: some View {
         @Bindable var markerModel = markerModel
+
         
         let formatter: NumberFormatter = {
             let formatter = NumberFormatter()
