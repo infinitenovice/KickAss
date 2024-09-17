@@ -7,19 +7,14 @@
 
 /*
  Todo:
- Implement publish and clear for destination sharing accross devices
- - appears to send three updates when clue info edited
- Publish nav link to test flight
- Add auto-drop to navlink app instead of post/airdrop shortcut
- 
+
+ Refactor to not have to pass marker selection as parameter
  Refactor environment with container class
  Refactor globals to config class
- Refactor to not have to pass marker selection as parameter
  Refactor persistent data (JSON save data) into top level class
  font extensions
- change NOTSELECTABLE to nil for tags
  explore throwing errors instead of just logging them at point of occurence
- explore using guards instead of nested if-else
+
  
  */
 import SwiftUI

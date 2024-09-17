@@ -10,7 +10,7 @@ import SwiftUI
 let STATUS_BAR_WIDTH = 600.0
 
 struct StatusBarView: View {
-    @Environment (TimerModel.self) var timerModel
+    @Environment(TimerModel.self) var timerModel
 
     var body: some View {
         VStack {

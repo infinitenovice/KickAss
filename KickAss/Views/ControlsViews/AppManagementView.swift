@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct AppManagementView: View {
-    @Environment (MarkerModel.self) var markerModel
-    @Environment (NavigationModel.self) var navigationModel
-    @Environment (TimerModel.self) var timerModel
-    @Environment (HuntInfoModel.self) var huntInfoModel
-    @Environment (NavLinkModel.self) var navLinkModel
+    @Environment(MarkerModel.self) var markerModel
+    @Environment(NavigationModel.self) var navigationModel
+    @Environment(TimerModel.self) var timerModel
+    @Environment(HuntInfoModel.self) var huntInfoModel
+    @Environment(NavLinkModel.self) var navLinkModel
     
     @State var enableManagement: Bool = false
 

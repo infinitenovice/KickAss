@@ -12,9 +12,11 @@ import OSLog
 @Observable
 class NavigationModel {
     static let shared = NavigationModel()
+    var markerModel = MarkerModel.shared
     var log = Logger(subsystem: LOGSUBSYSTEM, category: "NavigationModel")
     
     var targetDestination: MKPlacemark? = nil
+    var destinationIndex: Int? = nil
     var route: MKRoute? = nil
     var wayPointNext: CLLocationCoordinate2D? = nil
     var destinationMonogram: String = ""
@@ -54,13 +56,16 @@ class NavigationModel {
             }
         }
     }
-    func initiateRoute(destination: MarkerModel.SiteMarker) {
+    func initiateRoute(markerIndex: Int) {
+        destinationIndex = markerIndex
+        let destination = markerModel.data.markers[markerIndex]
         let coordinate = CLLocationCoordinate2D(latitude: destination.latitude, longitude: destination.longitude)
         targetDestination = MKPlacemark(coordinate: coordinate)
         destinationMonogram = destination.monogram
     }
     func clearRoute() {
         targetDestination = nil
+        destinationIndex = nil
         route = nil
         destinationMonogram = ""
         stepInstructions = ""

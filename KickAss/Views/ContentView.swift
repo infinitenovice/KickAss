@@ -44,8 +44,10 @@ struct ContentView: View {
                         }
                         .onChange(of: markerModel.refresh) {
                             navLinkModel.postSite(site: markerModel.data.markers[marker])
-                            if navigationModel.navigationInProgress() {
-                                navigationModel.initiateRoute(destination: markerModel.data.markers[marker])
+                            if let destinationIndex = navigationModel.destinationIndex {
+                                if destinationIndex == marker {
+                                    navigationModel.initiateRoute(markerIndex: marker)
+                                }
                             }
                         }
                 }

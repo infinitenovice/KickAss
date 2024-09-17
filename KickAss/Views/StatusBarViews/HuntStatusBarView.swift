@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct HuntStatusBarView: View {
-    @Environment (TimerModel.self) var timerModel
-    @Environment (MarkerModel.self) var markerModel
-    @Environment (StatisticsModel.self) var statisticsModel
+    @Environment(TimerModel.self) var timerModel
+    @Environment(MarkerModel.self) var markerModel
+    @Environment(StatisticsModel.self) var statisticsModel
     
     var body: some View {
         HStack {

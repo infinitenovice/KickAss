@@ -29,11 +29,11 @@ struct NavigationView: View {
                                 .font(.system(size: 25, weight: .semibold))
                                 .offset(x:15)
                         }
-                        .foregroundColor(Color.theme.textSecondary)
+                        .foregroundColor(Color.theme.textPrimary)
                         .frame(width: 50)
                         Text(navigationModel.destinationMonogram)
                             .font(.system(size: 22, weight: .semibold))
-                            .foregroundStyle(Color.theme.textSecondary)
+                            .foregroundStyle(Color.theme.textPrimary)
                         Spacer()
                         Button {
                             navigationModel.clearRoute()
