@@ -25,7 +25,7 @@ struct KickAssApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     @State private var gridModel        = GridModel()
-    @State private var mapModel         = MapModel()
+    @State private var mapModel         = MapModel.shared
     @State private var calliperModel    = CalliperModel()
     @State private var locationManager  = LocationManager()
     @State private var huntInfoModel    = HuntInfoModel()
@@ -75,9 +75,10 @@ class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDele
         UNUserNotificationCenter.current().delegate = self
         return true
     }
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         self.log.info("Foreground notification")
-        self.navLinkModel.processSiteFoundNotification()
+        self.navLinkModel.processNotification(notification: notification)
         completionHandler([.sound, .badge])
     }
 }

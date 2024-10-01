@@ -14,6 +14,8 @@ import OSLog
 @Observable
 class MarkerModel {
     static let shared = MarkerModel()
+    let mapModel = MapModel.shared
+    
     var log = Logger(subsystem: "KickAss", category: "MarkerModel")
     
     var data: SavedData = SavedData(markers: [])
@@ -181,6 +183,23 @@ class MarkerModel {
             let lat = Double(coords[0]) ?? 0.0
             let lon = Double(coords[1]) ?? 0.0
             newMarker(location: CLLocationCoordinate2D(latitude: lat, longitude: lon), title: label, airDroppedMarker: true)
+        }
+    }
+    func setClueSiteFound(monogram: String) {
+        var monogramFound = false
+        var index: Int = 0
+        while index < data.markers.count && !monogramFound {
+            if monogram == data.markers[index].monogram {
+                monogramFound = true
+                data.markers[index].found = true
+                let center = CLLocationCoordinate2D(latitude: data.markers[index].latitude, longitude: data.markers[index].longitude)
+                mapModel.radiusZoom(center: center, radiusMeters: rangeRadius * METERS_PER_MILE)
+                log.info("Clue Site <\(monogram)> found")
+            }
+            index += 1
+        }
+        if monogramFound == false {
+            log.error("Clue Site <\(monogram)> not found")
         }
     }
 }

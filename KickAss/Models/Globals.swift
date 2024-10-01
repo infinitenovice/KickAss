@@ -42,6 +42,6 @@ let HUNT_INFO_URL = URL.documentsDirectory.appending(path: "HuntInfo.json")
 let TRACK_HISTORY_URL = URL.documentsDirectory.appending(path: "TrackHistory.json")
 
 // Misc
-let BUTTON_ERROR_SOUND = 1053 //Tink
+let BUTTON_ERROR_SOUND = 1053
 let CALLIPER_CLEAR_CLICKS = 2
 let LOGSUBSYSTEM = "KickAss"

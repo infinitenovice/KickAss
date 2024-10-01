@@ -13,6 +13,8 @@ import OSLog
 class NavigationModel {
     static let shared = NavigationModel()
     var markerModel = MarkerModel.shared
+    var mapModel = MapModel.shared
+    
     var log = Logger(subsystem: LOGSUBSYSTEM, category: "NavigationModel")
     
     var targetDestination: MKPlacemark? = nil
@@ -91,6 +93,8 @@ class NavigationModel {
             if let route = route {
                 estimatedArrivalTime = Date.now.addingTimeInterval(route.expectedTravelTime)
                 steps = route.steps
+                var rect = route.polyline.boundingMapRect
+                mapModel.camera = .rect(route.polyline.boundingMapRect)
                 nextStep()
             } else {
                 log.error("fetchRoute failed")

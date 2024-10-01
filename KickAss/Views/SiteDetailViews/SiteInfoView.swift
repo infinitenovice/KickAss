@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreLocation
 
 struct SiteInfoView: View {
     let markerIndex: Int
@@ -13,6 +14,7 @@ struct SiteInfoView: View {
     @Environment(MarkerModel.self) var markerModel
     @Environment(TimerModel.self) var timerModel
     @Environment(NavLinkModel.self) var navLinkModel
+    @Environment(MapModel.self) var mapModel
     
     @State var pickerShowing: Bool = false
     @State var longPressMenuShowing: Bool = false
@@ -88,6 +90,8 @@ struct SiteInfoView: View {
                                 .onChange(of: markerModel.data.markers[markerIndex].found) {_, found in
                                     if found {
                                         timerModel.setFirstClueArrivalTime()
+                                        let center = CLLocationCoordinate2D(latitude: markerModel.data.markers[markerIndex].latitude, longitude: markerModel.data.markers[markerIndex].longitude)
+                                        mapModel.radiusZoom(center: center, radiusMeters: markerModel.rangeRadius * METERS_PER_MILE)
                                     } else {
                                         timerModel.firstClueArrivalTime = .distantFuture
                                         timerModel.clueStartTime = timerModel.huntStartTime
@@ -106,6 +110,8 @@ struct SiteInfoView: View {
                                 .onChange(of: markerModel.data.markers[markerIndex].found) {_, found in
                                     if found {
                                         timerModel.resetClueTimer()
+                                        let center = CLLocationCoordinate2D(latitude: markerModel.data.markers[markerIndex].latitude, longitude: markerModel.data.markers[markerIndex].longitude)
+                                        mapModel.radiusZoom(center: center, radiusMeters: markerModel.rangeRadius * METERS_PER_MILE)
                                     }
                                     markerModel.refresh.toggle()
                                 }

@@ -9,6 +9,8 @@ import CoreLocation
 
 @Observable
 class CalliperModel {
+    let mapModel = MapModel.shared
+
     var markers: [CalliperMarker] = []
     
     struct CalliperMarker: Identifiable {
@@ -19,6 +21,7 @@ class CalliperModel {
     func newMarker(center: CLLocationCoordinate2D, radius: Double) {
         let marker: CalliperMarker = CalliperMarker(id: markers.count, center: center, radius: radius * MAP_INCH_TO_METERS)
         markers.append(marker)
+        mapModel.radiusZoom(center: center, radiusMeters: radius * MAP_INCH_TO_METERS)
     }
     func clearMarkers() {
         markers.removeAll()
