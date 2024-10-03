@@ -12,7 +12,6 @@ import OSLog
 @Observable
 class NavigationModel {
     static let shared = NavigationModel()
-    var markerModel = MarkerModel.shared
     var mapModel = MapModel.shared
     
     var log = Logger(subsystem: LOGSUBSYSTEM, category: "NavigationModel")
@@ -58,9 +57,8 @@ class NavigationModel {
             }
         }
     }
-    func initiateRoute(markerIndex: Int) {
+    func initiateRoute(destination: MarkerModel.SiteMarker, markerIndex: Int) {
         destinationIndex = markerIndex
-        let destination = markerModel.data.markers[markerIndex]
         let coordinate = CLLocationCoordinate2D(latitude: destination.latitude, longitude: destination.longitude)
         targetDestination = MKPlacemark(coordinate: coordinate)
         destinationMonogram = destination.monogram
@@ -94,7 +92,11 @@ class NavigationModel {
                 estimatedArrivalTime = Date.now.addingTimeInterval(route.expectedTravelTime)
                 steps = route.steps
                 var rect = route.polyline.boundingMapRect
-                mapModel.camera = .rect(route.polyline.boundingMapRect)
+                rect.origin.x = rect.origin.x - rect.size.width * 0.75
+                rect.origin.y = rect.origin.y - rect.size.height * 0.5
+                rect.size.width = rect.size.width * 2
+                rect.size.height = rect.size.height * 2
+                mapModel.camera = .rect(rect)
                 nextStep()
             } else {
                 log.error("fetchRoute failed")

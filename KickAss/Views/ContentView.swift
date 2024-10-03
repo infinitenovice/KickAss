@@ -46,7 +46,7 @@ struct ContentView: View {
                             navLinkModel.postSite(site: markerModel.data.markers[marker])
                             if let destinationIndex = navigationModel.destinationIndex {
                                 if destinationIndex == marker {
-                                    navigationModel.initiateRoute(markerIndex: marker)
+                                    navigationModel.initiateRoute(destination: markerModel.data.markers[marker], markerIndex: marker)
                                 }
                             }
                         }

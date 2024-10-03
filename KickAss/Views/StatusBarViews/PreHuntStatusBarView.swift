@@ -16,8 +16,6 @@ struct PreHuntStatusBarView: View {
             Text(huntCountdownString(interval: abs(timerModel.huntTimeElapsed)))
                 .monospacedDigit()
             HStack {
-                Text("Countdown")
-                Text("-")
                 Text(huntInfoModel.huntInfo.huntTitle)
                 Text("-")
                 Text(huntInfoModel.huntInfo.huntTheme)

@@ -15,6 +15,7 @@ import OSLog
 class MarkerModel {
     static let shared = MarkerModel()
     let mapModel = MapModel.shared
+    let navigationModel = NavigationModel.shared
     
     var log = Logger(subsystem: "KickAss", category: "MarkerModel")
     
@@ -194,6 +195,7 @@ class MarkerModel {
                 data.markers[index].found = true
                 let center = CLLocationCoordinate2D(latitude: data.markers[index].latitude, longitude: data.markers[index].longitude)
                 mapModel.radiusZoom(center: center, radiusMeters: rangeRadius * METERS_PER_MILE)
+                navigationModel.clearRoute()
                 log.info("Clue Site <\(monogram)> found")
             }
             index += 1

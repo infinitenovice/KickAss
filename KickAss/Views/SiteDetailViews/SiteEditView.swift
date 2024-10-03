@@ -43,7 +43,7 @@ struct SiteEditView: View {
                     
                     Spacer()
                     Button {
-                        navigationModel.initiateRoute(markerIndex: markerIndex)
+                        navigationModel.initiateRoute(destination: markerModel.data.markers[markerIndex], markerIndex: markerIndex)
                     } label: {Image(systemName: "car.circle")}
                     Spacer()
                 }//HStack

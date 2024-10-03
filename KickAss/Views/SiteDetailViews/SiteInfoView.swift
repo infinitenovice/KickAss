@@ -15,6 +15,7 @@ struct SiteInfoView: View {
     @Environment(TimerModel.self) var timerModel
     @Environment(NavLinkModel.self) var navLinkModel
     @Environment(MapModel.self) var mapModel
+    @Environment(NavigationModel.self) var navigationModel
     
     @State var pickerShowing: Bool = false
     @State var longPressMenuShowing: Bool = false
@@ -91,6 +92,7 @@ struct SiteInfoView: View {
                                     if found {
                                         timerModel.setFirstClueArrivalTime()
                                         let center = CLLocationCoordinate2D(latitude: markerModel.data.markers[markerIndex].latitude, longitude: markerModel.data.markers[markerIndex].longitude)
+                                        navigationModel.clearRoute()
                                         mapModel.radiusZoom(center: center, radiusMeters: markerModel.rangeRadius * METERS_PER_MILE)
                                     } else {
                                         timerModel.firstClueArrivalTime = .distantFuture
@@ -111,6 +113,7 @@ struct SiteInfoView: View {
                                     if found {
                                         timerModel.resetClueTimer()
                                         let center = CLLocationCoordinate2D(latitude: markerModel.data.markers[markerIndex].latitude, longitude: markerModel.data.markers[markerIndex].longitude)
+                                        navigationModel.clearRoute()
                                         mapModel.radiusZoom(center: center, radiusMeters: markerModel.rangeRadius * METERS_PER_MILE)
                                     }
                                     markerModel.refresh.toggle()
